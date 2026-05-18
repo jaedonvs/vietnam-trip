@@ -12,6 +12,10 @@
     --gold-light: #fdf6dc;
     --green: #2d6a4f;
     --green-light: #d8f3dc;
+    --blue: #1864ab;
+    --blue-light: #d0ebff;
+    --purple: #5f3dc4;
+    --purple-light: #e5dbff;
     --text: #1a1a2e;
     --text-muted: #6c757d;
     --bg: #fafaf5;
@@ -74,20 +78,9 @@
     margin-top: 1.2rem;
     font-variant-numeric: tabular-nums;
   }
-  .countdown-bar .cd-unit {
-    text-align: center;
-  }
-  .countdown-bar .cd-num {
-    font-size: 1.6rem;
-    font-weight: 700;
-    line-height: 1;
-  }
-  .countdown-bar .cd-label {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    opacity: 0.8;
-  }
+  .countdown-bar .cd-unit { text-align: center; }
+  .countdown-bar .cd-num { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+  .countdown-bar .cd-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; }
 
   /* Quick stats */
   .quick-stats {
@@ -207,11 +200,7 @@
     font-size: 1rem;
     color: var(--text);
   }
-  .price-range .label {
-    font-weight: 400;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
+  .price-range .label { font-weight: 400; font-size: 0.8rem; color: var(--text-muted); }
 
   /* Tips */
   .tip-list { list-style: none; }
@@ -223,11 +212,7 @@
     border-bottom: 1px solid var(--border);
   }
   .tip-list li:last-child { border: none; }
-  .tip-list li::before {
-    position: absolute;
-    left: 0;
-    font-size: 1rem;
-  }
+  .tip-list li::before { position: absolute; left: 0; font-size: 1rem; }
   .tip-list.tip-warn li::before { content: '⚠️'; }
   .tip-list.tip-good li::before { content: '✅'; }
   .tip-list.tip-info li::before { content: '💡'; }
@@ -285,6 +270,87 @@
   }
   .itinerary .day-title { font-weight: 600; font-size: 0.95rem; }
   .itinerary .day-detail { font-size: 0.8rem; color: var(--text-muted); }
+  .itinerary .day-cost { font-size: 0.75rem; color: var(--green); font-weight: 600; }
+
+  /* Itinerary option cards */
+  .itin-option-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 0;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .itin-option-card:hover { transform: translateY(-1px); }
+  .itin-header {
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .itin-header:hover { background: var(--bg); }
+  .itin-header-left { flex: 1; }
+  .itin-header h2 { margin-bottom: 0.15rem; }
+  .itin-tagline { font-size: 0.85rem; color: var(--text-muted); }
+  .itin-header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .itin-price-tag {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .itin-price-tag small { font-size: 0.7rem; color: var(--text-muted); font-weight: 400; display: block; }
+  .itin-expand-icon {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+  }
+  .itin-option-card.open .itin-expand-icon { transform: rotate(180deg); }
+  .itin-body {
+    padding: 0 1.5rem 1.5rem;
+    display: none;
+  }
+  .itin-option-card.open .itin-body { display: block; }
+  .itin-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.75rem 0;
+  }
+  .itin-highlight {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 50px;
+    font-weight: 600;
+  }
+  .itin-highlight.good { background: var(--green-light); color: var(--green); }
+  .itin-highlight.warn { background: var(--gold-light); color: #8a6d00; }
+  .itin-highlight.alert { background: var(--red-light); color: var(--red); }
+
+  /* Option toggle */
+  .option-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .option-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    background: var(--card);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .option-btn:hover { border-color: var(--red); }
+  .option-btn.active { background: var(--red); color: white; border-color: var(--red); }
 
   /* Budget */
   .budget-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
@@ -324,6 +390,7 @@
   .badge-best { background: var(--green-light); color: var(--green); }
   .badge-cheap { background: var(--gold-light); color: #8a6d00; }
   .badge-warn { background: var(--red-light); color: var(--red); }
+  .badge-blue { background: var(--blue-light); color: var(--blue); }
 
   /* Callout */
   .callout {
@@ -339,25 +406,6 @@
     border-left-color: var(--red);
   }
 
-  /* Option toggle */
-  .option-toggle {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  .option-btn {
-    padding: 0.5rem 1rem;
-    border: 2px solid var(--border);
-    border-radius: 50px;
-    background: var(--card);
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: all 0.2s;
-  }
-  .option-btn:hover { border-color: var(--red); }
-  .option-btn.active { background: var(--red); color: white; border-color: var(--red); }
-
   /* Sources */
   .sources {
     font-size: 0.75rem;
@@ -366,6 +414,23 @@
   }
   .sources a { color: var(--red); text-decoration: none; }
   .sources a:hover { text-decoration: underline; }
+
+  /* Edit hint */
+  .edit-hint {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .edit-hint code {
+    background: #f0f0e8;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+  }
+
+  /* Comparison table */
+  .compare-table td, .compare-table th { font-size: 0.82rem; }
 
   /* Print */
   @media print {
@@ -383,20 +448,9 @@
     .weather-grid { grid-template-columns: 1fr; }
     .packing-grid { grid-template-columns: 1fr; }
     .budget-table { font-size: 0.8rem; }
-  }
-
-  /* Edit button */
-  .edit-hint {
-    text-align: center;
-    margin-top: 2rem;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
-  .edit-hint code {
-    background: #f0f0e8;
-    padding: 0.15rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.7rem;
+    .itin-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .itin-header-right { width: 100%; justify-content: space-between; }
+    .compare-table { font-size: 0.75rem; }
   }
 </style>
 </head>
@@ -418,17 +472,17 @@
   </div>
   <div class="stat-card">
     <div class="stat-icon">💰</div>
-    <div class="stat-value">R43.5k</div>
-    <div class="stat-label">Budget (2 pax)</div>
+    <div class="stat-value">R29-58k</div>
+    <div class="stat-label">Budget/mid (pp)</div>
   </div>
   <div class="stat-card">
     <div class="stat-icon">🌡️</div>
-    <div class="stat-value">30°C</div>
+    <div class="stat-value">29-31°C</div>
     <div class="stat-label">Avg Temp</div>
   </div>
   <div class="stat-card">
     <div class="stat-icon">📅</div>
-    <div class="stat-value">10</div>
+    <div class="stat-value">14-16</div>
     <div class="stat-label">Days</div>
   </div>
 </div>
@@ -436,18 +490,342 @@
 <!-- Tabs -->
 <div class="container">
   <nav class="tab-nav" id="tabNav">
-    <button class="tab-btn active" data-tab="flights">✈️ Flights</button>
+    <button class="tab-btn active" data-tab="itineraries">🗺️ Itineraries</button>
+    <button class="tab-btn" data-tab="flights">✈️ Flights</button>
     <button class="tab-btn" data-tab="weather">🌦️ Weather</button>
-    <button class="tab-btn" data-tab="itinerary">🗺️ Itinerary</button>
     <button class="tab-btn" data-tab="budget">💰 Budget</button>
     <button class="tab-btn" data-tab="visa">🛂 Visa</button>
     <button class="tab-btn" data-tab="packing">🧳 Packing</button>
   </nav>
 
-  <!-- FLIGHTS TAB -->
-  <div class="tab-content active" id="flights">
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- ITINERARIES TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content active" id="itineraries">
+
     <div class="callout">
-      💸 <strong>Book ASAP!</strong> June is a pricey month — prices climb closer to departure. Aim to book by mid-May for the best rates (~12% savings).
+      🎯 <strong>3 different vibes — pick your favourite or mix and match!</strong> Each route goes North → South. Option A covers everything, Option B goes deep on fewer stops, Option C maximises beach time.
+    </div>
+
+    <!-- Quick comparison -->
+    <div class="card">
+      <h2>⚡ Quick Comparison</h2>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr><th></th><th>🥾 Option A: The Explorer</th><th>🍜 Option B: The Deep Dive</th><th>🏖️ Option C: Beach & City</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Days</strong></td><td>16</td><td>14</td><td>14</td></tr>
+            <tr><td><strong>Vibe</strong></td><td>See it all, fast pace</td><td>Fewer stops, more depth</td><td>Relaxed, beach-heavy</td></tr>
+            <tr><td><strong>Stops</strong></td><td>7 places</td><td>5 places</td><td>5 places</td></tr>
+            <tr><td><strong>Highlight</strong></td><td>Halong Bay cruise + Hai Van Pass</td><td>Ninh Binh + Hoi An deep dive</td><td>4 full beach days</td></tr>
+            <tr><td><strong>Budget/pp</strong></td><td>R29,300</td><td>R27,500</td><td>R28,800</td></tr>
+            <tr><td><strong>Mid/pp</strong></td><td>R43,900</td><td>R41,000</td><td>R42,500</td></tr>
+            <tr><td><strong>Rain risk</strong></td><td>Medium (Halong may cancel)</td><td>Low-Medium</td><td>Low (mostly dry zones)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════ OPTION A ══════════ -->
+    <div class="itin-option-card open" id="optionA-card">
+      <div class="itin-header" onclick="toggleItin('optionA')">
+        <div class="itin-header-left">
+          <h2 style="color: var(--red);">🥾 Option A: The Explorer</h2>
+          <div class="itin-tagline">See it all — every major highlight, north to south, 16 days</div>
+          <div class="itin-highlights">
+            <span class="itin-highlight good">Halong Bay cruise</span>
+            <span class="itin-highlight good">Hai Van Pass</span>
+            <span class="itin-highlight good">Ninh Binh caves</span>
+            <span class="itin-highlight warn">Fast pace</span>
+            <span class="itin-highlight alert">Halong storm risk Jul</span>
+          </div>
+        </div>
+        <div class="itin-header-right">
+          <div class="itin-price-tag">R58,600<small>budget for 2</small></div>
+          <div class="itin-expand-icon">▼</div>
+        </div>
+      </div>
+      <div class="itin-body">
+        <div class="itinerary">
+          <div class="day">
+            <div class="day-num">Day 1</div>
+            <div class="day-title">✈️ Fly JHB → Hanoi</div>
+            <div class="day-detail">Qatar via Doha. Arrive Hanoi, get Viettel SIM (~R150), settle into Old Quarter</div>
+            <div class="day-cost">Flight: incl. below · SIM: R150</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 2</div>
+            <div class="day-title">🏙️ Hanoi</div>
+            <div class="day-detail">Street food tour, Old Quarter, egg coffee, water puppet show, Temple of Literature</div>
+            <div class="day-cost">Accom: R300 · Food: R200 · Activities: R400</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 3-4</div>
+            <div class="day-title">🛖 Ninh Binh</div>
+            <div class="day-detail">Bus from Hanoi (~R80). Trang An boat caves ⭐, Mua Caves viewpoint, Bich Dong Pagoda, scooter through rice paddies</div>
+            <div class="day-cost">Bus: R80 · Accom: R700 (2n) · Scooter: R100/d · Trang An: R150 · Food: R400</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 5-6</div>
+            <div class="day-title">🚢 Halong Bay Cruise</div>
+            <div class="day-detail">2D/1N cruise — kayaking, caves, swimming. ⚠️ July storm risk — have backup. Book directly with boat co, not Booking.com!</div>
+            <div class="day-cost">Cruise: R750-1,500pp · Transfer: R120pp</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 7</div>
+            <div class="day-title">🚂 Hanoi → Hue (Sleeper Train)</div>
+            <div class="day-detail">Day in Hanoi (markets, buy snacks). Evening sleeper train ~12h — saves a hotel night!</div>
+            <div class="day-cost">Train: R1,050pp · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 8</div>
+            <div class="day-title">🏯 Hue</div>
+            <div class="day-detail">Arrive ~09:00. Imperial City, Royal Tombs (Tu Duc, Khai Dinh), Bun Bo Hue for dinner</div>
+            <div class="day-cost">Accom: R350 · Activities: R350 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 9</div>
+            <div class="day-title">🏍️ Hue → Hoi An (Hai Van Pass)</div>
+            <div class="day-detail">Scenic motorbike ride over the famous Hai Van Pass — one of the world's best coastal roads. Easy-rider tour or self-drive.</div>
+            <div class="day-cost">Easy-rider: R600-800pp · Accom: R350 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 10-11</div>
+            <div class="day-title">🏮 Hoi An</div>
+            <div class="day-detail">Lantern-lit Old Town, tailor shops (get measured day 1!), cooking class, An Bang beach, banh mi & cao lau</div>
+            <div class="day-cost">Accom: R800 (2n) · Old Town ticket: R75pp · Cooking class: R400pp · Food: R400</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 12-13</div>
+            <div class="day-title">🏖️ Nha Trang</div>
+            <div class="day-detail">Fly/bus from Danang. Best July weather in Vietnam! Beach, mud baths at Thap Ba, seafood dinner on the sand</div>
+            <div class="day-cost">Flight: R900pp · Accom: R800 (2n) · Mud baths: R150pp · Food: R400</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 14-15</div>
+            <div class="day-title">🌆 Ho Chi Minh City</div>
+            <div class="day-detail">War Remnants Museum, Cu Chi Tunnels, Ben Thanh Market, Bui Vien Street nightlife, pho & banh mi</div>
+            <div class="day-cost">Flight: R900pp · Accom: R800 (2n) · Cu Chi: R300pp · Food: R400</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 16</div>
+            <div class="day-title">🛶 Mekong Delta → ✈️ Home</div>
+            <div class="day-detail">Morning Mekong day tour (floating markets, fruit orchards). Evening flight HCMC → JHB</div>
+            <div class="day-cost">Mekong tour: R350-500pp · Flight home: incl. above</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ OPTION B ══════════ -->
+    <div class="itin-option-card" id="optionB-card">
+      <div class="itin-header" onclick="toggleItin('optionB')">
+        <div class="itin-header-left">
+          <h2 style="color: var(--purple);">🍜 Option B: The Deep Dive</h2>
+          <div class="itin-tagline">Fewer stops, more time in each — really get to know places, 14 days</div>
+          <div class="itin-highlights">
+            <span class="itin-highlight good">2 nights Ninh Binh</span>
+            <span class="itin-highlight good">3 nights Hoi An</span>
+            <span class="itin-highlight good">Slow pace</span>
+            <span class="itin-highlight warn">No Halong Bay</span>
+          </div>
+        </div>
+        <div class="itin-header-right">
+          <div class="itin-price-tag">R55,000<small>budget for 2</small></div>
+          <div class="itin-expand-icon">▼</div>
+        </div>
+      </div>
+      <div class="itin-body">
+        <div class="callout">
+          💡 <strong>Why skip Halong?</strong> July has storm risk — cruises get cancelled, views are misty. Instead, spend that time really sinking into Ninh Binh (Halong Bay on land) and Hoi An. If you want a boat day, do a Lan Ha Bay day-cruise from Cat Ba — cheaper, fewer tourists, similar scenery.
+        </div>
+        <div class="itinerary">
+          <div class="day">
+            <div class="day-num">Day 1</div>
+            <div class="day-title">✈️ Fly JHB → Hanoi</div>
+            <div class="day-detail">Arrive Hanoi, get SIM, settle into Old Quarter. Evening street food walk</div>
+            <div class="day-cost">SIM: R150 · Accom: R200 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 2</div>
+            <div class="day-title">🏙️ Hanoi Deep Dive</div>
+            <div class="day-detail">Guided street food tour (morning), Train Street coffee, Temple of Literature, Hoa Lo Prison, water puppet show. Really soak it in.</div>
+            <div class="day-cost">Accom: R200 · Food tour: R250pp · Activities: R200 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 3-5</div>
+            <div class="day-title">🛖 Ninh Binh (3 nights!)</div>
+            <div class="day-detail">Day 3: Bus from Hanoi, rent scooter, Trang An boat caves ⭐. Day 4: Mua Caves sunrise, Bich Dong Pagoda, Tam Coc rice paddies. Day 5: Bai Dinh Pagoda, lazy afternoon by the river</div>
+            <div class="day-cost">Bus: R80pp · Accom: R300/n × 3 · Scooter: R100/d · Trang An: R150pp · Food: R200/d</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 6</div>
+            <div class="day-title">🚂 Ninh Binh → Hue (Sleeper Train)</div>
+            <div class="day-detail">Overnight sleeper train (~11h). Book soft-sleeper 4-berth on Laman Express for comfort. Saves a hotel night!</div>
+            <div class="day-cost">Train: R1,250pp · Food: R150</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 7</div>
+            <div class="day-title">🏯 Hue</div>
+            <div class="day-detail">Arrive morning. Imperial City, Royal Tombs by scooter, Bun Bo Hue for dinner. One night is enough — see the essentials.</div>
+            <div class="day-cost">Accom: R350 · Activities: R350 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 8</div>
+            <div class="day-title">🏍️ Hue → Hoi An (Hai Van Pass)</div>
+            <div class="day-detail">Ride the famous coastal mountain pass. Stop at Elephant Springs for a swim. Arrive Hoi An, wander lantern-lit streets at night</div>
+            <div class="day-cost">Easy-rider: R700pp · Accom: R350 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 9-11</div>
+            <div class="day-title">🏮 Hoi An (3 nights!)</div>
+            <div class="day-detail">Day 9: Old Town, get measured for tailored clothes, cooking class. Day 10: An Bang beach day, fitting for clothes. Day 11: Pick up clothes, sunrise bike ride through rice paddies, lantern boat on river</div>
+            <div class="day-cost">Accom: R350/n × 3 · Cooking class: R400pp · Tailoring: R1,500-3,000 · Food: R200/d</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 12-13</div>
+            <div class="day-title">🏖️ Nha Trang (2 nights)</div>
+            <div class="day-detail">Best July weather in Vietnam! Beach day, Thap Ba mud baths, fresh seafood, Vinpearl (optional). Pure relaxation.</div>
+            <div class="day-cost">Flight Danang→Nha Trang: R900pp · Accom: R400/n · Mud baths: R150pp · Food: R200/d</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 14</div>
+            <div class="day-title">✈️ Nha Trang → HCMC → Home</div>
+            <div class="day-detail">Fly to HCMC, connect to JHB flight. Or add a HCMC night if you want the city experience.</div>
+            <div class="day-cost">Flight to HCMC: R900pp · Flight home: incl.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ OPTION C ══════════ -->
+    <div class="itin-option-card" id="optionC-card">
+      <div class="itin-header" onclick="toggleItin('optionC')">
+        <div class="itin-header-left">
+          <h2 style="color: var(--blue);">🏖️ Option C: Beach & City</h2>
+          <div class="itin-tagline">Max beach time and city vibes — skip the rainy north entirely, 14 days</div>
+          <div class="itin-highlights">
+            <span class="itin-highlight good">4 beach days</span>
+            <span class="itin-highlight good">No rain risk</span>
+            <span class="itin-highlight good">Cheapest transport</span>
+            <span class="itin-highlight warn">No Hanoi or Halong</span>
+          </div>
+        </div>
+        <div class="itin-header-right">
+          <div class="itin-price-tag">R57,600<small>budget for 2</small></div>
+          <div class="itin-expand-icon">▼</div>
+        </div>
+      </div>
+      <div class="itin-body">
+        <div class="callout callout-red">
+          ⚠️ <strong>Trade-off:</strong> You miss Hanoi, Halong Bay, and Ninh Binh — the cultural/nature highlights of the north. But you get the best weather and way more beach time. Hanoi's street food is world-class though — consider a 1-night stopover if you can handle the rain!
+        </div>
+        <div class="itinerary">
+          <div class="day">
+            <div class="day-num">Day 1</div>
+            <div class="day-title">✈️ Fly JHB → Danang (via HCMC)</div>
+            <div class="day-detail">Skip Hanoi entirely — fly into Danang, the gateway to central Vietnam's dry zone. Short taxi to Hoi An (~45min).</div>
+            <div class="day-cost">Flight incl. below · Taxi: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 2-4</div>
+            <div class="day-title">🏮 Hoi An (3 nights)</div>
+            <div class="day-detail">Day 2: Arrive, Old Town wander, lantern streets at night. Day 3: Cooking class + market tour, get measured for tailoring. Day 4: An Bang beach day, bike through rice paddies, evening river lanterns</div>
+            <div class="day-cost">Accom: R350/n × 3 · Cooking class: R400pp · Food: R200/d</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 5</div>
+            <div class="day-title">🏯 Hue Day Trip</div>
+            <div class="day-detail">Day trip to Hue (2.5h bus each way or easy-rider over Hai Van Pass). Imperial City, Royal Tombs, Bun Bo Hue. Back to Hoi An for the night.</div>
+            <div class="day-cost">Bus/tour: R300-800pp · Activities: R200 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 6-9</div>
+            <div class="day-title">🏖️ Nha Trang (4 nights!)</div>
+            <div class="day-detail">The jewel of July weather. Day 6: Beach chill day. Day 7: Mud baths + snorkelling island trip. Day 8: Vinpearl amusement park (cable car over the ocean!). Day 9: Doc Let Beach day trip, seafood feast</div>
+            <div class="day-cost">Flight Danang→Nha Trang: R900pp · Accom: R400/n × 4 · Mud baths: R150pp · Vinpearl: R600pp · Food: R200/d</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 10</div>
+            <div class="day-title">🚂 Nha Trang → HCMC (Sleeper Train)</div>
+            <div class="day-detail">Morning beach session, then evening sleeper train to HCMC (~8h). Watch the countryside roll by. Saves a hotel night!</div>
+            <div class="day-cost">Train: R850pp · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 11-12</div>
+            <div class="day-title">🌆 HCMC (2 nights)</div>
+            <div class="day-detail">Day 11: War Remnants Museum, Ben Thanh Market, Bui Vien Street nightlife. Day 12: Cu Chi Tunnels half-day tour, coffee culture crawl, street food marathon</div>
+            <div class="day-cost">Accom: R400/n × 2 · Cu Chi: R300pp · Food: R200/d</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 13</div>
+            <div class="day-title">🛶 Mekong Delta Day Trip</div>
+            <div class="day-detail">Floating markets, boat rides through coconut groves, fruit orchards, local lunch. Classic Vietnam experience.</div>
+            <div class="day-cost">Mekong tour: R400pp · Food: incl · Accom: R400</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 14</div>
+            <div class="day-title">✈️ Fly Home</div>
+            <div class="day-detail">Last Vietnamese coffee, pho breakfast, then HCMC → Doha → JHB</div>
+            <div class="day-cost">Flight home: incl. below</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weather note for July -->
+    <div class="card">
+      <h2>🌦️ July Weather by Stop</h2>
+      <div class="weather-grid">
+        <div class="weather-card">
+          <div class="temp">🌧️ 30°C</div>
+          <div class="region">Hanoi / Ninh Binh</div>
+          <div class="desc">Heavy rain, storms</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-warn">Rainy</span></div>
+        </div>
+        <div class="weather-card">
+          <div class="temp">🌧️ 30°C</div>
+          <div class="region">Halong Bay</div>
+          <div class="desc">Storm risk, cruises may cancel</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-warn">Risk</span></div>
+        </div>
+        <div class="weather-card">
+          <div class="temp">⛅ 31°C</div>
+          <div class="region">Hue</div>
+          <div class="desc">Warm, some rain</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-cheap">Okay</span></div>
+        </div>
+        <div class="weather-card best">
+          <div class="temp">☀️ 31°C</div>
+          <div class="region">Hoi An / Danang ⭐</div>
+          <div class="desc">Hot, mostly dry, sunny</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-best">Best</span></div>
+        </div>
+        <div class="weather-card best">
+          <div class="temp">☀️ 31°C</div>
+          <div class="region">Nha Trang ⭐</div>
+          <div class="desc">Peak beach weather</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-best">Best</span></div>
+        </div>
+        <div class="weather-card">
+          <div class="temp">🌦️ 29°C</div>
+          <div class="region">HCMC / Mekong</div>
+          <div class="desc">Daily afternoon downpours</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-warn">Rainy</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- FLIGHTS TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="flights">
+    <div class="callout">
+      💸 <strong>Book ASAP!</strong> June is a pricey month — prices climb closer to departure. Aim to book by mid-May for ~12% savings.
     </div>
 
     <div class="card">
@@ -504,6 +882,17 @@
     </div>
 
     <div class="card">
+      <h2>✈️ Open-Jaw Strategy (recommended!)</h2>
+      <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">All 3 itineraries go north → south. Fly <strong>into Hanoi</strong> and <strong>out of HCMC</strong> — no backtracking! Open-jaw tickets are often similar price to round-trip.</p>
+      <ul class="tip-list tip-good">
+        <li><strong>Option A & B:</strong> Fly JNB → HAN, fly HCMC → JNB</li>
+        <li><strong>Option C:</strong> Fly JNB → DAD (Danang, via HCMC), fly HCMC → JNB</li>
+        <li>Internal flights are cheap — Vietjet/Bamboo ~R400-900 one-way</li>
+        <li>Sleeper trains save a hotel night + give you the scenic Reunification Express experience</li>
+      </ul>
+    </div>
+
+    <div class="card">
       <h2>📊 Real Prices Found (May 2026)</h2>
       <div class="table-wrap">
         <table>
@@ -511,10 +900,10 @@
             <tr><th>Dates</th><th>Route</th><th>Airline</th><th>Return Price</th><th>Source</th></tr>
           </thead>
           <tbody>
+            <tr><td>Jul 23 – Jul 30</td><td>JNB → HAN</td><td>Qatar Airways</td><td>R11,344</td><td>KAYAK</td></tr>
             <tr><td>Jun 13 – Jun 20</td><td>JNB → HAN</td><td>Qatar Airways</td><td>R11,576</td><td>KAYAK</td></tr>
             <tr><td>Jun 4 – Jun 11</td><td>JNB → SGN</td><td>Qatar Airways</td><td>R12,228</td><td>KAYAK</td></tr>
-            <tr><td>Jun 18 – Jun 24</td><td>JNB → HPH</td><td>Multiple</td><td>R17,015</td><td>Cheapflights</td></tr>
-            <tr><td>Jul 23 – Jul 30</td><td>JNB → HAN</td><td>Qatar Airways</td><td>R11,344</td><td>KAYAK</td></tr>
+            <tr><td>Jun 8 – Jun 14</td><td>JNB → HAN</td><td>Qatar Airways</td><td>R12,495</td><td>KAYAK</td></tr>
           </tbody>
         </table>
       </div>
@@ -526,7 +915,7 @@
     <div class="card">
       <h2>💡 Flight Tips</h2>
       <ul class="tip-list tip-info">
-        <li><strong>Hanoi is ~R800-1,500 cheaper</strong> than HCMC — consider flying into HAN and out of SGN</li>
+        <li><strong>Hanoi is ~R800-1,500 cheaper</strong> than HCMC — fly in there, out of HCMC</li>
         <li><strong>Saturday departures</strong> tend to be the cheapest day to fly</li>
         <li><strong>Hacker Fares</strong> on KAYAK (mix airlines) can save money</li>
         <li>Qatar Airways economy seats are tight — pack light, consider seat selection fee</li>
@@ -536,7 +925,7 @@
     </div>
 
     <div class="card">
-      <h2>✈️ Airline Quality Ratings</h2>
+      <h2>✈️ Airline Quality</h2>
       <div class="table-wrap">
         <table>
           <thead>
@@ -544,17 +933,19 @@
           </thead>
           <tbody>
             <tr><td>Singapore Airlines</td><td><strong>8.2/10</strong></td><td>Best service</td><td>Pricier route</td></tr>
-            <tr><td>Emirates</td><td><strong>8.1/10</strong></td><td>Great experience</td><td>Chaotic boarding, expensive in Jun</td></tr>
+            <tr><td>Emirates</td><td><strong>8.1/10</strong></td><td>Great experience</td><td>Expensive in Jun</td></tr>
             <tr><td>Cathay Pacific</td><td>7.6/10</td><td>Cheap one-ways</td><td>Poor entertainment</td></tr>
-            <tr><td>Qatar Airways</td><td>7.4/10</td><td><strong>Cheapest overall</strong></td><td>Tight economy, schedule changes</td></tr>
-            <tr><td>Ethiopian Air</td><td>7.2/10</td><td>Budget (sometimes)</td><td>Lost luggage, dirty cabins, bad service</td></tr>
+            <tr><td>Qatar Airways</td><td>7.4/10</td><td><strong>Cheapest overall</strong></td><td>Tight seats, schedule changes</td></tr>
+            <tr><td>Ethiopian Air</td><td>7.2/10</td><td>Budget (sometimes)</td><td>Lost luggage, dirty cabins</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════ -->
   <!-- WEATHER TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
   <div class="tab-content" id="weather">
     <div class="callout">
       🌦️ <strong>Late June/July weather varies hugely by region.</strong> Central Vietnam is the sweet spot — hot and mostly dry. North and South get rain.
@@ -580,7 +971,7 @@
         <div class="weather-card">
           <div class="temp">🌦️ 29°C</div>
           <div class="region">South Vietnam</div>
-          <div class="desc">HCMC, Mekong Delta, Phu Quoc</div>
+          <div class="desc">HCMC, Mekong Delta</div>
           <div style="font-size: 0.75rem; margin-top: 0.5rem; color: var(--text-muted);">Wet season — daily downpours but short bursts.</div>
           <div style="margin-top: 0.5rem;"><span class="badge badge-warn">Rainy</span></div>
         </div>
@@ -591,111 +982,31 @@
       <h2>⚠️ Weather Warnings</h2>
       <ul class="tip-list tip-warn">
         <li><strong>Trekking in Sapa/Ha Giang NOT advisable</strong> — very wet, muddy, poor visibility</li>
-        <li>Halong Bay cruises <strong>can be cancelled</strong> due to storms</li>
+        <li>Halong Bay cruises <strong>can be cancelled</strong> due to storms — have a backup plan</li>
         <li>Central Vietnam (Hoi An, Nha Trang) is your best bet for great weather</li>
         <li>South Vietnam is cheaper in low season — better accommodation deals</li>
         <li>Pack rain gear regardless — even "dry" Central can get afternoon showers</li>
       </ul>
     </div>
-  </div>
 
-  <!-- ITINERARY TAB -->
-  <div class="tab-content" id="itinerary">
-    <div class="option-toggle">
-      <button class="option-btn active" onclick="showItinerary('optionA')">Option A: Full Loop (14 days)</button>
-      <button class="option-btn" onclick="showItinerary('optionB')">Option B: Dry Zones (10-12 days)</button>
-    </div>
-
-    <div class="callout">
-      🗺️ <strong>Strategy:</strong> Central → North → South (or skip North for drier weather). Given the dates and weather, Option B is recommended.
-    </div>
-
-    <div id="optionA">
-      <div class="card">
-        <h2>Option A: Full Loop <span class="badge badge-warn">14 days</span></h2>
-        <div class="itinerary">
-          <div class="day">
-            <div class="day-num">Days 1–2</div>
-            <div class="day-title">✈️ Transit</div>
-            <div class="day-detail">Fly JNB → Doha → Hanoi</div>
-          </div>
-          <div class="day">
-            <div class="day-num">Days 3–4</div>
-            <div class="day-title">🏙️ North — Hanoi</div>
-            <div class="day-detail">Food tours, Old Quarter, street food — accept the rain</div>
-          </div>
-          <div class="day">
-            <div class="day-num">Days 5–6</div>
-            <div class="day-title">🚢 North — Halong Bay</div>
-            <div class="day-detail">Overnight cruise (weather-dependent)</div>
-          </div>
-          <div class="day">
-            <div class="day-num">Days 7–8</div>
-            <div class="day-title">✈️ Central — Hoi An</div>
-            <div class="day-detail">Fly to Danang → Hoi An (lanterns, tailoring, beaches)</div>
-          </div>
-          <div class="day">
-            <div class="day-num">Days 9–10</div>
-            <div class="day-title">🏖️ Central — Hue & Nha Trang</div>
-            <div class="day-detail">Imperial City + beach time</div>
-          </div>
-          <div class="day">
-            <div class="day-num">Days 11–13</div>
-            <div class="day-title">🌇 South — HCMC</div>
-            <div class="day-detail">Mekong Delta day trip, street food, War Remnants Museum</div>
-          </div>
-          <div class="day">
-            <div class="day-num">Day 14</div>
-            <div class="day-title">✈️ Fly Home</div>
-            <div class="day-detail">HCMC → Doha → JNB</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="optionB" style="display: none;">
-      <div class="card">
-        <h2>Option B: Skip North, Focus on Dry Zones <span class="badge badge-best">10-12 days ⭐</span></h2>
-        <div class="itinerary">
-          <div class="day">
-            <div class="day-num">Days 1–2</div>
-            <div class="day-title">✈️ Transit</div>
-            <div class="day-detail">Fly JNB → HCMC (or Danang via HCMC)</div>
-          </div>
-          <div class="day">
-            <div class="day-num">Days 3–6</div>
-            <div class="day-title">🏖️ Central — Hoi An, Danang, Hue</div>
-            <div class="day-detail">Lanterns, tailoring, beaches, Imperial City. Best weather zone!</div>
-          </div>
-          <div class="day">
-            <div class="day-num">Days 7–8</div>
-            <div class="day-title">🌊 Central — Nha Trang</div>
-            <div class="day-detail">Beach time, mud baths, snorkelling</div>
-          </div>
-          <div class="day">
-            <div class="day-num">Days 9–10</div>
-            <div class="day-title">🌇 South — HCMC</div>
-            <div class="day-detail">Street food, Mekong Delta day trip, markets</div>
-          </div>
-          <div class="day">
-            <div class="day-num">Day 11</div>
-            <div class="day-title">🔄 Buffer / More Beach</div>
-            <div class="day-detail">Extra day wherever you loved most</div>
-          </div>
-          <div class="day">
-            <div class="day-num">Day 12</div>
-            <div class="day-title">✈️ Fly Home</div>
-            <div class="day-detail">HCMC → Doha → JNB</div>
-          </div>
-        </div>
-      </div>
+    <div class="card">
+      <h2>✅ What's Great in July</h2>
+      <ul class="tip-list tip-good">
+        <li>Central Vietnam beaches are at their peak — Nha Trang, Hoi An, Danang</li>
+        <li>Fewer tourists in north & south = cheaper accommodation and no crowds</li>
+        <li>Rain in the south is usually short, dramatic afternoon bursts — rest of the day is fine</li>
+        <li>Lush green landscapes everywhere — best time for photography</li>
+        <li>Con Dao diving is still good (last month of dive season)</li>
+      </ul>
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════ -->
   <!-- BUDGET TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
   <div class="tab-content" id="budget">
     <div class="card">
-      <h2>💰 Budget Breakdown (per person, ~10 days)</h2>
+      <h2>💰 Budget Breakdown (per person)</h2>
       <div class="option-toggle">
         <button class="option-btn active" onclick="showBudget('budget')">Budget</button>
         <button class="option-btn" onclick="showBudget('midrange')">Mid-range</button>
@@ -724,11 +1035,14 @@
       <h2>💸 Money-Saving Tips</h2>
       <ul class="tip-list tip-money">
         <li>Vietnam is very affordable — budget accommodation is clean and good value</li>
-        <li>Street food is incredible and costs R30-60 per meal</li>
+        <li>Street food is incredible and costs R15-60 per meal</li>
         <li>ATMs give better exchange rates than currency exchange counters</li>
-        <li>Internal flights (Vietjet, Bamboo) are cheap — ~R400-800 one-way</li>
-        <li>Grab (Southeast Asian Uber) is cheap and reliable</li>
+        <li>Internal flights (Vietjet, Bamboo) are cheap — ~R400-900 one-way</li>
+        <li>Grab (SE Asian Uber) is cheap and reliable — always use over flagged taxis</li>
         <li>Haggling is expected at markets — start at 50% and negotiate up</li>
+        <li>Sleeper trains save a hotel night — book soft sleeper 4-berth minimum</li>
+        <li>Book Halong cruise <strong>directly with the boat company</strong>, not via Booking.com</li>
+        <li>1 ZAR ≈ 1,400 VND (check current rate before you go)</li>
       </ul>
     </div>
   </div>
@@ -739,7 +1053,8 @@
       <h2>🛂 Visa Requirements — South African Citizens</h2>
       <ul class="tip-list tip-info">
         <li>South Africans <strong>need a visa</strong> for Vietnam</li>
-        <li><strong>E-visa</strong> available online: ~$25 USD (~R470) for 90 days, single entry</li>
+        <li><strong>E-visa</strong> available online: ~$25 USD (~R470) for 90 days single entry</li>
+        <li><strong>E-visa 90 days multiple entry:</strong> ~$50 USD (~R940) — recommended if doing open-jaw flights</li>
         <li>Apply at: <a href="https://evisa.xuatnhapcanh.gov.vn/" target="_blank" style="color: var(--red);">evisa.xuatnhapcanh.gov.vn</a></li>
         <li>Processing: ~3 working days</li>
         <li>Passport must be valid for at least <strong>6 months</strong></li>
@@ -748,7 +1063,7 @@
     </div>
 
     <div class="callout">
-      📝 Apply for your e-visa at least 2-3 weeks before departure. It's quick and straightforward — just need a passport photo and itinerary details.
+      📝 Apply for your e-visa at least 2-3 weeks before departure. Quick and straightforward — just need a passport photo and itinerary details.
     </div>
 
     <div class="card">
@@ -760,6 +1075,8 @@
         <label class="packing-item"><input type="checkbox"> Flight tickets booked</label>
         <label class="packing-item"><input type="checkbox"> Accommodation booked</label>
         <label class="packing-item"><input type="checkbox"> Copies of docs (digital + printed)</label>
+        <label class="packing-item"><input type="checkbox"> Notify bank of travel</label>
+        <label class="packing-item"><input type="checkbox"> Book Halong cruise direct (if Option A)</label>
       </div>
     </div>
   </div>
@@ -778,6 +1095,17 @@
     <div class="callout callout-red">
       🌧️ <strong>Essential:</strong> Pack a rain jacket/poncho — you WILL need it in Hanoi and HCMC. Quick-dry clothing is a lifesaver.
     </div>
+
+    <div class="card">
+      <h2>💡 Vietnam Packing Tips</h2>
+      <ul class="tip-list tip-info">
+        <li>Pack light — you can buy cheap clothes in Hoi An (tailored!) or markets</li>
+        <li>Laundry is R20-30/kg everywhere — no need to overpack</li>
+        <li>Modest clothes for temples: cover shoulders and knees</li>
+        <li>Waterproof phone pouch is essential for boat trips and rain</li>
+        <li>Comfortable walking sandals > sneakers (it's too hot for closed shoes most days)</li>
+      </ul>
+    </div>
   </div>
 
   <!-- Sources -->
@@ -786,15 +1114,16 @@
     <div class="sources">
       KAYAK flight data: za.kayak.com ·
       Cheapflights: cheapflights.co.za ·
-      Travelstart: travelstart.co.za ·
       Vietnam weather: selectiveasia.com ·
       Vietnam Airlines monsoon guide: vietnamairlines.com ·
+      Sleeper trains: bestpricetravel.com ·
+      Halong cruises: abackpackersworld.com ·
       Reddit r/VietNam community advice
     </div>
   </div>
 
   <div class="edit-hint">
-    Last updated: May 2026 · Living document — edit <code>vietnam-trip-plan.md</code> to update data
+    Last updated: May 2026 · Living document — pick your favourite parts from each option!
   </div>
 </div>
 
@@ -835,36 +1164,48 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-// Itinerary toggle
-function showItinerary(option) {
-  document.getElementById('optionA').style.display = option === 'optionA' ? 'block' : 'none';
-  document.getElementById('optionB').style.display = option === 'optionB' ? 'block' : 'none';
-  document.querySelectorAll('#itinerary .option-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+// Itinerary accordion
+function toggleItin(option) {
+  const card = document.getElementById(option + '-card');
+  card.classList.toggle('open');
 }
 
 // Budget
 const budgetData = {
   budget: [
-    ['✈️ Flights (return, Qatar via Doha)', 'R11,500'],
-    ['🛂 Visa', 'R470'],
-    ['🏨 Accommodation (8-10 nights)', 'R3,000 (R300/night)'],
-    ['🍜 Food (10 days)', 'R2,000 (R200/day)'],
-    ['🎯 Activities & tours', 'R2,500'],
-    ['🚌 Internal flights/transfers', 'R1,500'],
+    ['✈️ Flights (return, Qatar via Doha)', 'R12,300'],
+    ['🛂 Visa (e-visa 90 days)', 'R470'],
+    ['📱 SIM Card (30 day data)', 'R150'],
+    ['🏨 Accommodation (14 nights)', 'R4,200 (R300/night avg)'],
+    ['🚢 Halong Bay Cruise (1 night)', 'R750'],
+    ['🚂 Sleeper trains', 'R2,100'],
+    ['✈️ Internal flights', 'R1,800'],
+    ['🚌 Buses & transfers', 'R500'],
+    ['🍜 Food (16 days)', 'R3,200 (R200/day)'],
+    ['🎯 Activities & entrance fees', 'R2,500'],
+    ['🍳 Cooking class', 'R350'],
+    ['🛶 Mekong Delta tour', 'R400'],
     ['🛡️ Travel insurance', 'R800'],
+    ['💼 Misc / buffer', 'R1,500'],
   ],
   midrange: [
-    ['✈️ Flights (return, Qatar via Doha)', 'R13,500'],
-    ['🛂 Visa', 'R470'],
-    ['🏨 Accommodation (8-10 nights)', 'R6,000 (R600/night)'],
-    ['🍜 Food (10 days)', 'R4,000 (R400/day)'],
-    ['🎯 Activities & tours', 'R5,000'],
-    ['🚌 Internal flights/transfers', 'R2,500'],
+    ['✈️ Flights (return, Qatar via Doha)', 'R15,000'],
+    ['🛂 Visa (e-visa 90 days)', 'R470'],
+    ['📱 SIM Card (30 day data)', 'R150'],
+    ['🏨 Accommodation (14 nights)', 'R8,400 (R600/night avg)'],
+    ['🚢 Halong Bay Cruise (1 night)', 'R1,500'],
+    ['🚂 Sleeper trains', 'R2,500'],
+    ['✈️ Internal flights', 'R3,000'],
+    ['🚌 Buses & transfers', 'R700'],
+    ['🍜 Food (16 days)', 'R6,400 (R400/day)'],
+    ['🎯 Activities & entrance fees', 'R4,500'],
+    ['🍳 Cooking class', 'R500'],
+    ['🛶 Mekong Delta tour', 'R500'],
     ['🛡️ Travel insurance', 'R1,200'],
+    ['💼 Misc / buffer', 'R2,000'],
   ]
 };
-const budgetTotals = { budget: 43540, midrange: 65340 };
+const budgetTotals = { budget: 29020, midrange: 42820 };
 
 function showBudget(type) {
   document.querySelectorAll('#budget .option-btn').forEach(b => b.classList.remove('active'));
@@ -885,21 +1226,22 @@ function showBudget(type) {
   totalTr.innerHTML = `<td>TOTAL per person</td><td>R${perPerson.toLocaleString()}</td>`;
   body.appendChild(totalTr);
   
-  document.getElementById('totalValue').textContent = `R${budgetTotals[type].toLocaleString()}`;
+  document.getElementById('totalValue').textContent = `R${(perPerson * 2).toLocaleString()}`;
 }
 showBudget('budget');
-// Fake event for initial load
 document.querySelector('#budget .option-btn').classList.add('active');
 
 // Packing list
 const packingItems = [
-  'Rain jacket / poncho', 'Quick-dry clothing', 'Sunscreen (SPF 50+)', 
+  'Rain jacket / poncho', 'Quick-dry clothing (x3)', 'Sunscreen (SPF 50+)', 
   'Insect repellent (DEET)', 'Walking sandals', 'Water-resistant shoes',
-  'Universal power adapter', 'Vietnamese Dong (VND)', 'Travel insurance docs',
-  'Passport + visa copies', 'Lightweight backpack', 'Microfiber towel',
-  'Reusable water bottle', 'Portable charger', 'Zip-lock bags (for wet stuff)',
+  'Universal power adapter', 'Vietnamese Dong (VND) or ATM card', 'Travel insurance docs',
+  'Passport + visa copies', 'Light backpack', 'Microfiber towel',
+  'Reusable water bottle', 'Portable charger (10,000mAh)', 'Zip-lock bags (for wet stuff)',
   'Light scarf (temple visits)', 'Motion sickness tablets', 'Earplugs + eye mask',
-  'Snorkel gear (optional)', 'Dry bag for phone/wallet'
+  'Waterproof phone pouch ⭐', 'Dry bag for boat trips',
+  'Hat + sunglasses', 'Swimmers', 'Basic first-aid kit',
+  'Hand sanitiser'
 ];
 
 const packingList = document.getElementById('packingList');
@@ -924,6 +1266,12 @@ function updatePackingProgress() {
   document.getElementById('packingProgress').textContent = `${checked}/${packingItems.length} items packed`;
 }
 updatePackingProgress();
+
+// Open all itinerary options by default on load, then close B and C
+setTimeout(() => {
+  toggleItin('optionB');
+  toggleItin('optionC');
+}, 100);
 </script>
 </body>
 </html>
