@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇻🇳 Vietnam Trip — Don & Katelyn</title>
+<style>
+  :root {
+    --red: #d4342b;
+    --red-light: #f2d0ce;
+    --gold: #f0c75e;
+    --gold-light: #fdf6dc;
+    --green: #2d6a4f;
+    --green-light: #d8f3dc;
+    --text: #1a1a2e;
+    --text-muted: #6c757d;
+    --bg: #fafaf5;
+    --card: #ffffff;
+    --border: #e9e5df;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--red) 0%, #a12720 50%, #6b1a14 100%);
+    color: white;
+    padding: 3rem 1.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '🇻🇳';
+    position: absolute;
+    font-size: 20rem;
+    opacity: 0.06;
+    top: -3rem;
+    right: -2rem;
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 400;
+  }
+
+  /* Countdown */
+  .countdown-bar {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    display: inline-flex;
+    gap: 1.2rem;
+    padding: 0.6rem 1.5rem;
+    margin-top: 1.2rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .countdown-bar .cd-unit {
+    text-align: center;
+  }
+  .countdown-bar .cd-num {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .countdown-bar .cd-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.8;
+  }
+
+  /* Quick stats */
+  .quick-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin: -1.5rem 1rem 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .stat-card {
+    background: var(--card);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); }
+  .stat-icon { font-size: 1.5rem; margin-bottom: 0.25rem; }
+  .stat-value { font-size: 1.35rem; font-weight: 700; color: var(--red); }
+  .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* Container */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 1rem 3rem; }
+
+  /* Tab navigation */
+  .tab-nav {
+    display: flex;
+    gap: 0.35rem;
+    overflow-x: auto;
+    padding: 0.25rem;
+    margin-bottom: 1.5rem;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 0.6rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: var(--gold-light); color: var(--text); }
+  .tab-btn.active { background: var(--red); color: white; }
+
+  /* Tab content */
+  .tab-content { display: none; animation: fadeIn 0.3s ease; }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+  }
+  .card h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem;
+  }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin: 0.5rem 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  th, td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    background: var(--bg);
+  }
+  tr:hover td { background: var(--gold-light); }
+  .best { background: var(--green-light); font-weight: 600; }
+
+  /* Price highlight */
+  .price-range {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--gold-light);
+    border: 1px solid var(--gold);
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+  }
+  .price-range .label {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  /* Tips */
+  .tip-list { list-style: none; }
+  .tip-list li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .tip-list li:last-child { border: none; }
+  .tip-list li::before {
+    position: absolute;
+    left: 0;
+    font-size: 1rem;
+  }
+  .tip-list.tip-warn li::before { content: '⚠️'; }
+  .tip-list.tip-good li::before { content: '✅'; }
+  .tip-list.tip-info li::before { content: '💡'; }
+  .tip-list.tip-money li::before { content: '💸'; }
+
+  /* Weather cards */
+  .weather-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+  .weather-card {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .weather-card.best {
+    border-color: var(--green);
+    background: var(--green-light);
+  }
+  .weather-card .temp { font-size: 1.5rem; font-weight: 700; }
+  .weather-card .region { font-size: 0.8rem; font-weight: 600; margin: 0.25rem 0; }
+  .weather-card .desc { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* Itinerary */
+  .itinerary {
+    border-left: 3px solid var(--red);
+    margin-left: 0.5rem;
+    padding-left: 1.25rem;
+  }
+  .itinerary .day {
+    position: relative;
+    padding-bottom: 1.25rem;
+  }
+  .itinerary .day:last-child { padding-bottom: 0; }
+  .itinerary .day::before {
+    content: '';
+    position: absolute;
+    left: -1.75rem;
+    top: 0.35rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--red);
+  }
+  .itinerary .day-num {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--red);
+  }
+  .itinerary .day-title { font-weight: 600; font-size: 0.95rem; }
+  .itinerary .day-detail { font-size: 0.8rem; color: var(--text-muted); }
+
+  /* Budget */
+  .budget-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+  .budget-total { font-weight: 700; font-size: 1rem; }
+  .budget-total td { border-top: 2px solid var(--text); }
+
+  /* Packing list */
+  .packing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.35rem;
+  }
+  .packing-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 0.9rem;
+  }
+  .packing-item:hover { background: var(--bg); }
+  .packing-item.checked { opacity: 0.5; text-decoration: line-through; }
+  .packing-item input { accent-color: var(--green); width: 18px; height: 18px; cursor: pointer; }
+
+  /* Badge */
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .badge-best { background: var(--green-light); color: var(--green); }
+  .badge-cheap { background: var(--gold-light); color: #8a6d00; }
+  .badge-warn { background: var(--red-light); color: var(--red); }
+
+  /* Callout */
+  .callout {
+    background: var(--gold-light);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .callout-red {
+    background: var(--red-light);
+    border-left-color: var(--red);
+  }
+
+  /* Option toggle */
+  .option-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .option-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    background: var(--card);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .option-btn:hover { border-color: var(--red); }
+  .option-btn.active { background: var(--red); color: white; border-color: var(--red); }
+
+  /* Sources */
+  .sources {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .sources a { color: var(--red); text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+
+  /* Print */
+  @media print {
+    .hero { padding: 1.5rem; }
+    .tab-nav { display: none; }
+    .tab-content { display: block !important; page-break-inside: avoid; }
+    .card { box-shadow: none; border: 1px solid var(--border); }
+    .stat-card { box-shadow: none; border: 1px solid var(--border); }
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.8rem; }
+    .quick-stats { grid-template-columns: repeat(2, 1fr); }
+    .weather-grid { grid-template-columns: 1fr; }
+    .packing-grid { grid-template-columns: 1fr; }
+    .budget-table { font-size: 0.8rem; }
+  }
+
+  /* Edit button */
+  .edit-hint {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .edit-hint code {
+    background: #f0f0e8;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>🇻🇳 Vietnam</h1>
+  <div class="subtitle">Don & Katelyn · Late June → Early July 2026</div>
+  <div class="countdown-bar" id="countdown"></div>
+</div>
+
+<!-- Quick Stats -->
+<div class="quick-stats">
+  <div class="stat-card">
+    <div class="stat-icon">✈️</div>
+    <div class="stat-value">~20h</div>
+    <div class="stat-label">Flight Time</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">💰</div>
+    <div class="stat-value">R43.5k</div>
+    <div class="stat-label">Budget (2 pax)</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">🌡️</div>
+    <div class="stat-value">30°C</div>
+    <div class="stat-label">Avg Temp</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">📅</div>
+    <div class="stat-value">10</div>
+    <div class="stat-label">Days</div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="container">
+  <nav class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="flights">✈️ Flights</button>
+    <button class="tab-btn" data-tab="weather">🌦️ Weather</button>
+    <button class="tab-btn" data-tab="itinerary">🗺️ Itinerary</button>
+    <button class="tab-btn" data-tab="budget">💰 Budget</button>
+    <button class="tab-btn" data-tab="visa">🛂 Visa</button>
+    <button class="tab-btn" data-tab="packing">🧳 Packing</button>
+  </nav>
+
+  <!-- FLIGHTS TAB -->
+  <div class="tab-content active" id="flights">
+    <div class="callout">
+      💸 <strong>Book ASAP!</strong> June is a pricey month — prices climb closer to departure. Aim to book by mid-May for the best rates (~12% savings).
+    </div>
+
+    <div class="card">
+      <h2>🏆 Best Flight Options</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>Route</th><th>Airline</th><th>Return (pp)</th><th>Duration</th><th>Stops</th></tr>
+          </thead>
+          <tbody>
+            <tr class="best">
+              <td>1</td>
+              <td><strong>JNB → Hanoi (HAN)</strong></td>
+              <td>Qatar Airways</td>
+              <td><strong>R11,500 – R12,500</strong></td>
+              <td>~20h 15m</td>
+              <td>1 (Doha)</td>
+            </tr>
+            <tr class="best">
+              <td>2</td>
+              <td><strong>JNB → HCMC (SGN)</strong></td>
+              <td>Qatar Airways</td>
+              <td><strong>R12,200 – R13,000</strong></td>
+              <td>~16-20h</td>
+              <td>1 (Doha)</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>JNB → HAN</td>
+              <td>Etihad Airways</td>
+              <td>R13,000 – R14,500</td>
+              <td>~15h 10m</td>
+              <td>1 (Abu Dhabi)</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>JNB → SGN/HAN</td>
+              <td>Emirates</td>
+              <td>R18,000 – R22,000</td>
+              <td>~18-22h</td>
+              <td>1 (Dubai)</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>JNB → HAN</td>
+              <td>Ethiopian Airlines</td>
+              <td>R25,000+</td>
+              <td>~22-26h</td>
+              <td>1-2 (Addis)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📊 Real Prices Found (May 2026)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Dates</th><th>Route</th><th>Airline</th><th>Return Price</th><th>Source</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Jun 13 – Jun 20</td><td>JNB → HAN</td><td>Qatar Airways</td><td>R11,576</td><td>KAYAK</td></tr>
+            <tr><td>Jun 4 – Jun 11</td><td>JNB → SGN</td><td>Qatar Airways</td><td>R12,228</td><td>KAYAK</td></tr>
+            <tr><td>Jun 18 – Jun 24</td><td>JNB → HPH</td><td>Multiple</td><td>R17,015</td><td>Cheapflights</td></tr>
+            <tr><td>Jul 23 – Jul 30</td><td>JNB → HAN</td><td>Qatar Airways</td><td>R11,344</td><td>KAYAK</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 0.75rem;">
+        <span class="badge badge-cheap">Cheapest month overall: February (~R7,390 return)</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>💡 Flight Tips</h2>
+      <ul class="tip-list tip-info">
+        <li><strong>Hanoi is ~R800-1,500 cheaper</strong> than HCMC — consider flying into HAN and out of SGN</li>
+        <li><strong>Saturday departures</strong> tend to be the cheapest day to fly</li>
+        <li><strong>Hacker Fares</strong> on KAYAK (mix airlines) can save money</li>
+        <li>Qatar Airways economy seats are tight — pack light, consider seat selection fee</li>
+        <li><strong>No transit visa needed</strong> for Doha or Dubai layovers under 24h</li>
+        <li>Book 6 weeks ahead (mid-May) to save ~12% vs last-minute</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>✈️ Airline Quality Ratings</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Airline</th><th>Score</th><th>Best For</th><th>Watch Out</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Singapore Airlines</td><td><strong>8.2/10</strong></td><td>Best service</td><td>Pricier route</td></tr>
+            <tr><td>Emirates</td><td><strong>8.1/10</strong></td><td>Great experience</td><td>Chaotic boarding, expensive in Jun</td></tr>
+            <tr><td>Cathay Pacific</td><td>7.6/10</td><td>Cheap one-ways</td><td>Poor entertainment</td></tr>
+            <tr><td>Qatar Airways</td><td>7.4/10</td><td><strong>Cheapest overall</strong></td><td>Tight economy, schedule changes</td></tr>
+            <tr><td>Ethiopian Air</td><td>7.2/10</td><td>Budget (sometimes)</td><td>Lost luggage, dirty cabins, bad service</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEATHER TAB -->
+  <div class="tab-content" id="weather">
+    <div class="callout">
+      🌦️ <strong>Late June/July weather varies hugely by region.</strong> Central Vietnam is the sweet spot — hot and mostly dry. North and South get rain.
+    </div>
+
+    <div class="card">
+      <h2>Regional Weather Breakdown</h2>
+      <div class="weather-grid">
+        <div class="weather-card">
+          <div class="temp">🌧️ 30°C</div>
+          <div class="region">North Vietnam</div>
+          <div class="desc">Hanoi, Halong Bay, Sapa</div>
+          <div style="font-size: 0.75rem; margin-top: 0.5rem; color: var(--text-muted);">One of the wettest months. Heavy showers & storms.</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-warn">Rainy</span></div>
+        </div>
+        <div class="weather-card best">
+          <div class="temp">☀️ 31°C</div>
+          <div class="region">Central Vietnam ⭐</div>
+          <div class="desc">Hoi An, Danang, Nha Trang</div>
+          <div style="font-size: 0.75rem; margin-top: 0.5rem; color: var(--green);">Hot, mostly dry, lots of sunshine. Best beaches!</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-best">Best Region</span></div>
+        </div>
+        <div class="weather-card">
+          <div class="temp">🌦️ 29°C</div>
+          <div class="region">South Vietnam</div>
+          <div class="desc">HCMC, Mekong Delta, Phu Quoc</div>
+          <div style="font-size: 0.75rem; margin-top: 0.5rem; color: var(--text-muted);">Wet season — daily downpours but short bursts.</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-warn">Rainy</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>⚠️ Weather Warnings</h2>
+      <ul class="tip-list tip-warn">
+        <li><strong>Trekking in Sapa/Ha Giang NOT advisable</strong> — very wet, muddy, poor visibility</li>
+        <li>Halong Bay cruises <strong>can be cancelled</strong> due to storms</li>
+        <li>Central Vietnam (Hoi An, Nha Trang) is your best bet for great weather</li>
+        <li>South Vietnam is cheaper in low season — better accommodation deals</li>
+        <li>Pack rain gear regardless — even "dry" Central can get afternoon showers</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ITINERARY TAB -->
+  <div class="tab-content" id="itinerary">
+    <div class="option-toggle">
+      <button class="option-btn active" onclick="showItinerary('optionA')">Option A: Full Loop (14 days)</button>
+      <button class="option-btn" onclick="showItinerary('optionB')">Option B: Dry Zones (10-12 days)</button>
+    </div>
+
+    <div class="callout">
+      🗺️ <strong>Strategy:</strong> Central → North → South (or skip North for drier weather). Given the dates and weather, Option B is recommended.
+    </div>
+
+    <div id="optionA">
+      <div class="card">
+        <h2>Option A: Full Loop <span class="badge badge-warn">14 days</span></h2>
+        <div class="itinerary">
+          <div class="day">
+            <div class="day-num">Days 1–2</div>
+            <div class="day-title">✈️ Transit</div>
+            <div class="day-detail">Fly JNB → Doha → Hanoi</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Days 3–4</div>
+            <div class="day-title">🏙️ North — Hanoi</div>
+            <div class="day-detail">Food tours, Old Quarter, street food — accept the rain</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Days 5–6</div>
+            <div class="day-title">🚢 North — Halong Bay</div>
+            <div class="day-detail">Overnight cruise (weather-dependent)</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Days 7–8</div>
+            <div class="day-title">✈️ Central — Hoi An</div>
+            <div class="day-detail">Fly to Danang → Hoi An (lanterns, tailoring, beaches)</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Days 9–10</div>
+            <div class="day-title">🏖️ Central — Hue & Nha Trang</div>
+            <div class="day-detail">Imperial City + beach time</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Days 11–13</div>
+            <div class="day-title">🌇 South — HCMC</div>
+            <div class="day-detail">Mekong Delta day trip, street food, War Remnants Museum</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 14</div>
+            <div class="day-title">✈️ Fly Home</div>
+            <div class="day-detail">HCMC → Doha → JNB</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="optionB" style="display: none;">
+      <div class="card">
+        <h2>Option B: Skip North, Focus on Dry Zones <span class="badge badge-best">10-12 days ⭐</span></h2>
+        <div class="itinerary">
+          <div class="day">
+            <div class="day-num">Days 1–2</div>
+            <div class="day-title">✈️ Transit</div>
+            <div class="day-detail">Fly JNB → HCMC (or Danang via HCMC)</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Days 3–6</div>
+            <div class="day-title">🏖️ Central — Hoi An, Danang, Hue</div>
+            <div class="day-detail">Lanterns, tailoring, beaches, Imperial City. Best weather zone!</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Days 7–8</div>
+            <div class="day-title">🌊 Central — Nha Trang</div>
+            <div class="day-detail">Beach time, mud baths, snorkelling</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Days 9–10</div>
+            <div class="day-title">🌇 South — HCMC</div>
+            <div class="day-detail">Street food, Mekong Delta day trip, markets</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 11</div>
+            <div class="day-title">🔄 Buffer / More Beach</div>
+            <div class="day-detail">Extra day wherever you loved most</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 12</div>
+            <div class="day-title">✈️ Fly Home</div>
+            <div class="day-detail">HCMC → Doha → JNB</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUDGET TAB -->
+  <div class="tab-content" id="budget">
+    <div class="card">
+      <h2>💰 Budget Breakdown (per person, ~10 days)</h2>
+      <div class="option-toggle">
+        <button class="option-btn active" onclick="showBudget('budget')">Budget</button>
+        <button class="option-btn" onclick="showBudget('midrange')">Mid-range</button>
+      </div>
+
+      <div id="budgetView">
+        <div class="table-wrap">
+          <table class="budget-table">
+            <thead>
+              <tr><th>Category</th><th>Cost</th></tr>
+            </thead>
+            <tbody id="budgetBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="margin-top: 1rem; text-align: center;">
+        <div class="price-range" id="totalDisplay">
+          <span class="label">Total for 2:</span>
+          <span id="totalValue"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>💸 Money-Saving Tips</h2>
+      <ul class="tip-list tip-money">
+        <li>Vietnam is very affordable — budget accommodation is clean and good value</li>
+        <li>Street food is incredible and costs R30-60 per meal</li>
+        <li>ATMs give better exchange rates than currency exchange counters</li>
+        <li>Internal flights (Vietjet, Bamboo) are cheap — ~R400-800 one-way</li>
+        <li>Grab (Southeast Asian Uber) is cheap and reliable</li>
+        <li>Haggling is expected at markets — start at 50% and negotiate up</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- VISA TAB -->
+  <div class="tab-content" id="visa">
+    <div class="card">
+      <h2>🛂 Visa Requirements — South African Citizens</h2>
+      <ul class="tip-list tip-info">
+        <li>South Africans <strong>need a visa</strong> for Vietnam</li>
+        <li><strong>E-visa</strong> available online: ~$25 USD (~R470) for 90 days, single entry</li>
+        <li>Apply at: <a href="https://evisa.xuatnhapcanh.gov.vn/" target="_blank" style="color: var(--red);">evisa.xuatnhapcanh.gov.vn</a></li>
+        <li>Processing: ~3 working days</li>
+        <li>Passport must be valid for at least <strong>6 months</strong></li>
+        <li><strong>No transit visa</strong> needed for Doha or Dubai layovers under 24h</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      📝 Apply for your e-visa at least 2-3 weeks before departure. It's quick and straightforward — just need a passport photo and itinerary details.
+    </div>
+
+    <div class="card">
+      <h2>📋 Checklist</h2>
+      <div class="packing-grid">
+        <label class="packing-item"><input type="checkbox"> Valid passport (6+ months)</label>
+        <label class="packing-item"><input type="checkbox"> E-visa application done</label>
+        <label class="packing-item"><input type="checkbox"> Travel insurance purchased</label>
+        <label class="packing-item"><input type="checkbox"> Flight tickets booked</label>
+        <label class="packing-item"><input type="checkbox"> Accommodation booked</label>
+        <label class="packing-item"><input type="checkbox"> Copies of docs (digital + printed)</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- PACKING TAB -->
+  <div class="tab-content" id="packing">
+    <div class="card">
+      <h2>🧳 Packing List</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">Click items to check them off — your progress saves locally.</p>
+      <div class="packing-grid" id="packingList"></div>
+      <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+        <span id="packingProgress"></span>
+      </div>
+    </div>
+
+    <div class="callout callout-red">
+      🌧️ <strong>Essential:</strong> Pack a rain jacket/poncho — you WILL need it in Hanoi and HCMC. Quick-dry clothing is a lifesaver.
+    </div>
+  </div>
+
+  <!-- Sources -->
+  <div class="card">
+    <h2>🔍 Research Sources</h2>
+    <div class="sources">
+      KAYAK flight data: za.kayak.com ·
+      Cheapflights: cheapflights.co.za ·
+      Travelstart: travelstart.co.za ·
+      Vietnam weather: selectiveasia.com ·
+      Vietnam Airlines monsoon guide: vietnamairlines.com ·
+      Reddit r/VietNam community advice
+    </div>
+  </div>
+
+  <div class="edit-hint">
+    Last updated: May 2026 · Living document — edit <code>vietnam-trip-plan.md</code> to update data
+  </div>
+</div>
+
+<script>
+// Countdown
+function updateCountdown() {
+  const target = new Date('2026-06-25T00:00:00');
+  const now = new Date();
+  const diff = target - now;
+  
+  if (diff <= 0) {
+    document.getElementById('countdown').innerHTML = '<div style="font-weight:700">🎉 Trip time!</div>';
+    return;
+  }
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+  
+  document.getElementById('countdown').innerHTML = `
+    <div class="cd-unit"><div class="cd-num">${days}</div><div class="cd-label">Days</div></div>
+    <div class="cd-unit"><div class="cd-num">${hours}</div><div class="cd-label">Hours</div></div>
+    <div class="cd-unit"><div class="cd-num">${String(mins).padStart(2,'0')}</div><div class="cd-label">Mins</div></div>
+    <div class="cd-unit"><div class="cd-num">${String(secs).padStart(2,'0')}</div><div class="cd-label">Secs</div></div>
+  `;
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Itinerary toggle
+function showItinerary(option) {
+  document.getElementById('optionA').style.display = option === 'optionA' ? 'block' : 'none';
+  document.getElementById('optionB').style.display = option === 'optionB' ? 'block' : 'none';
+  document.querySelectorAll('#itinerary .option-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Budget
+const budgetData = {
+  budget: [
+    ['✈️ Flights (return, Qatar via Doha)', 'R11,500'],
+    ['🛂 Visa', 'R470'],
+    ['🏨 Accommodation (8-10 nights)', 'R3,000 (R300/night)'],
+    ['🍜 Food (10 days)', 'R2,000 (R200/day)'],
+    ['🎯 Activities & tours', 'R2,500'],
+    ['🚌 Internal flights/transfers', 'R1,500'],
+    ['🛡️ Travel insurance', 'R800'],
+  ],
+  midrange: [
+    ['✈️ Flights (return, Qatar via Doha)', 'R13,500'],
+    ['🛂 Visa', 'R470'],
+    ['🏨 Accommodation (8-10 nights)', 'R6,000 (R600/night)'],
+    ['🍜 Food (10 days)', 'R4,000 (R400/day)'],
+    ['🎯 Activities & tours', 'R5,000'],
+    ['🚌 Internal flights/transfers', 'R2,500'],
+    ['🛡️ Travel insurance', 'R1,200'],
+  ]
+};
+const budgetTotals = { budget: 43540, midrange: 65340 };
+
+function showBudget(type) {
+  document.querySelectorAll('#budget .option-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  const body = document.getElementById('budgetBody');
+  body.innerHTML = '';
+  let perPerson = 0;
+  budgetData[type].forEach(([label, cost]) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${label}</td><td>${cost}</td>`;
+    body.appendChild(tr);
+    const num = parseInt(cost.replace(/[^0-9]/g, ''));
+    perPerson += num;
+  });
+  const totalTr = document.createElement('tr');
+  totalTr.className = 'budget-total';
+  totalTr.innerHTML = `<td>TOTAL per person</td><td>R${perPerson.toLocaleString()}</td>`;
+  body.appendChild(totalTr);
+  
+  document.getElementById('totalValue').textContent = `R${budgetTotals[type].toLocaleString()}`;
+}
+showBudget('budget');
+// Fake event for initial load
+document.querySelector('#budget .option-btn').classList.add('active');
+
+// Packing list
+const packingItems = [
+  'Rain jacket / poncho', 'Quick-dry clothing', 'Sunscreen (SPF 50+)', 
+  'Insect repellent (DEET)', 'Walking sandals', 'Water-resistant shoes',
+  'Universal power adapter', 'Vietnamese Dong (VND)', 'Travel insurance docs',
+  'Passport + visa copies', 'Lightweight backpack', 'Microfiber towel',
+  'Reusable water bottle', 'Portable charger', 'Zip-lock bags (for wet stuff)',
+  'Light scarf (temple visits)', 'Motion sickness tablets', 'Earplugs + eye mask',
+  'Snorkel gear (optional)', 'Dry bag for phone/wallet'
+];
+
+const packingList = document.getElementById('packingList');
+const savedPacking = JSON.parse(localStorage.getItem('vietnamPacking') || '{}');
+
+packingItems.forEach((item, i) => {
+  const label = document.createElement('label');
+  label.className = 'packing-item' + (savedPacking[i] ? ' checked' : '');
+  label.innerHTML = `<input type="checkbox" ${savedPacking[i] ? 'checked' : ''}> ${item}`;
+  const input = label.querySelector('input');
+  input.addEventListener('change', () => {
+    savedPacking[i] = input.checked;
+    localStorage.setItem('vietnamPacking', JSON.stringify(savedPacking));
+    label.classList.toggle('checked', input.checked);
+    updatePackingProgress();
+  });
+  packingList.appendChild(label);
+});
+
+function updatePackingProgress() {
+  const checked = Object.values(savedPacking).filter(Boolean).length;
+  document.getElementById('packingProgress').textContent = `${checked}/${packingItems.length} items packed`;
+}
+updatePackingProgress();
+</script>
+</body>
+</html>
