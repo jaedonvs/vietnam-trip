@@ -482,7 +482,7 @@
   </div>
   <div class="stat-card">
     <div class="stat-icon">📅</div>
-    <div class="stat-value">15-16</div>
+    <div class="stat-value">10-16</div>
     <div class="stat-label">Days</div>
   </div>
 </div>
@@ -504,7 +504,7 @@
   <div class="tab-content active" id="itineraries">
 
     <div class="callout">
-      🎯 <strong>3 different vibes — pick your favourite or mix and match!</strong> Each route goes North → South. Option A covers everything, Option B goes deep on fewer stops + includes HCMC, Option C maximises beach time.
+      🎯 <strong>4 options — pick your favourite or mix and match!</strong> Each route goes North → South. B1 and B2 are the "Deep Dive" family — same philosophy, different time budgets.
     </div>
 
     <!-- Quick comparison -->
@@ -513,16 +513,16 @@
       <div class="table-wrap">
         <table class="compare-table">
           <thead>
-            <tr><th></th><th>🥾 Option A: The Explorer</th><th>🍜 Option B: The Deep Dive</th><th>🏖️ Option C: Beach & City</th></tr>
+            <tr><th></th><th>🥾 A: Explorer</th><th>🍜 B1: Deep Dive</th><th>⚡ B2: Express</th><th>🏖️ C: Beach & City</th></tr>
           </thead>
           <tbody>
-            <tr><td><strong>Days</strong></td><td>16</td><td>15 ⭐</td><td>14</td></tr>
-            <tr><td><strong>Vibe</strong></td><td>See it all, fast pace</td><td>Deep dive + HCMC</td><td>Relaxed, beach-heavy</td></tr>
-            <tr><td><strong>Stops</strong></td><td>7 places</td><td>6 places</td><td>5 places</td></tr>
-            <tr><td><strong>Highlight</strong></td><td>Halong Bay cruise + Hai Van Pass</td><td>Ninh Binh + Hoi An + Mekong</td><td>4 full beach days</td></tr>
-            <tr><td><strong>Budget/pp</strong></td><td>R29,300</td><td>R29,500</td><td>R28,800</td></tr>
-            <tr><td><strong>Mid/pp</strong></td><td>R43,900</td><td>R43,000</td><td>R42,500</td></tr>
-            <tr><td><strong>Rain risk</strong></td><td>Medium (Halong may cancel)</td><td>Low-Medium</td><td>Low (mostly dry zones)</td></tr>
+            <tr><td><strong>Days</strong></td><td>16</td><td>15</td><td>10</td><td>14</td></tr>
+            <tr><td><strong>Vibe</strong></td><td>See it all, fast pace</td><td>Deep + HCMC + beach</td><td>Best hits, no fluff</td><td>Relaxed, beach-heavy</td></tr>
+            <tr><td><strong>Stops</strong></td><td>7 places</td><td>6 places</td><td>5 places</td><td>5 places</td></tr>
+            <tr><td><strong>Highlight</strong></td><td>Halong + Hai Van Pass</td><td>Ninh Binh + Hoi An + Mekong</td><td>Every must-do in 10 days</td><td>4 full beach days</td></tr>
+            <tr><td><strong>Budget/pp</strong></td><td>R29,300</td><td>R29,500</td><td>R25,800</td><td>R28,800</td></tr>
+            <tr><td><strong>Budget for 2</strong></td><td>R58,600</td><td>R59,000</td><td>R51,600</td><td>R57,600</td></tr>
+            <tr><td><strong>Rain risk</strong></td><td>Medium</td><td>Low-Medium</td><td>Low-Medium</td><td>Low</td></tr>
           </tbody>
         </table>
       </div>
@@ -619,11 +619,11 @@
       </div>
     </div>
 
-    <!-- ══════════ OPTION B ══════════ -->
-    <div class="itin-option-card" id="optionB-card">
-      <div class="itin-header" onclick="toggleItin('optionB')">
+    <!-- ══════════ OPTION B1 ══════════ -->
+    <div class="itin-option-card" id="optionB1-card">
+      <div class="itin-header" onclick="toggleItin('optionB1')">
         <div class="itin-header-left">
-          <h2 style="color: var(--purple);">🍜 Option B: The Deep Dive ⭐</h2>
+          <h2 style="color: var(--purple);">🍜 Option B1: The Deep Dive</h2>
           <div class="itin-tagline">Fewer stops, more depth + HCMC — the best of Vietnam without rushing, 15 days</div>
           <div class="itin-highlights">
             <span class="itin-highlight good">2 nights Ninh Binh</span>
@@ -732,6 +732,95 @@
             <div class="day-title">🛶 Mekong Delta → ✈️ Fly Home</div>
             <div class="day-detail">Early morning: Mekong Delta day tour (~R350-500pp) — floating markets at dawn, boat through coconut groves, fruit orchards, local lunch. Back to HCMC by ~15:00. Evening flight HCMC → Doha → JHB. Last bowl of pho at the airport — see you next time Vietnam! 🇻🇳</div>
             <div class="day-cost">Mekong tour: R400pp · Flight home: incl. in return ticket</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ OPTION B2 ══════════ -->
+    <div class="itin-option-card" id="optionB2-card">
+      <div class="itin-header" onclick="toggleItin('optionB2')">
+        <div class="itin-header-left">
+          <h2 style="color: var(--purple);">⚡ Option B2: The Express Deep Dive</h2>
+          <div class="itin-tagline">Every Vietnam must-do packed into 10 days — no filler, all killer</div>
+          <div class="itin-highlights">
+            <span class="itin-highlight good">Hanoi food</span>
+            <span class="itin-highlight good">Ninh Binh caves</span>
+            <span class="itin-highlight good">Hai Van Pass</span>
+            <span class="itin-highlight good">Hoi An + HCMC</span>
+            <span class="itin-highlight warn">No beach time</span>
+            <span class="itin-highlight warn">Fast pace</span>
+          </div>
+        </div>
+        <div class="itin-header-right">
+          <div class="itin-price-tag">R51,600<small>budget for 2</small></div>
+          <div class="itin-expand-icon">▼</div>
+        </div>
+      </div>
+      <div class="itin-body">
+        <div class="callout">
+          ⚡ <strong>10 days, zero fluff.</strong> This is B1 on fast-forward — every highlight, no lazy days. You'll skip Nha Trang (no beach) and compress Hue into a pass-through. It's packed, but you won't miss a single Vietnam essential. Best for annual leave crushers.
+        </div>
+        <div class="itinerary">
+          <div class="day">
+            <div class="day-num">Day 1</div>
+            <div class="day-title">✈️ Fly JHB → Hanoi</div>
+            <div class="day-detail">Arrive Hanoi, get Viettel SIM (~R150) at airport, Grab to Old Quarter (~R80). Evening: Bun Cha Huong Lien (Obama's spot, ~R60 for 2) + Bia Hoi corner (draft beer ~R8/glass!). Get an early night — tomorrow's big.</div>
+            <div class="day-cost">SIM: R150 · Grab: R80 · Accom: R300 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 2</div>
+            <div class="day-title">🏙️ Hanoi → Ninh Binh</div>
+            <div class="day-detail">Morning: quick Hanoi hits — egg coffee at Café Giang, Hoa Lo Prison (~1.5h). Midday: bus to Ninh Binh (~2h, ~R80pp). Afternoon: Trang An boat caves ⭐ (2-3h rowboat through limestone caves, UNESCO!). Rent scooter (~R100/d). Stay in Tam Coc.</div>
+            <div class="day-cost">Accom: R300 · Bus: R80pp · Scooter: R100 · Hoa Lo: R50pp · Trang An: R150pp · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 3</div>
+            <div class="day-title">🛖 Ninh Binh → 🚂 Sleeper Train to Hue</div>
+            <div class="day-detail">Early morning: Mua Caves sunrise (500 steps, stunning views, ~R75pp). Mid-morning: Bai Dinh Pagoda (largest in SE Asia, free). Afternoon: relax by the river, pack. Evening: sleeper train to Hue on Laman Express (~11h, ~R1,250pp). Pack snacks!</div>
+            <div class="day-cost">Train: R1,250pp · Mua Caves: R75pp · Scooter: R100 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 4</div>
+            <div class="day-title">🏯 Hue → 🏍️ Hoi An (via Hai Van Pass)</div>
+            <div class="day-detail">Arrive Hue ~08:00. Quick Imperial City visit (2h, ~R100pp) — see the citadel and palace ruins. Then: easy-rider to Hoi An (~R700pp) via the Hai Van Pass ⭐ — one of the world's best coastal roads. Swim at Elephant Springs. Arrive Hoi An late afternoon. Evening: lantern-lit Old Town wander ✨</div>
+            <div class="day-cost">Imperial City: R100pp · Easy-rider: R700pp · Accom: R350 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 5</div>
+            <div class="day-title">🏮 Hoi An — Old Town & Tailoring</div>
+            <div class="day-detail">Morning: Old Town walking tour — Japanese Covered Bridge, Assembly Halls (Old Town ticket ~R75pp). Get measured for tailored clothes ASAP (suit ~R1,500-3,000, dress ~R800-2,000, ready in 24-48h). Afternoon: cooking class (~R400pp) — market tour + cook 4 dishes. Evening: lantern boat on the river (~R30), banh mi & cao lau feast.</div>
+            <div class="day-cost">Accom: R350 · Old Town: R75pp · Cooking: R400pp · Tailoring: R1,500-3,000 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 6</div>
+            <div class="day-title">🏮 Hoi An — Beach + Clothes Fitting</div>
+            <div class="day-detail">Morning: An Bang Beach (~4km, free, lounger ~R30) — your only beach day, make it count! Afternoon: fitting for tailored clothes. Final Hoi An wander, pick up any rush orders. Bike through rice paddies if time allows (~R30 rental).</div>
+            <div class="day-cost">Accom: R350 · Lounger: R30 · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 7</div>
+            <div class="day-title">🏮 Hoi An → ✈️ HCMC</div>
+            <div class="day-detail">Morning: pick up tailored clothes — final fitting. Midday: Grab to Danang airport (~45min). Fly Danang → HCMC (~1.5h, ~R900pp). Check into District 1. Afternoon: War Remnants Museum (~R45pp) — powerful, essential. Evening: Bui Vien Street — bars, live music, Bia Saigon. The energy! 🔥</div>
+            <div class="day-cost">Flight: R900pp · Accom: R400 · Museum: R45pp · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 8</div>
+            <div class="day-title">🌆 HCMC — Cu Chi + City</div>
+            <div class="day-detail">Morning: Cu Chi Tunnels half-day tour (~R300pp) — crawl through Viet Cong tunnels, try the pitch-black section. Afternoon: Ben Thanh Market (bargain hard — start at 50%), Independence Palace, coffee culture crawl (ca phe sua da is life). Street food marathon for dinner — pho, banh mi, fresh spring rolls.</div>
+            <div class="day-cost">Accom: R400 · Cu Chi: R300pp · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 9</div>
+            <div class="day-title">🛶 Mekong Delta Day Trip</div>
+            <div class="day-detail">Early morning: Mekong Delta day tour (~R350-500pp) — floating markets at dawn (get there early!), boat through coconut groves, fruit orchards, local lunch. Back to HCMC by ~15:00. Evening: last Vietnamese dinner, pack, one more ca phe sua da.</div>
+            <div class="day-cost">Accom: R400 · Mekong tour: R400pp · Food: R200</div>
+          </div>
+          <div class="day">
+            <div class="day-num">Day 10</div>
+            <div class="day-title">✈️ Fly Home</div>
+            <div class="day-detail">Morning: last bowl of pho, last Vietnamese coffee. HCMC → Doha → JHB. 10 days, 5 cities, zero regrets. See you next time Vietnam! 🇻🇳</div>
+            <div class="day-cost">Flight home: incl. in return ticket</div>
           </div>
         </div>
       </div>
@@ -1306,9 +1395,10 @@ function updatePackingProgress() {
 }
 updatePackingProgress();
 
-// Open all itinerary options by default on load, then close B and C
+// Open all itinerary options by default on load, then close B1, B2 and C
 setTimeout(() => {
-  toggleItin('optionB');
+  toggleItin('optionB1');
+  toggleItin('optionB2');
   toggleItin('optionC');
 }, 100);
 </script>
