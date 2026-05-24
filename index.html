@@ -429,6 +429,40 @@
     font-size: 0.7rem;
   }
 
+  /* Accommodation / Stays */
+  .stay-location { margin-bottom: 1.5rem; }
+  .stay-location-header {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem;
+    color: var(--red); border-bottom: 2px solid var(--red-light); padding-bottom: 0.4rem;
+  }
+  .stay-location-header .stay-nights {
+    font-size: 0.75rem; font-weight: 500; color: var(--text-muted);
+    background: var(--bg); padding: 0.15rem 0.5rem; border-radius: 20px; margin-left: auto;
+  }
+  .stay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .stay-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 1rem; transition: transform 0.2s, box-shadow 0.2s; position: relative;
+  }
+  .stay-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .stay-card.recommended { border-color: var(--gold); }
+  .stay-card.recommended::before {
+    content: '★ Pick'; position: absolute; top: -0.5rem; right: 0.75rem;
+    background: var(--gold); color: var(--text); font-size: 0.65rem; font-weight: 700;
+    padding: 0.15rem 0.5rem; border-radius: 10px; text-transform: uppercase;
+  }
+  .stay-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .stay-style { font-size: 0.7rem; color: var(--purple); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
+  .stay-price { font-size: 0.85rem; font-weight: 700; color: var(--green); margin-bottom: 0.4rem; }
+  .stay-price small { font-weight: 400; color: var(--text-muted); }
+  .stay-why { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+  .stay-why li { margin-bottom: 0.15rem; }
+
+  @media (max-width: 768px) {
+    .stay-grid { grid-template-columns: 1fr; }
+  }
+
   /* Comparison table */
   .compare-table td, .compare-table th { font-size: 0.82rem; }
 
@@ -496,6 +530,7 @@
     <button class="tab-btn" data-tab="budget">💰 Budget</button>
     <button class="tab-btn" data-tab="visa">🛂 Visa</button>
     <button class="tab-btn" data-tab="packing">🧳 Packing</button>
+    <button class="tab-btn" data-tab="stays">🏨 Stays</button>
   </nav>
 
   <!-- ═══════════════════════════════════════════════ -->
@@ -1070,6 +1105,325 @@
         <li>Waterproof phone pouch is essential for boat trips and rain</li>
         <li>Comfortable walking sandals > sneakers (it's too hot for closed shoes most days)</li>
       </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- STAYS TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="stays">
+    <div class="callout">
+      🏨 <strong>3 hand-picked stays per stop</strong> — mid-range and up. The ★ Pick is our recommendation for the best balance of value, vibe, and location. All prices per night for 2 people.
+    </div>
+
+    <!-- HANOI -->
+    <div class="stay-location">
+      <div class="stay-location-header">📍 Hanoi — Old Quarter <span class="stay-nights">2 nights</span></div>
+      <div class="stay-grid">
+        <div class="stay-card recommended">
+          <div class="stay-name">La Siesta Classic Ma May</div>
+          <div class="stay-style">French-Indochine Boutique · 4★</div>
+          <div class="stay-price">R950 – R1,700<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Heart of Old Quarter — walk everywhere</li>
+            <li>Rooftop bar with sunset views</li>
+            <li>Soundproofed rooms despite bustling area</li>
+            <li>Legendary breakfast spread</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Apricot Hotel</div>
+          <div class="stay-style">Art Hotel on the Lake · 5★</div>
+          <div class="stay-price">R1,550 – R2,900<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Steps from Hoan Kiem Lake</li>
+            <li>Every corner showcases Vietnamese fine art</li>
+            <li>4 on-site restaurants — romantic dinner in</li>
+            <li>Near Water Puppet Theatre</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Peridot Grand Luxury</div>
+          <div class="stay-style">Urban-Chic Luxury · 5★</div>
+          <div class="stay-price">R2,200 – R4,500<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Rooftop infinity pool, 360° city views</li>
+            <li>#1 rated luxury hotel in Hanoi</li>
+            <li>WhatsApp concierge before you arrive</li>
+            <li>Quiet street inside Old Quarter</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- NINH BINH -->
+    <div class="stay-location">
+      <div class="stay-location-header">📍 Ninh Binh — Tam Coc <span class="stay-nights">2 nights</span></div>
+      <div class="stay-grid">
+        <div class="stay-card recommended">
+          <div class="stay-name">Lalita Tam Coc Resort</div>
+          <div class="stay-style">Cottage-Style Retreat · 4★</div>
+          <div class="stay-price">R900 – R1,100<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Infinity pool backed by karst cliffs 🤯</li>
+            <li>Free bikes through rice paddies</li>
+            <li>Cottage-style rooms feel private</li>
+            <li>Incredible value — punches way above price</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Emeralda Resort Tam Cốc</div>
+          <div class="stay-style">Full-Service Resort · 4★</div>
+          <div class="stay-price">R1,300 – R4,100<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Indoor + outdoor pools (any weather)</li>
+            <li>Full spa with sauna & steam room</li>
+            <li>Set among rice fields, karst views</li>
+            <li>More amenities = less need to leave</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Tam Coc Garden</div>
+          <div class="stay-style">Upscale Boutique · 5★</div>
+          <div class="stay-price">R3,900 – R6,500<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Honeymoon-style retreat, panoramic karst views</li>
+            <li>Best restaurant in the area</li>
+            <li>Ceramic bathtubs, private terraces</li>
+            <li>Guests say "we only wish we stayed longer"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUE -->
+    <div class="stay-location">
+      <div class="stay-location-header">📍 Hue — Perfume River <span class="stay-nights">1 night</span></div>
+      <div class="stay-grid">
+        <div class="stay-card recommended">
+          <div class="stay-name">TTC Imperial Hotel</div>
+          <div class="stay-style">Grand Riverfront · 4★</div>
+          <div class="stay-price">R900 – R1,600<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Perfume River views, rooftop bar</li>
+            <li>Walk to Imperial City (10 min)</li>
+            <li>Best value + location combo</li>
+            <li>Upper-floor rooms have panoramic views</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Pilgrimage Village</div>
+          <div class="stay-style">Boutique Forest Resort · 4★</div>
+          <div class="stay-price">R1,250 – R2,850<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Thatched bungalows in lush forest</li>
+            <li>World-class spa, honeymoon suites</li>
+            <li>Incredibly romantic & secluded</li>
+            <li>Complimentary shuttle to city centre</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Azerai La Residence</div>
+          <div class="stay-style">Art Deco Luxury · 5★</div>
+          <div class="stay-price">R2,700 – R5,400<small>/night</small></div>
+          <ul class="stay-why">
+            <li>1930s French colonial, MICHELIN Guide</li>
+            <li>Saltwater pool overlooking the river</li>
+            <li>The most romantic hotel in Hue</li>
+            <li>Former French Ambassador's residence</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOI AN -->
+    <div class="stay-location">
+      <div class="stay-location-header">📍 Hoi An <span class="stay-nights">3 nights</span></div>
+      <div class="stay-grid">
+        <div class="stay-card">
+          <div class="stay-name">La Charm Hoi An</div>
+          <div class="stay-style">Heritage Boutique · 4★</div>
+          <div class="stay-price">R800 – R1,500<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Right in Old Town — walk to everything</li>
+            <li>4.9★ rating, staff go above & beyond</li>
+            <li>Free bicycle rental</li>
+            <li>Quiet despite central location</li>
+          </ul>
+        </div>
+        <div class="stay-card recommended">
+          <div class="stay-name">AIRA Boutique Hoi An</div>
+          <div class="stay-style">Beach-Chic Boutique · 4★</div>
+          <div class="stay-price">R1,100 – R1,900<small>/night</small></div>
+          <ul class="stay-why">
+            <li>ON An Bang Beach — wake up on the sand 🏖️</li>
+            <li>10 min ride to Old Town</li>
+            <li>Garden restaurant, happy hour cocktails</li>
+            <li>Best of both worlds: beach + town</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Silk Sense River Resort</div>
+          <div class="stay-style">Eco-Luxury · 5★</div>
+          <div class="stay-price">R1,300 – R2,200<small>/night</small></div>
+          <ul class="stay-why">
+            <li>5★ feel at 4★ price</li>
+            <li>Riverside — peaceful & romantic</li>
+            <li>Between beach & Old Town (3-4km each)</li>
+            <li>Eco-conscious, 9.6/10 traveller rating</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DA NANG -->
+    <div class="stay-location">
+      <div class="stay-location-header">📍 Da Nang — My Khe Beach <span class="stay-nights">1 night</span></div>
+      <div class="stay-grid">
+        <div class="stay-card">
+          <div class="stay-name">TMS Hotel Da Nang Beach</div>
+          <div class="stay-style">Modern Resort · 4★</div>
+          <div class="stay-price">R1,100 – R1,800<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Highest rooftop infinity pool in Da Nang</li>
+            <li>Opposite My Khe Beach</li>
+            <li>Airport shuttle available</li>
+            <li>Great value for a transit night</li>
+          </ul>
+        </div>
+        <div class="stay-card recommended">
+          <div class="stay-name">Radisson Hotel Danang</div>
+          <div class="stay-style">Stylish International · 4★</div>
+          <div class="stay-price">R1,400 – R2,500<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Rooftop infinity pool + full spa</li>
+            <li>Ocean-view rooms worth the upgrade</li>
+            <li>10 min to airport — perfect for morning flight</li>
+            <li>Reliable international quality</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Pullman Danang Beach Resort</div>
+          <div class="stay-style">Beachfront Luxury · 5★</div>
+          <div class="stay-price">R2,500 – R4,300<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Private beach, longest pool in Da Nang</li>
+            <li>Proper resort experience</li>
+            <li>Private balconies, spa baths</li>
+            <li>Turn a transit night into a treat</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- NHA TRANG -->
+    <div class="stay-location">
+      <div class="stay-location-header">📍 Nha Trang <span class="stay-nights">2-3 nights · B1 only</span></div>
+      <div class="stay-grid">
+        <div class="stay-card recommended">
+          <div class="stay-name">Sheraton Nha Trang</div>
+          <div class="stay-style">Modern 5★ Hotel</div>
+          <div class="stay-price">R2,500 – R3,500<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Beachfront, rooftop infinity pool</li>
+            <li>Walk to Thap Ba mud baths & Vinpearl terminal</li>
+            <li>5★ at mid-range pricing — great value</li>
+            <li>Deep soaking tubs in every room</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Amiana Resort Nha Trang</div>
+          <div class="stay-style">Tropical Resort Escape · 5★</div>
+          <div class="stay-price">R3,100 – R4,200<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Private lagoon beach — no crowds</li>
+            <li>Couples spa, daily mango desserts 🥭</li>
+            <li>Pool villas available for a splurge</li>
+            <li>Complimentary shuttle to downtown</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Mia Resort Nha Trang</div>
+          <div class="stay-style">Cliffside Boutique · 5★</div>
+          <div class="stay-price">R4,000 – R5,000<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Most romantic — clifftop villas, private cove</li>
+            <li>Private plunge pools in many rooms</li>
+            <li>Only 30+ rooms = intimate & personal</li>
+            <li>Closest to Cam Ranh Airport</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- HCMC -->
+    <div class="stay-location">
+      <div class="stay-location-header">📍 Ho Chi Minh City — District 1 <span class="stay-nights">2-3 nights</span></div>
+      <div class="stay-grid">
+        <div class="stay-card">
+          <div class="stay-name">Amanaki Saigon</div>
+          <div class="stay-style">Intimate Boutique · 4★</div>
+          <div class="stay-price">R1,500 – R2,200<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Only 43 rooms — personal service</li>
+            <li>Rooftop pool with Bitexco Tower views</li>
+            <li>Steps from Nguyễn Huệ Walking St</li>
+            <li>Excellent value in prime D1</li>
+          </ul>
+        </div>
+        <div class="stay-card recommended">
+          <div class="stay-name">The Myst Dong Khoi</div>
+          <div class="stay-style">Indochine Hideaway · 4★</div>
+          <div class="stay-price">R2,000 – R3,600<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Suites with private plunge pools 💦</li>
+            <li>Romantic Indochine architecture</li>
+            <li>Walk to Ben Thanh & Bui Vien</li>
+            <li>Hidden retreat in the middle of the action</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">The Reverie Saigon</div>
+          <div class="stay-style">Sky-High Luxury · 5★</div>
+          <div class="stay-price">R3,800 – R5,100<small>/night</small></div>
+          <ul class="stay-why">
+            <li>Rooms from 27th floor — jaw-dropping views 🌆</li>
+            <li>Italian-designed rooms (Giorgetti, Poltrona Frau)</li>
+            <li>On Nguyễn Huệ Walking Street</li>
+            <li>The ultimate splurge stay</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="card">
+      <h2>💰 Accommodation Cost Summary</h2>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr><th>Location</th><th>Nights</th><th>★ Pick</th><th>Est. Total</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>📍 Hanoi</td><td>2</td><td>La Siesta Classic</td><td>R1,900 – R3,400</td></tr>
+            <tr><td>📍 Ninh Binh</td><td>2</td><td>Lalita Tam Coc</td><td>R1,800 – R2,200</td></tr>
+            <tr><td>📍 Hue</td><td>1</td><td>TTC Imperial</td><td>R900 – R1,600</td></tr>
+            <tr><td>📍 Hoi An</td><td>3</td><td>AIRA Boutique</td><td>R3,300 – R5,700</td></tr>
+            <tr><td>📍 Da Nang</td><td>1</td><td>Radisson Danang</td><td>R1,400 – R2,500</td></tr>
+            <tr><td>📍 Nha Trang (B1)</td><td>3</td><td>Sheraton</td><td>R7,500 – R10,500</td></tr>
+            <tr><td>📍 HCMC</td><td>2</td><td>The Myst</td><td>R4,000 – R7,200</td></tr>
+            <tr style="font-weight:700; border-top: 2px solid var(--border);">
+              <td><strong>B1 Total (14 nights)</strong></td><td></td><td></td><td><strong>R20,800 – R33,100</strong></td>
+            </tr>
+            <tr style="font-weight:700;">
+              <td><strong>B2 Total (9 nights)</strong></td><td></td><td></td><td><strong>R13,300 – R22,600</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.75rem;">
+        💡 July is low season in the north/south — you'll likely find deals. Always compare on Agoda, Booking.com, and direct hotel sites.
+      </p>
     </div>
   </div>
 

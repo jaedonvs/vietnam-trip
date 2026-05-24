@@ -292,6 +292,84 @@
 
 ---
 
+## 🏨 Accommodation — 3 Picks Per Stop
+
+> **Budget: mid-range and up.** The ★ Pick is our recommendation for best balance of value, vibe, and location. All prices per night for 2 people. 1 ZAR ≈ 1,400 VND.
+
+### 📍 Hanoi — Old Quarter (2 nights)
+
+| Hotel | Style | Price/Night | Why Stay |
+|-------|-------|------------|----------|
+| **La Siesta Classic Ma May** ★ | French-Indochine Boutique · 4★ | R950–R1,700 | Heart of Old Quarter, rooftop bar, soundproofed rooms, legendary breakfast |
+| Apricot Hotel | Art Hotel on the Lake · 5★ | R1,550–R2,900 | Steps from Hoan Kiem Lake, gallery vibes, 4 restaurants |
+| Peridot Grand Luxury | Urban-Chic Luxury · 5★ | R2,200–R4,500 | Rooftop infinity pool, #1 rated in Hanoi, WhatsApp concierge |
+
+### 📍 Ninh Binh — Tam Coc (2 nights)
+
+| Hotel | Style | Price/Night | Why Stay |
+|-------|-------|------------|----------|
+| **Lalita Tam Coc Resort** ★ | Cottage-Style Retreat · 4★ | R900–R1,100 | Infinity pool backed by karst cliffs 🤯, free bikes, incredible value |
+| Emeralda Resort Tam Cốc | Full-Service Resort · 4★ | R1,300–R4,100 | Indoor + outdoor pools, full spa w/ sauna, rice field views |
+| Tam Coc Garden | Upscale Boutique · 5★ | R3,900–R6,500 | Honeymoon-style, best restaurant in area, rice paddy views from bed |
+
+### 📍 Hue — Perfume River (1 night)
+
+| Hotel | Style | Price/Night | Why Stay |
+|-------|-------|------------|----------|
+| **TTC Imperial Hotel** ★ | Grand Riverfront · 4★ | R900–R1,600 | Perfume River views, rooftop bar, walk to Imperial City |
+| Pilgrimage Village | Boutique Forest Resort · 4★ | R1,250–R2,850 | Thatched bungalows, world-class spa, honeymoon suites |
+| Azerai La Residence | Art Deco Luxury · 5★ | R2,700–R5,400 | 1930s French colonial, MICHELIN Guide, saltwater river pool |
+
+### 📍 Hoi An (3 nights)
+
+| Hotel | Style | Price/Night | Why Stay |
+|-------|-------|------------|----------|
+| La Charm Hoi An | Heritage Boutique · 4★ | R800–R1,500 | Right in Old Town, 4.9★ rating, free bikes |
+| **AIRA Boutique Hoi An** ★ | Beach-Chic Boutique · 4★ | R1,100–R1,900 | ON An Bang Beach 🏖️, 10min to Old Town, garden restaurant |
+| Silk Sense River Resort | Eco-Luxury · 5★ | R1,300–R2,200 | 5★ feel at 4★ price, riverside, between beach & Old Town |
+
+### 📍 Da Nang — My Khe Beach (1 night)
+
+| Hotel | Style | Price/Night | Why Stay |
+|-------|-------|------------|----------|
+| TMS Hotel Da Nang Beach | Modern Resort · 4★ | R1,100–R1,800 | Highest rooftop infinity pool in Da Nang, opposite My Khe |
+| **Radisson Hotel Danang** ★ | Stylish International · 4★ | R1,400–R2,500 | Rooftop pool + spa, ocean views, 10min to airport |
+| Pullman Danang Beach Resort | Beachfront Luxury · 5★ | R2,500–R4,300 | Private beach, longest pool in Da Nang, proper resort |
+
+### 📍 Nha Trang (2-3 nights — B1 only)
+
+| Hotel | Style | Price/Night | Why Stay |
+|-------|-------|------------|----------|
+| **Sheraton Nha Trang** ★ | Modern 5★ Hotel | R2,500–R3,500 | Beachfront, rooftop pool, walk to Thap Ba & Vinpearl |
+| Amiana Resort | Tropical Resort Escape · 5★ | R3,100–R4,200 | Private lagoon beach, couples spa, mango desserts 🥭 |
+| Mia Resort | Cliffside Boutique · 5★ | R4,000–R5,000 | Most romantic — clifftop villas, private cove, plunge pools |
+
+### 📍 Ho Chi Minh City — District 1 (2-3 nights)
+
+| Hotel | Style | Price/Night | Why Stay |
+|-------|-------|------------|----------|
+| Amanaki Saigon | Intimate Boutique · 4★ | R1,500–R2,200 | Only 43 rooms, rooftop pool, steps from Nguyễn Huệ |
+| **The Myst Dong Khoi** ★ | Indochine Hideaway · 4★ | R2,000–R3,600 | Suites with private plunge pools 💦, romantic, walk to Ben Thanh |
+| The Reverie Saigon | Sky-High Luxury · 5★ | R3,800–R5,100 | Rooms from 27th floor, jaw-dropping views 🌆, Italian design |
+
+### 💰 Accommodation Cost Summary (★ Picks)
+
+| Location | Nights | ★ Pick | Est. Total |
+|----------|--------|--------|------------|
+| Hanoi | 2 | La Siesta Classic | R1,900–R3,400 |
+| Ninh Binh | 2 | Lalita Tam Coc | R1,800–R2,200 |
+| Hue | 1 | TTC Imperial | R900–R1,600 |
+| Hoi An | 3 | AIRA Boutique | R3,300–R5,700 |
+| Da Nang | 1 | Radisson Danang | R1,400–R2,500 |
+| Nha Trang (B1) | 3 | Sheraton | R7,500–R10,500 |
+| HCMC | 2 | The Myst | R4,000–R7,200 |
+| **B1 Total** | **14** | | **R20,800–R33,100** |
+| **B2 Total** | **9** | | **R13,300–R22,600** |
+
+> 💡 July is low season in the north/south — you'll likely find deals. Always compare on Agoda, Booking.com, and direct hotel sites.
+
+---
+
 ## 🎒 Packing Checklist
 
 - [ ] Rain jacket / poncho (ESSENTIAL for north & south)
