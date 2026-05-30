@@ -463,6 +463,47 @@
     .stay-grid { grid-template-columns: 1fr; }
   }
 
+  /* Places */
+  .places-location { margin-bottom: 1.5rem; }
+  .places-location-header {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem;
+    color: var(--red); border-bottom: 2px solid var(--red-light); padding-bottom: 0.4rem;
+  }
+  .places-location-header .places-count {
+    font-size: 0.75rem; font-weight: 500; color: var(--text-muted);
+    background: var(--bg); padding: 0.15rem 0.5rem; border-radius: 20px; margin-left: auto;
+  }
+  .place-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 1rem; transition: transform 0.2s, box-shadow 0.2s;
+    display: flex; gap: 0.75rem; align-items: flex-start;
+    margin-bottom: 0.5rem; position: relative;
+  }
+  .place-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+  .place-card .place-check {
+    flex-shrink: 0; margin-top: 0.2rem;
+  }
+  .place-card .place-check input { accent-color: var(--green); width: 18px; height: 18px; cursor: pointer; }
+  .place-card.visited { opacity: 0.55; }
+  .place-card.visited .place-name { text-decoration: line-through; }
+  .place-info { flex: 1; min-width: 0; }
+  .place-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
+  .place-badges { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.4rem; }
+  .place-badge {
+    font-size: 0.68rem; font-weight: 600; padding: 0.12rem 0.45rem;
+    border-radius: 50px; text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .place-badge.cafe { background: #fef3c7; color: #92400e; }
+  .place-badge.matcha { background: #d8f3dc; color: #2d6a4f; }
+  .place-badge.fashion { background: #ede9fe; color: #5f3dc4; }
+  .place-badge.food { background: #fee2e2; color: #d4342b; }
+  .place-badge.bar { background: #dbeafe; color: #1864ab; }
+  .place-badge.market { background: #fce7f3; color: #9d174d; }
+  .place-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.3rem; }
+  .place-price { font-size: 0.75rem; color: var(--green); font-weight: 600; }
+  .place-tip { font-size: 0.72rem; color: var(--gold); font-weight: 600; }
+
   /* Comparison table */
   .compare-table td, .compare-table th { font-size: 0.82rem; }
 
@@ -531,6 +572,7 @@
     <button class="tab-btn" data-tab="visa">🛂 Visa</button>
     <button class="tab-btn" data-tab="packing">🧳 Packing</button>
     <button class="tab-btn" data-tab="stays">🏨 Stays</button>
+    <button class="tab-btn" data-tab="places">📍 Places</button>
   </nav>
 
   <!-- ═══════════════════════════════════════════════ -->
@@ -1267,6 +1309,180 @@
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- PLACES TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="places">
+    <div class="callout">
+      📍 <strong>Cafes, matcha spots, fashion stores & more</strong> — our wishlist of places to hit. Check them off as you go!
+    </div>
+
+    <!-- HANOI -->
+    <div class="places-location">
+      <div class="places-location-header">📍 Hanoi<span class="places-count">3 places</span></div>
+
+      <div class="place-card" id="p1">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p1')"></div>
+        <div class="place-info">
+          <div class="place-name">Nagocha Matcha</div>
+          <div class="place-badges">
+            <span class="place-badge matcha">🍵 Matcha</span>
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Matcha-focused cafe in Hanoi — the one that kicked off this whole list. Proper matcha drinks in a stylish setting. 🍵</div>
+          <div class="place-price">~R35–70 per drink</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p2">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p2')"></div>
+        <div class="place-info">
+          <div class="place-name">Loading T'estation</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Multi-concept store: specialty coffee & matcha bar on the ground floor, curated fashion retail upstairs. Minimalist white interiors, clean lines — screams "Instagram grid." Hanoi's fashion-forward crowd hangs here.</div>
+          <div class="place-price">Drinks ~R40–85 · Clothing ~R300–1,300</div>
+          <div class="place-tip">💡 Fashion + coffee in one stop — perfect for a mid-afternoon break between sightseeing</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p3">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p3')"></div>
+        <div class="place-info">
+          <div class="place-name">The Note Coffee</div>
+          <div class="place-badges">
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Viral-worthy cafe near Hoan Kiem Lake — every surface covered in colourful sticky notes from visitors worldwide. Serves Vietnamese coffee, egg coffee, and matcha. The most Instagrammable spot in Hanoi.</div>
+          <div class="place-price">~R30–55 per drink</div>
+          <div class="place-tip">💡 Bring a sticky note to leave your mark! Go early (before 10am) to avoid queues</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOI AN -->
+    <div class="places-location">
+      <div class="places-location-header">📍 Hoi An<span class="places-count">2 places</span></div>
+
+      <div class="place-card" id="p4">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p4')"></div>
+        <div class="place-info">
+          <div class="place-name">Mia Coffee</div>
+          <div class="place-badges">
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Specialty coffee in a beautifully restored heritage building. Artisanal brews (V60, AeroPress, traditional Vietnamese), weathered yellow walls, wooden beams, lush plants. This is the Hoi An coffee experience.</div>
+          <div class="place-price">~R35–70 per drink</div>
+          <div class="place-tip">💡 The building itself is the draw — go for golden hour photos</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p5">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p5')"></div>
+        <div class="place-info">
+          <div class="place-name">Cocobox</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge cafe">☕ Cafe</span>
+            <span class="place-badge market">🛍️ Market</span>
+          </div>
+          <div class="place-desc">Concept store blending artisan fashion/boutique with a laid-back cafe. Locally-made clothing, textiles, jewellery, and homeware. Serves great Vietnamese coffee and light bites. Sustainable, traditional Vietnamese craftsmanship vibes.</div>
+          <div class="place-price">Drinks ~R20–55 · Clothing ~R140–700</div>
+          <div class="place-tip">💡 Perfect for souvenirs that aren't mass-produced — grab unique pieces here</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOI AN TAILORING -->
+    <div class="places-location">
+      <div class="places-location-header">✂️ Hoi An — Tailors<span class="places-count">2 places</span></div>
+
+      <div class="place-card" id="p6">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p6')"></div>
+        <div class="place-info">
+          <div class="place-name">Be Be Tailor</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">One of Hoi An's most popular tailors. Suits from ~R1,500, dresses from ~R800, ready in 24-48h. Great fabric selection and honest pricing. Get measured on Day 5, fitted on Day 6.</div>
+          <div class="place-price">Suits ~R1,500–3,000 · Dresses ~R800–2,000</div>
+          <div class="place-tip">💡 Go early in your Hoi An stay so there's time for fittings</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p7">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p7')"></div>
+        <div class="place-info">
+          <div class="place-name">Yaly Couture</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Higher-end tailor with a fashion-forward aesthetic. Known for structured silhouettes and modern cuts alongside traditional Vietnamese pieces. Slightly pricier but the quality finish shows.</div>
+          <div class="place-price">Suits ~R2,000–4,000 · Dresses ~R1,000–2,500</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HCMC -->
+    <div class="places-location">
+      <div class="places-location-header">📍 Ho Chi Minh City<span class="places-count">3 places</span></div>
+
+      <div class="place-card" id="p8">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p8')"></div>
+        <div class="place-info">
+          <div class="place-name">L'Usine</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge cafe">☕ Cafe</span>
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">THE fashion-meets-cafe destination in HCMC. Ground floor: specialty coffee bar and restaurant. Upper floors: curated fashion/lifestyle boutique with indie Vietnamese designers. French-colonial building, vintage tile floors, exposed brick. Like stepping into a fashion magazine.</div>
+          <div class="place-price">Drinks ~R45–105 · Clothing ~R350–1,750</div>
+          <div class="place-tip">💡 Go for brunch, then shop upstairs — best of both worlds</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p9">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p9')"></div>
+        <div class="place-info">
+          <div class="place-name">The Mockingbird Cafe</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Fashion boutique meets specialty coffee shop. Vintage/rustic-chic decor with curated clothing rails artfully displayed alongside cafe seating. Stocks indie Vietnamese fashion brands. Warm, effortless cool — like your stylish friend's living room.</div>
+          <div class="place-price">Drinks ~R40–70 · Clothing ~R250–1,050</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p10">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p10')"></div>
+        <div class="place-info">
+          <div class="place-name">Shin Coffee</div>
+          <div class="place-badges">
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Multi-story specialty Vietnamese coffee shop with stunning interior — industrial-chic meets tropical greenery. Known for phin drip, egg coffee, and matcha lattes. Beautiful tile work, plants, and photo-worthy corners on every floor.</div>
+          <div class="place-price">~R35–70 per drink</div>
+          <div class="place-tip">💡 Go to the top floor for the best photos — the plant wall is incredible</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick reference -->
+    <div class="card">
+      <h2>☕ Vietnam Coffee Culture Cheat Sheet</h2>
+      <div class="packing-grid">
+        <label class="packing-item"><input type="checkbox"> <strong>Cà phê sữa đá</strong> — iced coffee with condensed milk (THE drink)</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Cà phê trứng</strong> — egg coffee (Hanoi specialty, try at Café Giang)</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Cà phê đen</strong> — black drip coffee (strong, sweetened or unsweetened)</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Matcha latte</strong> — increasingly popular in specialty cafes</label>
+      </div>
+    </div>
+  </div>
+
   <!-- Sources -->
   <div class="card">
     <h2>🔍 Research Sources</h2>
@@ -1446,6 +1662,31 @@ updatePackingProgress();
 setTimeout(() => {
   toggleItin('optionB2');
 }, 100);
+
+// Places checklist
+const savedPlaces = JSON.parse(localStorage.getItem('vietnamPlaces') || '{}');
+Object.keys(savedPlaces).forEach(id => {
+  const card = document.getElementById(id);
+  if (card && savedPlaces[id]) {
+    card.classList.add('visited');
+    card.querySelector('input[type="checkbox"]').checked = true;
+  }
+});
+
+function togglePlace(id) {
+  const card = document.getElementById(id);
+  const input = card.querySelector('input[type="checkbox"]');
+  savedPlaces[id] = input.checked;
+  card.classList.toggle('visited', input.checked);
+  localStorage.setItem('vietnamPlaces', JSON.stringify(savedPlaces));
+  updatePlacesProgress();
+}
+
+function updatePlacesProgress() {
+  const total = Object.keys(savedPlaces).length || 10;
+  const visited = Object.values(savedPlaces).filter(Boolean).length;
+  // Could add a progress counter like packing list
+}
 </script>
 </body>
 </html>
