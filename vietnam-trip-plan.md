@@ -14,9 +14,10 @@
 > 💡 **Why skip Halong?** July has storm risk — cruises get cancelled, views are misty. Instead, sink into Ninh Binh (Halong Bay on land) and Hoi An. Added HCMC back in — too good to miss!
 
 ### Day 1 — ✈️ Fly JHB → Hanoi
-- Qatar Airways via Doha: ~20h total, ~R12,300 return pp
-- Arrive Hanoi, get Viettel SIM at airport (~200K VND ≈ R150 for 30 days data)
+- Qatar Airways: JNB 12:40 → DOH 21:55 (4h50 layover) → HAN 13:55
+- Arrive Hanoi 13:55, get Viettel SIM at airport (~200K VND ≈ R150 for 30 days data)
 - Grab taxi to Old Quarter (~R80)
+- Afternoon: settle in, explore Old Quarter
 - Evening: Bun Cha Huong Lien (Obama's spot, ~R60 for 2) + Bia Hoi corner (draft beer ~R8/glass!)
 - **Stay:** Old Quarter guesthouse ~R300/night
 
@@ -124,7 +125,7 @@
 > ⚡ **10 days, zero fluff — now with a beach day!** This is B1 on fast-forward — every highlight, no lazy days. Skip Nha Trang but get a proper beach afternoon at My Khe (Da Nang) — and you're 10min from the airport the next morning for your HCMC flight. Best for annual leave crushers.
 
 ### Day 1 — ✈️ Fly JHB → Hanoi
-- Qatar Airways via Doha: ~20h total, ~R12,300 return pp
+- Qatar Airways: JNB 12:40 → DOH 21:55 (4h50 layover) → HAN 13:55
 - Arrive Hanoi, get Viettel SIM at airport (~R150)
 - Grab taxi to Old Quarter (~R80)
 - Evening: Bun Cha Huong Lien (Obama's spot, ~R60 for 2) + Bia Hoi corner (draft beer ~R8/glass!)
@@ -245,12 +246,12 @@
 
 | Origin | Destination | Airline | Price (return) | Notes |
 |--------|-------------|---------|---------------|--------|
-| JNB | Hanoi (HAN) | Qatar Airways | ~R12,300 | 1 stop (Doha), ~20h |
+| JNB | Hanoi (HAN) | Qatar Airways | ~R12,300 | 1 stop (Doha), JNB 12:40→DOH 21:55→HAN 13:55 |
 | JNB | HCMC (SGN) | Qatar Airways | ~R12,200 | 1 stop (Doha), ~16-20h |
 | — | — | Singapore Air | ~R13,000+ | More expensive but highly rated |
 | — | — | Emirates | ~R14,000+ | Via Dubai |
 
-**Strategy:** Fly INTO Hanoi, fly OUT of HCMC — no backtracking! Open-jaw tickets can be similar price.
+**Strategy:** Qatar Airways open-jaw (ref: 8MXDM6). Fly into Hanoi (HAN), out of HCMC (SGN). Outbound: JNB 20 Jun 12:40 → DOH 21:55 (4h50) → HAN 21 Jun 13:55. Return: SGN 2 Jul 20:00 → DOH 23:15 (2h15) → JNB 3 Jul 09:00.
 
 ---
 
