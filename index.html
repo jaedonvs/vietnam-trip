@@ -751,6 +751,26 @@
   .stay-why { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
   .stay-why li { margin-bottom: 0.15rem; }
 
+  /* BOOKED STAY MODIFIER */
+  .stay-card.booked { border-color: var(--green); background: linear-gradient(135deg, var(--green-light), var(--card) 60%); }
+  .stay-card.booked::before { content: '★ ★ ★'; position: absolute; top: -0.5rem; right: 0.75rem; background: var(--green); color: white; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 10px; letter-spacing: 0.1em; }
+  .booked-badge { position: absolute; top: -0.5rem; left: 0.75rem; background: var(--green); color: white; font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 10px; letter-spacing: 0.05em; box-shadow: 0 2px 4px rgba(0,0,0,0.15); z-index: 2; }
+
+  /* CONFIRMED BOOKINGS PANEL */
+  .bookings-panel { background: linear-gradient(135deg, var(--green-light), var(--card) 50%); border: 2px solid var(--green); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+  .bookings-header { font-size: 1rem; font-weight: 700; color: var(--green); margin-bottom: 0.85rem; letter-spacing: 0.02em; }
+  .booking-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.85rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .booking-card-left { flex: 1; min-width: 220px; }
+  .booking-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.2rem; }
+  .booking-loc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+  .booking-confirm { font-size: 0.85rem; color: var(--text); }
+  .booking-confirm strong { color: var(--green); font-family: 'SF Mono', 'Monaco', 'Consolas', monospace; }
+  .booking-card-right { text-align: right; min-width: 140px; }
+  .booking-price { font-size: 1.1rem; font-weight: 700; color: var(--green); }
+  .booking-price small { display: block; font-size: 0.7rem; font-weight: 400; color: var(--text-muted); margin-top: 0.1rem; }
+  .booking-status { display: inline-block; margin-top: 0.3rem; background: var(--green); color: white; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 10px; letter-spacing: 0.05em; }
+  .bookings-note { font-size: 0.78rem; color: var(--text-muted); margin: 0.85rem 0 0; padding: 0.5rem 0.75rem; background: rgba(255,255,255,0.5); border-radius: 6px; }
+
   @media (max-width: 768px) {
     .stay-grid { grid-template-columns: 1fr; }
   }
@@ -958,7 +978,7 @@
         <div class="time-block">
           <div class="time-block-head"><span class="time-icon">☀️</span><span>Afternoon — land 13:55</span></div>
           <ul>
-            <li>Grab to Old Quarter (~45 min) — check in at <strong>La Passion Hotel</strong> or <strong>Hanoi La Siesta Premium</strong></li>
+            <li>Grab to Old Quarter (~45 min) — check in at <strong>La Passion Premium Cau Go</strong> (conf: 5963820548)</li>
             <li class="mustdo">Hoan Kiem Lake + Ngoc Son Temple — go immediately while it's dry, beautiful afternoon light</li>
             <li class="mustdo">Cafe Giang — original egg coffee since 1946, perfect indoor stop if rain arrives</li>
             <li>Note Cafe or Nagocha Matcha — both Old Quarter favourites</li>
@@ -974,7 +994,7 @@
         </div>
         <div class="day-foot">
           <span class="day-foot-item day-foot-cost">💰 R1,380</span>
-          <span class="day-foot-item day-foot-hotel">🛏️ La Passion / La Siesta</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ La Passion Premium Cau Go</span>
           <span class="day-foot-item day-foot-rain">☔ Indoor backup: Cafe Giang + foot massage</span>
         </div>
       </div>
@@ -1024,7 +1044,7 @@
         </div>
         <div class="day-foot">
           <span class="day-foot-item day-foot-cost">💰 R1,480</span>
-          <span class="day-foot-item day-foot-hotel">🛏️ La Passion / La Siesta</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ La Passion Premium Cau Go</span>
           <span class="day-foot-item day-foot-rain">☔ Shopping all indoor</span>
         </div>
       </div>
@@ -1932,19 +1952,37 @@
       🏨 <strong>3 hand-picked stays per stop</strong> — mid-range and up. The ★ Pick is our recommendation for the best balance of value, vibe, and location. All prices per night for 2 people.
     </div>
 
+    <!-- CONFIRMED BOOKINGS -->
+    <div class="bookings-panel">
+      <div class="bookings-header">✅ Confirmed Bookings</div>
+      <div class="booking-card">
+        <div class="booking-card-left">
+          <div class="booking-name">La Passion Premium Cau Go</div>
+          <div class="booking-loc">📍 Hanoi — Old Quarter · 2 nights</div>
+          <div class="booking-confirm">Booking.com confirmation: <strong>5963820548</strong></div>
+        </div>
+        <div class="booking-card-right">
+          <div class="booking-price">~R3,300<small>total (≈ 3,962,700 VND)</small></div>
+          <div class="booking-status">✅ BOOKED</div>
+        </div>
+      </div>
+      <p class="bookings-note">📅 Verify check-in <strong>Sat 21 Jun</strong> · check-out <strong>Mon 23 Jun</strong> in your Booking.com email — needs confirmation.</p>
+    </div>
+
     <!-- HANOI -->
     <div class="stay-location">
       <div class="stay-location-header">📍 Hanoi — Old Quarter <span class="stay-nights">2 nights</span></div>
       <div class="stay-grid">
-        <div class="stay-card recommended">
-          <div class="stay-name">La Passion Hotel</div>
+        <div class="stay-card recommended booked">
+          <div class="booked-badge">✅ BOOKED</div>
+          <div class="stay-name">La Passion Premium Cau Go</div>
           <div class="stay-style">Boutique Old Quarter · 4★</div>
-          <div class="stay-price">R1,100 – R1,800<small>/night</small></div>
+          <div class="stay-price">R1,500 – R1,800<small>/night</small></div>
           <ul class="stay-why">
-            <li>Heart of Old Quarter — walk to Hoan Kiem Lake, Bia Hoi corner, Night Market</li>
-            <li>Rooftop terrace with city views</li>
+            <li>Heart of Old Quarter on Cau Go Street — walk to Hoan Kiem Lake, Bia Hoi corner, Night Market</li>
+            <li>Rooftop terrace with lake views</li>
             <li>Boutique rooms with character, great AC</li>
-            <li>Solid mid-range value, well-reviewed</li>
+            <li>Booking.com confirmation: <strong>5963820548</strong></li>
           </ul>
         </div>
         <div class="stay-card">
@@ -2102,7 +2140,7 @@
             <tr><th>Location</th><th>Nights</th><th>★ Pick</th><th>Est. Total</th></tr>
           </thead>
           <tbody>
-            <tr><td>📍 Hanoi (Old Quarter)</td><td>2</td><td>La Passion Hotel</td><td>R2,200 – R3,600</td></tr>
+            <tr><td>📍 Hanoi (Old Quarter)</td><td>2</td><td>La Passion Premium Cau Go ✅</td><td>R3,300 booked</td></tr>
             <tr><td>🚢 Ha Long Bay</td><td>1 (cruise)</td><td>Paradise Elegance / Indochine</td><td>R4,000 – R7,000</td></tr>
             <tr><td>📍 Hoi An</td><td>3</td><td>Anantara Hoi An Resort</td><td>R7,200 – R11,400</td></tr>
             <tr><td>📍 Da Nang (My Khe Beach)</td><td>2</td><td>A La Carte Da Nang Beach</td><td>R2,400 – R4,000</td></tr>
