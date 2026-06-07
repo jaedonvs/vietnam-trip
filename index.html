@@ -745,6 +745,7 @@
     padding: 0.15rem 0.5rem; border-radius: 10px; text-transform: uppercase;
   }
   .stay-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .stay-dates { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 500; }
   .stay-style { font-size: 0.7rem; color: var(--purple); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
   .stay-price { font-size: 0.85rem; font-weight: 700; color: var(--green); margin-bottom: 0.4rem; }
   .stay-price small { font-weight: 400; color: var(--text-muted); }
@@ -761,9 +762,10 @@
   .bookings-header { font-size: 1rem; font-weight: 700; color: var(--green); margin-bottom: 0.85rem; letter-spacing: 0.02em; }
   .booking-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.85rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
   .booking-card-left { flex: 1; min-width: 220px; }
-  .booking-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.2rem; }
-  .booking-loc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; }
-  .booking-confirm { font-size: 0.85rem; color: var(--text); }
+  .booking-card .booking-name { font-weight: 700; margin-bottom: 0.15rem; }
+  .booking-card .booking-dates { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.15rem; }
+  .booking-card .booking-loc { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.15rem; }
+  .booking-card .booking-confirm { font-size: 0.75rem; color: var(--text-muted); }
   .booking-confirm strong { color: var(--green); font-family: 'SF Mono', 'Monaco', 'Consolas', monospace; }
   .booking-card-right { text-align: right; min-width: 140px; }
   .booking-price { font-size: 1.1rem; font-weight: 700; color: var(--green); }
@@ -913,7 +915,7 @@
       <div class="route-arrow">→</div>
       <div class="route-stop city-halong" data-city="halong">
         <div class="route-stop-icon">🛳️</div>
-        <div class="route-stop-name">Ha Long</div>
+        <div class="route-stop-name">Ha Long 🚢</div>
         <div class="route-stop-days">Day 3</div>
       </div>
       <div class="route-arrow">→</div>
@@ -1072,7 +1074,7 @@
           <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — transfer &amp; boarding</span></div>
           <ul>
             <li>Hotel pickup 07:30 · 3.5h shuttle to Ha Long port · board ~11:30</li>
-            <li>Welcome drink, cabin check-in, buffet lunch while sailing out</li>
+            <li>Welcome drink, cabin check-in (Mon Cheri Cruises — conf: 6223585718), buffet lunch while sailing out</li>
           </ul>
         </div>
         <div class="time-block">
@@ -1092,7 +1094,7 @@
         </div>
         <div class="day-foot">
           <span class="day-foot-item day-foot-cost">💰 R2,000–3,500 pp all-in</span>
-          <span class="day-foot-item day-foot-hotel">🛏️ Onboard cabin</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Mon Cheri Cruises</span>
           <span class="day-foot-item day-foot-rain">☔ Rain = magical mist. Backup if cancelled: Ninh Binh (Trang An + Hoa Lu)</span>
         </div>
       </div>
@@ -1133,13 +1135,13 @@
         <div class="time-block">
           <div class="time-block-head"><span class="time-icon">🌙</span><span>Evening — first Hoi An</span></div>
           <ul>
-            <li>Check in — Anantara Hoi An, The Hoi An Chic, or a pool villa near An Bang</li>
+            <li>Check in — <strong>Hotel Royal Hoi An</strong> (Booking.com conf: 5760294192)</li>
             <li>First wander through the Ancient Town at night — riverside dinner, lanterns everywhere ✨</li>
           </ul>
         </div>
         <div class="day-foot">
           <span class="day-foot-item day-foot-cost">💰 R2,100</span>
-          <span class="day-foot-item day-foot-hotel">🛏️ Anantara / Hoi An Chic</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Hotel Royal Hoi An</span>
         </div>
       </div>
     </div>
@@ -1198,7 +1200,7 @@
         </div>
         <div class="day-foot">
           <span class="day-foot-item day-foot-cost">💰 R3,950 (incl. R2,000 tailoring deposit)</span>
-          <span class="day-foot-item day-foot-hotel">🛏️ Anantara / Hoi An Chic</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Hotel Royal Hoi An</span>
           <span class="day-foot-item day-foot-rain">☔ All shopping indoor, Phuc Kien beautiful in any weather</span>
         </div>
       </div>
@@ -1239,7 +1241,7 @@
         </div>
         <div class="day-foot">
           <span class="day-foot-item day-foot-cost">💰 R2,900 (driver R1,300–1,700 split)</span>
-          <span class="day-foot-item day-foot-hotel">🛏️ Back in Hoi An</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Hotel Royal Hoi An</span>
           <span class="day-foot-item day-foot-rain">☔ Citadel has covered corridors. Skip tombs in heavy rain → Royal Antiquities Museum (indoor)</span>
         </div>
       </div>
@@ -1273,7 +1275,7 @@
         <div class="time-block">
           <div class="time-block-head"><span class="time-icon">☀️</span><span>Afternoon — Ba Na Hills</span></div>
           <ul>
-            <li>Grab to Da Nang (~30 min), check in — A La Carte Da Nang Beach</li>
+            <li>Grab to Da Nang (~30 min), check in — <strong>Chicland Boutique Danang Beach Hotel</strong> (Booking.com conf: 6288175813)</li>
             <li class="mustdo">Ba Na Hills + Golden Bridge + French Village — book online (~500,000 VND pp), world's longest cable car, giant stone hands, surreal</li>
             <li>My Khe beachfront seafood — grill restaurants on the sand</li>
           </ul>
@@ -1286,7 +1288,7 @@
         </div>
         <div class="day-foot">
           <span class="day-foot-item day-foot-cost">💰 R2,000 (Ba Na Hills R500 pp)</span>
-          <span class="day-foot-item day-foot-hotel">🛏️ A La Carte Da Nang</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Chicland Boutique Danang Beach</span>
           <span class="day-foot-item day-foot-alert">⚠️ Don't miss the 21:00 Dragon Bridge show</span>
         </div>
       </div>
@@ -1340,7 +1342,7 @@
         </div>
         <div class="day-foot">
           <span class="day-foot-item day-foot-cost">💰 R1,550</span>
-          <span class="day-foot-item day-foot-hotel">🛏️ A La Carte Da Nang</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Chicland Boutique Danang Beach</span>
           <span class="day-foot-item day-foot-alert">⚠️ Most reliable weather of the trip</span>
         </div>
       </div>
@@ -1373,7 +1375,7 @@
         <div class="time-block">
           <div class="time-block-head"><span class="time-icon">☀️</span><span>Afternoon — War Remnants Museum</span></div>
           <ul>
-            <li>Check in District 1 — The Myst Dong Khoi, Liberty Central Saigon Riverside, or Lotte Hotel</li>
+            <li>Check in District 1 — <strong>ANIMA Boutique Hotel</strong> (Booking.com conf: 6083452364)</li>
             <li class="mustdo">War Remnants Museum — goes straight from hotel, closes 17:00, 2–3 hrs, essential &amp; powerful</li>
           </ul>
         </div>
@@ -1387,7 +1389,7 @@
         </div>
         <div class="day-foot">
           <span class="day-foot-item day-foot-cost">💰 R2,700</span>
-          <span class="day-foot-item day-foot-hotel">🛏️ Myst Dong Khoi / Liberty Central / Lotte</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ ANIMA Boutique Hotel</span>
           <span class="day-foot-item day-foot-rain">☔ Museum fully indoor. Rule from here: outdoor before noon</span>
         </div>
       </div>
@@ -1437,7 +1439,7 @@
         </div>
         <div class="day-foot">
           <span class="day-foot-item day-foot-cost">💰 R2,300 (Cu Chi R500 pp)</span>
-          <span class="day-foot-item day-foot-hotel">🛏️ Myst / Liberty / Lotte</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ ANIMA Boutique Hotel</span>
           <span class="day-foot-item day-foot-rain">☔ Cu Chi is morning — already done. Streetwear all indoor</span>
         </div>
       </div>
@@ -1488,7 +1490,7 @@
         </div>
         <div class="day-foot">
           <span class="day-foot-item day-foot-cost">💰 R1,900</span>
-          <span class="day-foot-item day-foot-hotel">🛏️ Myst / Liberty / Lotte</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ ANIMA Boutique Hotel</span>
           <span class="day-foot-item day-foot-rain">☔ Fully rain-proof day</span>
         </div>
       </div>
@@ -1908,10 +1910,10 @@
         <label class="packing-item"><input type="checkbox"> E-visa application done</label>
         <label class="packing-item"><input type="checkbox"> Travel insurance purchased</label>
         <label class="packing-item"><input type="checkbox"> Flight tickets booked</label>
-        <label class="packing-item"><input type="checkbox"> Accommodation booked</label>
+        <label class="packing-item"><input type="checkbox" checked> ✅ Accommodation — all 5 stays booked</label>
         <label class="packing-item"><input type="checkbox"> Copies of docs (digital + printed)</label>
         <label class="packing-item"><input type="checkbox"> Notify bank of travel</label>
-        <label class="packing-item"><input type="checkbox"> Book Halong cruise direct (if Option A)</label>
+        <label class="packing-item"><input type="checkbox" checked> ✅ Mon Cheri Cruises booked (conf: 6223585718)</label>
       </div>
     </div>
   </div>
@@ -1950,24 +1952,73 @@
   <!-- ═══════════════════════════════════════════════ -->
   <div class="tab-content" id="stays">
     <div class="callout">
-      🏨 <strong>3 hand-picked stays per stop</strong> — mid-range and up. The ★ Pick is our recommendation for the best balance of value, vibe, and location. All prices per night for 2 people.
+      🏨 <strong>All accommodations now confirmed on Booking.com</strong> — see the confirmed bookings above. Each stop's card below shows what we're actually staying at, with alternatives still listed for reference.
     </div>
 
     <!-- CONFIRMED BOOKINGS -->
     <div class="bookings-panel">
-      <div class="bookings-header">✅ Confirmed Bookings</div>
+      <div class="bookings-header">✅ All 5 Stays Confirmed on Booking.com</div>
+
       <div class="booking-card">
         <div class="booking-card-left">
           <div class="booking-name">La Passion Premium Cau Go</div>
-          <div class="booking-loc">📍 Hanoi — Old Quarter · 2 nights</div>
-          <div class="booking-confirm">Booking.com confirmation: <strong>5963820548</strong></div>
+          <div class="booking-loc">📍 Hanoi — Old Quarter</div>
+          <div class="booking-dates">📅 Sun 21 Jun – Tue 23 Jun · 2 nights</div>
+          <div class="booking-confirm">Confirmation: <strong>5963820548</strong> · 📞 +84 886 087 576</div>
         </div>
         <div class="booking-card-right">
-          <div class="booking-price">~R3,300<small>total (≈ 3,962,700 VND)</small></div>
           <div class="booking-status">✅ BOOKED</div>
         </div>
       </div>
-      <p class="bookings-note">📅 Verify check-in <strong>Sun 21 Jun</strong> · check-out <strong>Tue 23 Jun</strong> in your Booking.com email — needs confirmation.</p>
+
+      <div class="booking-card">
+        <div class="booking-card-left">
+          <div class="booking-name">Mon Cheri Cruises</div>
+          <div class="booking-loc">🚢 Ha Long Bay — Overnight cruise</div>
+          <div class="booking-dates">📅 Tue 23 Jun – Wed 24 Jun · 1 night</div>
+          <div class="booking-confirm">Confirmation: <strong>6223585718</strong> · 📞 +84 946 982 299</div>
+        </div>
+        <div class="booking-card-right">
+          <div class="booking-status">✅ BOOKED</div>
+        </div>
+      </div>
+
+      <div class="booking-card">
+        <div class="booking-card-left">
+          <div class="booking-name">Hotel Royal Hoi An, Danang</div>
+          <div class="booking-loc">📍 Hoi An — Ancient Town area</div>
+          <div class="booking-dates">📅 Wed 24 Jun – Sat 27 Jun · 3 nights</div>
+          <div class="booking-confirm">Confirmation: <strong>5760294192</strong> · 📞 +84 235 3950 777</div>
+        </div>
+        <div class="booking-card-right">
+          <div class="booking-status">✅ BOOKED</div>
+        </div>
+      </div>
+
+      <div class="booking-card">
+        <div class="booking-card-left">
+          <div class="booking-name">Chicland Boutique Danang Beach Hotel</div>
+          <div class="booking-loc">📍 Da Nang — My Khe Beach</div>
+          <div class="booking-dates">📅 Sat 27 Jun – Mon 29 Jun · 2 nights</div>
+          <div class="booking-confirm">Confirmation: <strong>6288175813</strong> · 📞 +84 236 2232 222</div>
+        </div>
+        <div class="booking-card-right">
+          <div class="booking-status">✅ BOOKED</div>
+        </div>
+      </div>
+
+      <div class="booking-card">
+        <div class="booking-card-left">
+          <div class="booking-name">ANIMA - Vietnamese Contemporary Art Boutique Hotel</div>
+          <div class="booking-loc">📍 HCMC — District 1</div>
+          <div class="booking-dates">📅 Mon 29 Jun – Thu 2 Jul · 3 nights</div>
+          <div class="booking-confirm">Confirmation: <strong>6083452364</strong> · 📞 +84 833 881 010</div>
+        </div>
+        <div class="booking-card-right">
+          <div class="booking-status">✅ BOOKED</div>
+        </div>
+      </div>
+
     </div>
 
     <!-- HANOI -->
@@ -1979,11 +2030,12 @@
           <div class="stay-name">La Passion Premium Cau Go</div>
           <div class="stay-style">Boutique Old Quarter · 4★</div>
           <div class="stay-price">R1,500 – R1,800<small>/night</small></div>
+          <div class="stay-dates">📅 Sun 21 Jun – Tue 23 Jun</div>
           <ul class="stay-why">
             <li>Heart of Old Quarter on Cau Go Street — walk to Hoan Kiem Lake, Bia Hoi corner, Night Market</li>
             <li>Rooftop terrace with lake views</li>
             <li>Boutique rooms with character, great AC</li>
-            <li>Booking.com confirmation: <strong>5963820548</strong></li>
+            <li>Booking.com confirmation: <strong>5963820548</strong> · 📞 +84 886 087 576</li>
           </ul>
         </div>
         <div class="stay-card">
@@ -2011,19 +2063,62 @@
       </div>
     </div>
 
+    <!-- HA LONG BAY CRUISE -->
+    <div class="stay-location">
+      <div class="stay-location-header">🚢 Ha Long Bay — Overnight Cruise <span class="stay-nights">1 night</span></div>
+      <div class="stay-grid">
+        <div class="stay-card recommended booked">
+          <div class="booked-badge">✅ BOOKED</div>
+          <div class="stay-name">Mon Cheri Cruises</div>
+          <div class="stay-style">Premium Ha Long Cruise · 4★</div>
+          <div class="stay-price">~R4,500 – R6,000<small>/cabin</small></div>
+          <div class="stay-dates">📅 Tue 23 Jun – Wed 24 Jun</div>
+          <ul class="stay-why">
+            <li>Luxury cabin with private balcony — full-board included (lunch, dinner, breakfast)</li>
+            <li>Kayaking, squid fishing & Tai Chi at sunrise on deck</li>
+            <li>Sails through Bai Tu Long Bay — quieter route than the main tourist trail</li>
+            <li>Hotel pickup from Hanoi Old Quarter included</li>
+            <li>Booking.com confirmation: <strong>6223585718</strong> · 📞 +84 946 982 299</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Paradise Elegance Cruise</div>
+          <div class="stay-style">Luxury Ha Long Cruise · 5★</div>
+          <div class="stay-price">R5,000 – R8,000<small>/cabin</small></div>
+          <ul class="stay-why">
+            <li>Larger ship with more amenities — spa, sundeck bar</li>
+            <li>Best for weather-resilience (more indoor space)</li>
+            <li>Highly rated dining onboard</li>
+          </ul>
+        </div>
+        <div class="stay-card">
+          <div class="stay-name">Indochine Premium Cruise</div>
+          <div class="stay-style">Classic Ha Long Cruise · 4★</div>
+          <div class="stay-price">R3,800 – R5,500<small>/cabin</small></div>
+          <ul class="stay-why">
+            <li>Smaller boat — more intimate experience</li>
+            <li>Rooftop sundeck for sunset views</li>
+            <li>Cooking demonstration onboard</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <!-- HOI AN -->
     <div class="stay-location">
       <div class="stay-location-header">📍 Hoi An <span class="stay-nights">3 nights</span></div>
       <div class="stay-grid">
-        <div class="stay-card recommended">
-          <div class="stay-name">Anantara Hoi An Resort</div>
-          <div class="stay-style">Riverside Resort · 5★</div>
-          <div class="stay-price">R2,400 – R3,800<small>/night</small></div>
+        <div class="stay-card recommended booked">
+          <div class="booked-badge">✅ BOOKED</div>
+          <div class="stay-name">Hotel Royal Hoi An, Danang</div>
+          <div class="stay-style">Heritage Boutique · 4★</div>
+          <div class="stay-price">~R1,800 – R2,500<small>/night</small></div>
+          <div class="stay-dates">📅 Wed 24 Jun – Sat 27 Jun · 3 nights</div>
           <ul class="stay-why">
-            <li>Steps from Ancient Town — walk to Night Market</li>
-            <li>Riverside pool, lush tropical gardens</li>
-            <li>Spa, cooking classes, bicycles for guests</li>
-            <li>The comfort choice — great value for 5★</li>
+            <li>Located on Dao Duy Tu Street — right in Hoi An's Ancient Town, walk everywhere</li>
+            <li>Colonial-style building with modern interiors, rooftop pool</li>
+            <li>Great spot for the Hue day trip on Fri 26 Jun — central pickup point</li>
+            <li>Booking.com confirmation: <strong>5760294192</strong> · 📞 +84 235 3950 777</li>
           </ul>
         </div>
         <div class="stay-card">
@@ -2055,15 +2150,17 @@
     <div class="stay-location">
       <div class="stay-location-header">📍 Da Nang — My Khe Beach <span class="stay-nights">2 nights</span></div>
       <div class="stay-grid">
-        <div class="stay-card recommended">
-          <div class="stay-name">A La Carte Da Nang Beach ⭐</div>
-          <div class="stay-style">Beachfront Apartment-Hotel · 4★</div>
-          <div class="stay-price">R1,200 – R2,000<small>/night</small></div>
+        <div class="stay-card recommended booked">
+          <div class="booked-badge">✅ BOOKED</div>
+          <div class="stay-name">Chicland Boutique Danang Beach Hotel</div>
+          <div class="stay-style">Beachfront Boutique · 4★</div>
+          <div class="stay-price">~R1,400 – R2,200<small>/night</small></div>
+          <div class="stay-dates">📅 Sat 27 Jun – Mon 29 Jun · 2 nights</div>
           <ul class="stay-why">
-            <li><strong>★ Great value pick</strong> — apartments with kitchenette</li>
-            <li>Right on My Khe Beach, rooftop infinity pool</li>
-            <li>Watch Dragon Bridge fireworks from rooftop</li>
-            <li>Modern, well-priced for the location</li>
+            <li>On Vo Nguyen Giap — directly opposite My Khe Beach, steps from the sand 🏖️</li>
+            <li>Boutique hotel with stylish rooms, rooftop pool & bar</li>
+            <li>Close to Dragon Bridge — perfect for the Sat/Sun fire show</li>
+            <li>Booking.com confirmation: <strong>6288175813</strong> · 📞 +84 236 2232 222</li>
           </ul>
         </div>
         <div class="stay-card">
@@ -2095,15 +2192,17 @@
     <div class="stay-location">
       <div class="stay-location-header">📍 Ho Chi Minh City — District 1 <span class="stay-nights">3 nights</span></div>
       <div class="stay-grid">
-        <div class="stay-card recommended">
-          <div class="stay-name">The Myst Dong Khoi ⭐</div>
-          <div class="stay-style">Indochine Hideaway · 4★</div>
-          <div class="stay-price">R2,000 – R3,600<small>/night</small></div>
+        <div class="stay-card recommended booked">
+          <div class="booked-badge">✅ BOOKED</div>
+          <div class="stay-name">ANIMA - Vietnamese Contemporary Art Boutique Hotel</div>
+          <div class="stay-style">Art Boutique · 4★</div>
+          <div class="stay-price">~R1,800 – R2,800<small>/night</small></div>
+          <div class="stay-dates">📅 Mon 29 Jun – Thu 2 Jul · 3 nights</div>
           <ul class="stay-why">
-            <li>Suites with private plunge pools 💦</li>
-            <li>Romantic Indochine architecture</li>
-            <li>Walk to Ben Thanh & Bui Vien</li>
-            <li>Hidden retreat in the middle of the action</li>
+            <li>On Hồ Tùng Mậu Street, District 1 — walkable to Ben Thanh Market, Bui Vien & Dong Khoi</li>
+            <li>Contemporary Vietnamese art throughout — every room unique</li>
+            <li>Rooftop pool + bar with skyline views</li>
+            <li>Booking.com confirmation: <strong>6083452364</strong> · 📞 +84 833 881 010</li>
           </ul>
         </div>
         <div class="stay-card">
@@ -2134,26 +2233,26 @@
     <!-- Summary -->
     <div class="card">
       <h2>💰 Accommodation Cost Summary</h2>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">Hue is a day trip from Hoi An (no overnight). Ha Long Bay is the overnight cruise, not a hotel. Boutique/comfortable tier.</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">All 5 stays confirmed on Booking.com. Prices are estimates based on typical rates — exact amounts will be in your Booking.com confirmation.</p>
       <div class="table-wrap">
         <table class="compare-table">
           <thead>
-            <tr><th>Location</th><th>Nights</th><th>★ Pick</th><th>Est. Total</th></tr>
+            <tr><th>Location</th><th>Nights</th><th>Booked</th><th>Est. Total</th></tr>
           </thead>
           <tbody>
             <tr><td>📍 Hanoi (Old Quarter)</td><td>2</td><td>La Passion Premium Cau Go ✅</td><td>R3,300 booked</td></tr>
-            <tr><td>🚢 Ha Long Bay</td><td>1 (cruise)</td><td>Paradise Elegance / Indochine</td><td>R4,000 – R7,000</td></tr>
-            <tr><td>📍 Hoi An</td><td>3</td><td>Anantara Hoi An Resort</td><td>R7,200 – R11,400</td></tr>
-            <tr><td>📍 Da Nang (My Khe Beach)</td><td>2</td><td>A La Carte Da Nang Beach</td><td>R2,400 – R4,000</td></tr>
-            <tr><td>📍 HCMC (District 1)</td><td>3</td><td>The Myst Dong Khoi</td><td>R6,000 – R10,800</td></tr>
+            <tr><td>🚢 Ha Long Bay</td><td>1 (cruise)</td><td>Mon Cheri Cruises ✅</td><td>~R5,500 booked</td></tr>
+            <tr><td>📍 Hoi An</td><td>3</td><td>Hotel Royal Hoi An ✅</td><td>~R6,000 booked</td></tr>
+            <tr><td>📍 Da Nang (My Khe Beach)</td><td>2</td><td>Chicland Boutique Danang Beach ✅</td><td>~R3,600 booked</td></tr>
+            <tr><td>📍 HCMC (District 1)</td><td>3</td><td>ANIMA Boutique Hotel ✅</td><td>~R6,900 booked</td></tr>
             <tr style="font-weight:700; border-top: 2px solid var(--border);">
-              <td><strong>Total (10 hotel nights + 1 cruise night)</strong></td><td>11</td><td></td><td><strong>R21,800 – R36,800</strong></td>
+              <td><strong>Total (10 hotel nights + 1 cruise night)</strong></td><td>11</td><td></td><td><strong>~R25,300 (all booked)</strong></td>
             </tr>
           </tbody>
         </table>
       </div>
       <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.75rem;">
-        💡 July is low season in the north/south — you'll likely find deals. Always compare on Agoda, Booking.com, and direct hotel sites.
+        💡 All prices are estimates — check your Booking.com confirmation for exact totals. ~R25k for 11 nights across 5 stays is solid value for a trip like this.
       </p>
     </div>
   </div>
@@ -3362,7 +3461,7 @@
   </div>
 
   <div class="edit-hint">
-    Last updated: Jun 5, 2026 · Rewrote to 12-day open-jaw itinerary (Hanoi → Ha Long Bay → Hoi An → Da Nang → HCMC). Hue is now a day trip; Ninh Binh & Nha Trang removed.
+    Last updated: Jun 7, 2026 · All 5 Booking.com stays confirmed and added to the itinerary.
   </div>
 </div>
 

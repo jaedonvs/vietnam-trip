@@ -37,7 +37,7 @@
 **Travel:** Land Hanoi (HAN) ~13:00 · Grab to Old Quarter ~45 mins
 
 #### Afternoon
-- ✅ **Check in — La Passion Hotel or Hanoi La Siesta Premium** (Old Quarter)
+- ✅ **Check in — La Passion Premium Cau Go** (Old Quarter, Booking.com conf: 5963820548)
 - **Hoan Kiem Lake + Ngoc Son Temple** — go immediately while it's dry, beautiful in afternoon light
 - **Cafe Giang — egg coffee** — the original since 1946, perfect indoor stop if afternoon rain arrives
 - **Note Cafe or Nagocha Matcha** — both in the Old Quarter, your notes
@@ -84,14 +84,14 @@
 ---
 
 ### Day 3 — Monday 23 June
-**Ha Long Bay — Overnight Cruise**
+**Ha Long Bay — Mon Cheri Cruises (Overnight Cruise)**
 *Tags: adventure*
 
 **Travel:** Hotel pickup 07:30 · 3.5 hr shuttle to Ha Long port · Board ~11:30
 
 #### Morning Transfer
 - Shuttle from hotel at 07:30 — transfer included with cruise
-- Board cruise ~11:30 — welcome drink, cabin check-in, buffet lunch while sailing out
+- Board cruise ~11:30 — welcome drink, cabin check-in (Mon Cheri Cruises — Booking.com conf: 6223585718), buffet lunch while sailing out
 
 #### Afternoon on the Bay
 - ✅ **Kayaking through limestone karsts** — paddle through caves and hidden lagoons, best in misty conditions
@@ -141,8 +141,8 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 - **Grab from Da Nang to Hoi An** — 30 mins, ~150,000 VND
 
 #### Evening
-- ✅ **Check in — Hoi An boutique hotel** — Anantara Hoi An Resort, The Hoi An Chic, or a pool villa near An Bang Beach
-- ✅ **First wander through the Ancient Town at night** — riverside dinner, lanterns lit everywhere. You are now in the dry season zone.
+- ✅ **Check in — Hotel Royal Hoi An** (Booking.com conf: 5760294192)
+- **First wander through Ancient Town at night** — riverside dinner, lanterns everywhere ✨
 
 > **Tip:** You've just crossed into central Vietnam's dry season. The weather from here to Da Nang is the best of the entire trip.
 
@@ -220,7 +220,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 - **Magicha Zenbar matcha** — your note, last Hoi An coffee
 
 #### Afternoon — Da Nang
-- Grab to Da Nang, check in — A La Carte Da Nang Beach is great value
+- Grab to Da Nang, check in — **Chicland Boutique Danang Beach Hotel** (Booking.com conf: 6288175813)
 - ✅ **Ba Na Hills + Golden Bridge + French Village** — book tickets online in advance (~500,000 VND pp), world's longest cable car up into the cloud forest, giant stone hands holding the bridge, surreal and spectacular. Go afternoon — fewer crowds.
 
 #### Food
@@ -273,7 +273,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 - Fly to Ho Chi Minh City — land early afternoon
 
 #### Afternoon — War History on Arrival
-- ✅ **Check in District 1** — The Myst Dong Khoi, Liberty Central Saigon Riverside, or Lotte Hotel
+- ✅ **Check in District 1 — ANIMA Boutique Hotel** (Booking.com conf: 6083452364)
 - ✅ **War Remnants Museum — go straight from hotel** — closes 17:00, 2–3 hrs, do this immediately on arrival, essential and powerful
 
 #### Food & Evening
@@ -401,7 +401,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 ### Ha Long Bay
 
 - 2D/1N overnight cruise — Lan Ha Bay or Bai Tu Long Bay recommended ⭐
-- Paradise Elegance or Indochine Cruise (mid-range comfort)
+- Mon Cheri Cruises (booked — Booking.com conf: 6223585718)
 - Kayaking ⭐
 - Sung Sot Cave ⭐
 - Cat Hai Island biking (available on 2-night cruises)
