@@ -1,0 +1,3522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇻🇳 Vietnam Trip — Don & Katelyn</title>
+<style>
+  :root {
+    --red: #d4342b;
+    --red-light: #f2d0ce;
+    --gold: #f0c75e;
+    --gold-light: #fdf6dc;
+    --green: #2d6a4f;
+    --green-light: #d8f3dc;
+    --blue: #1864ab;
+    --blue-light: #d0ebff;
+    --purple: #5f3dc4;
+    --purple-light: #e5dbff;
+    --text: #1a1a2e;
+    --text-muted: #6c757d;
+    --bg: #fafaf5;
+    --card: #ffffff;
+    --border: #e9e5df;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--red) 0%, #a12720 50%, #6b1a14 100%);
+    color: white;
+    padding: 3rem 1.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '🇻🇳';
+    position: absolute;
+    font-size: 20rem;
+    opacity: 0.06;
+    top: -3rem;
+    right: -2rem;
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 400;
+  }
+
+  /* Countdown */
+  .countdown-bar {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    display: inline-flex;
+    gap: 1.2rem;
+    padding: 0.6rem 1.5rem;
+    margin-top: 1.2rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .countdown-bar .cd-unit { text-align: center; }
+  .countdown-bar .cd-num { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+  .countdown-bar .cd-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; }
+
+  /* Quick stats */
+  .quick-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin: -1.5rem 1rem 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .stat-card {
+    background: var(--card);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); }
+  .stat-icon { font-size: 1.5rem; margin-bottom: 0.25rem; }
+  .stat-value { font-size: 1.35rem; font-weight: 700; color: var(--red); }
+  .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* Container */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 1rem 3rem; }
+
+  /* Tab navigation */
+  .tab-nav {
+    display: flex;
+    gap: 0.35rem;
+    overflow-x: auto;
+    padding: 0.25rem;
+    margin-bottom: 1.5rem;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 0.6rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: var(--gold-light); color: var(--text); }
+  .tab-btn.active { background: var(--red); color: white; }
+
+  /* Tab content */
+  .tab-content { display: none; animation: fadeIn 0.3s ease; }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+  }
+  .card h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem;
+  }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin: 0.5rem 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  th, td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    background: var(--bg);
+  }
+  tr:hover td { background: var(--gold-light); }
+  .best { background: var(--green-light); font-weight: 600; }
+
+  /* Price highlight */
+  .price-range {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--gold-light);
+    border: 1px solid var(--gold);
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+  }
+  .price-range .label { font-weight: 400; font-size: 0.8rem; color: var(--text-muted); }
+
+  /* Tips */
+  .tip-list { list-style: none; }
+  .tip-list li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .tip-list li:last-child { border: none; }
+  .tip-list li::before { position: absolute; left: 0; font-size: 1rem; }
+  .tip-list.tip-warn li::before { content: '⚠️'; }
+  .tip-list.tip-good li::before { content: '✅'; }
+  .tip-list.tip-info li::before { content: '💡'; }
+  .tip-list.tip-money li::before { content: '💸'; }
+
+  /* Weather cards */
+  .weather-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+  .weather-card {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .weather-card.best {
+    border-color: var(--green);
+    background: var(--green-light);
+  }
+  .weather-card .temp { font-size: 1.5rem; font-weight: 700; }
+  .weather-card .region { font-size: 0.8rem; font-weight: 600; margin: 0.25rem 0; }
+  .weather-card .desc { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* Itinerary */
+  .itinerary {
+    border-left: 3px solid var(--red);
+    margin-left: 0.5rem;
+    padding-left: 1.25rem;
+  }
+  .itinerary .day {
+    position: relative;
+    padding-bottom: 1.25rem;
+  }
+  .itinerary .day:last-child { padding-bottom: 0; }
+  .itinerary .day::before {
+    content: '';
+    position: absolute;
+    left: -1.75rem;
+    top: 0.35rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--red);
+  }
+  .itinerary .day-num {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--red);
+  }
+  .itinerary .day-title { font-weight: 600; font-size: 0.95rem; }
+  .itinerary .day-detail { font-size: 0.8rem; color: var(--text-muted); }
+  .itinerary .day-cost { font-size: 0.75rem; color: var(--green); font-weight: 600; }
+
+  /* Itinerary option cards */
+  .itin-option-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 0;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .itin-option-card:hover { transform: translateY(-1px); }
+  .itin-header {
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .itin-header:hover { background: var(--bg); }
+  .itin-header-left { flex: 1; }
+  .itin-header h2 { margin-bottom: 0.15rem; }
+  .itin-tagline { font-size: 0.85rem; color: var(--text-muted); }
+  .itin-header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .itin-price-tag {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .itin-price-tag small { font-size: 0.7rem; color: var(--text-muted); font-weight: 400; display: block; }
+  .itin-expand-icon {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+  }
+  .itin-option-card.open .itin-expand-icon { transform: rotate(180deg); }
+  .itin-body {
+    padding: 0 1.5rem 1.5rem;
+    display: none;
+  }
+  .itin-option-card.open .itin-body { display: block; }
+  .itin-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.75rem 0;
+  }
+  .itin-highlight {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 50px;
+    font-weight: 600;
+  }
+  .itin-highlight.good { background: var(--green-light); color: var(--green); }
+  .itin-highlight.warn { background: var(--gold-light); color: #8a6d00; }
+  .itin-highlight.alert { background: var(--red-light); color: var(--red); }
+
+  /* ═══ Interactive Itinerary v2 ═══ */
+
+  /* Route map */
+  .route-map {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 0.15rem;
+    padding: 1rem 0.75rem;
+    margin-bottom: 1rem;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .route-stop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 1 0;
+    min-width: 70px;
+    padding: 0.5rem 0.4rem;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+    cursor: pointer;
+    text-align: center;
+  }
+  .route-stop:hover { background: var(--bg); transform: translateY(-2px); }
+  .route-stop-icon { font-size: 1.5rem; line-height: 1; }
+  .route-stop-name {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    margin-top: 0.25rem;
+  }
+  .route-stop-days { font-size: 0.65rem; color: var(--text-muted); margin-top: 0.1rem; }
+  .route-arrow {
+    color: var(--text-muted);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    padding: 0 0.15rem;
+    flex: 0 0 auto;
+  }
+  .route-stop.city-hanoi { border-top: 3px solid var(--red); }
+  .route-stop.city-halong { border-top: 3px solid var(--blue); }
+  .route-stop.city-hoian { border-top: 3px solid var(--gold); }
+  .route-stop.city-danang { border-top: 3px solid var(--purple); }
+  .route-stop.city-hcmc { border-top: 3px solid var(--green); }
+
+  /* Filter chips */
+  .filter-bar {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+    background: var(--card);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .filter-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-right: 0.4rem;
+    letter-spacing: 0.06em;
+    width: 100%;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.35rem 0.75rem;
+    background: var(--bg);
+    border: 1.5px solid transparent;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--text);
+    user-select: none;
+  }
+  .chip:hover { border-color: var(--red); }
+  .chip.active { background: var(--red); color: white; border-color: var(--red); }
+  .chip.gold { background: var(--gold-light); color: #8a6d00; border-color: transparent; }
+  .chip.gold:hover { border-color: var(--gold); }
+  .chip.gold.active { background: var(--gold); color: white; border-color: var(--gold); }
+
+  /* Day card */
+  .day-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    border-left: 5px solid var(--red);
+    transition: all 0.2s;
+  }
+  .day-card:hover { box-shadow: var(--shadow-lg); }
+  .day-card.city-hanoi { border-left-color: var(--red); }
+  .day-card.city-halong { border-left-color: var(--blue); }
+  .day-card.city-hoian { border-left-color: var(--gold); }
+  .day-card.city-danang { border-left-color: var(--purple); }
+  .day-card.city-hcmc { border-left-color: var(--green); }
+
+  .day-card-head {
+    padding: 0.9rem 1.1rem;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .day-card-head:hover { background: var(--bg); }
+  .day-card-head-left { flex: 1; min-width: 0; }
+  .day-card-head-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.3rem;
+    flex-shrink: 0;
+  }
+  .day-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .day-meta .day-num { color: var(--text); font-size: 0.75rem; }
+  .day-badge {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 50px;
+    font-size: 0.65rem;
+    background: var(--bg);
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .day-card.city-hanoi .day-badge { background: var(--red-light); color: var(--red); }
+  .day-card.city-halong .day-badge { background: var(--blue-light); color: var(--blue); }
+  .day-card.city-hoian .day-badge { background: var(--gold-light); color: #8a6d00; }
+  .day-card.city-danang .day-badge { background: var(--purple-light); color: var(--purple); }
+  .day-card.city-hcmc .day-badge { background: var(--green-light); color: var(--green); }
+  .day-title {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .day-vibe-row {
+    display: flex;
+    gap: 0.3rem;
+    margin-top: 0.45rem;
+    flex-wrap: wrap;
+  }
+  .vibe-tag {
+    font-size: 0.68rem;
+    padding: 0.1rem 0.5rem;
+    background: var(--bg);
+    border-radius: 50px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .mustdo-count {
+    background: var(--gold-light);
+    color: #8a6d00;
+    padding: 0.2rem 0.55rem;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .day-toggle {
+    font-size: 1rem;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+  }
+  .day-card.open .day-toggle { transform: rotate(180deg); }
+
+  .day-card-body {
+    display: none;
+    padding: 0 1.1rem 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .day-card.open .day-card-body { display: block; }
+
+  .time-block { margin-top: 0.9rem; }
+  .time-block-head {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.3rem;
+  }
+  .time-block-head .time-icon { font-size: 0.95rem; }
+  .time-block ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .time-block li {
+    padding: 0.4rem 0 0.4rem 0.9rem;
+    border-left: 2px solid var(--border);
+    margin-left: 0.35rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text);
+    position: relative;
+  }
+  .time-block li::before {
+    content: '•';
+    position: absolute;
+    left: -0.35rem;
+    top: 0.45rem;
+    color: var(--text-muted);
+    background: var(--card);
+    width: 0.5rem;
+    text-align: center;
+    font-weight: 700;
+  }
+  .time-block li.mustdo {
+    border-left-color: var(--gold);
+    font-weight: 600;
+  }
+  .time-block li.mustdo::before { content: '⭐'; color: var(--gold); }
+  .time-block li.mustdo::after {
+    content: '';
+  }
+  .time-block li strong { color: var(--text); }
+
+  .day-foot {
+    margin-top: 0.9rem;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.9rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .day-foot-item { display: flex; align-items: center; gap: 0.3rem; }
+  .day-foot-cost { color: var(--green); font-weight: 700; }
+  .day-foot-alert { color: var(--red); font-weight: 600; }
+  .day-foot-rain { color: var(--blue); font-weight: 600; }
+  .day-foot-hotel { color: var(--purple); font-weight: 600; }
+
+  .day-count {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .empty-days {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-muted);
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: none;
+    font-size: 0.9rem;
+  }
+  .empty-days.show { display: block; }
+
+  @media (max-width: 600px) {
+    .day-card-head { flex-wrap: wrap; }
+    .day-card-head-right { flex-direction: row; align-items: center; }
+    .route-map { padding: 0.75rem 0.4rem; }
+    .route-stop { min-width: 60px; padding: 0.4rem 0.2rem; }
+    .route-arrow { font-size: 0.85rem; }
+  }
+
+  /* Option toggle */
+  .option-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .option-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    background: var(--card);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .option-btn:hover { border-color: var(--red); }
+  .option-btn.active { background: var(--red); color: white; border-color: var(--red); }
+
+  /* Budget */
+  .budget-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+  .budget-total { font-weight: 700; font-size: 1rem; }
+  .budget-total td { border-top: 2px solid var(--text); }
+
+  /* Packing list */
+  .packing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.35rem;
+  }
+  .packing-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 0.9rem;
+  }
+  .packing-item:hover { background: var(--bg); }
+  .packing-item.checked { opacity: 0.5; text-decoration: line-through; }
+  .packing-item input { accent-color: var(--green); width: 18px; height: 18px; cursor: pointer; }
+
+  /* Badge */
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .badge-best { background: var(--green-light); color: var(--green); }
+  .badge-cheap { background: var(--gold-light); color: #8a6d00; }
+  .badge-warn { background: var(--red-light); color: var(--red); }
+  .badge-blue { background: var(--blue-light); color: var(--blue); }
+
+  /* Callout */
+  .callout {
+    background: var(--gold-light);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .callout-red {
+    background: var(--red-light);
+    border-left-color: var(--red);
+  }
+
+  /* Sources */
+  .sources {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .sources a { color: var(--red); text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+
+  /* Edit hint */
+  .edit-hint {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .edit-hint code {
+    background: #f0f0e8;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+  }
+
+  /* Accommodation / Stays */
+  .stay-location { margin-bottom: 1.5rem; }
+  .stay-location-header {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem;
+    color: var(--red); border-bottom: 2px solid var(--red-light); padding-bottom: 0.4rem;
+  }
+  .stay-location-header .stay-nights {
+    font-size: 0.75rem; font-weight: 500; color: var(--text-muted);
+    background: var(--bg); padding: 0.15rem 0.5rem; border-radius: 20px; margin-left: auto;
+  }
+  .stay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .stay-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 1rem; transition: transform 0.2s, box-shadow 0.2s; position: relative;
+  }
+  .stay-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .stay-card.recommended { border-color: var(--gold); }
+  .stay-card.recommended::before {
+    content: '★ Pick'; position: absolute; top: -0.5rem; right: 0.75rem;
+    background: var(--gold); color: var(--text); font-size: 0.65rem; font-weight: 700;
+    padding: 0.15rem 0.5rem; border-radius: 10px; text-transform: uppercase;
+  }
+  .stay-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .stay-dates { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 500; }
+  .stay-style { font-size: 0.7rem; color: var(--purple); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
+  .stay-price { font-size: 0.85rem; font-weight: 700; color: var(--green); margin-bottom: 0.4rem; }
+  .stay-price small { font-weight: 400; color: var(--text-muted); }
+  .stay-why { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+  .stay-why li { margin-bottom: 0.15rem; }
+
+  /* BOOKED STAY MODIFIER */
+  .stay-card.booked { border-color: var(--green); background: linear-gradient(135deg, var(--green-light), var(--card) 60%); }
+  .stay-card.booked::before { content: '★ ★ ★'; position: absolute; top: -0.5rem; right: 0.75rem; background: var(--green); color: white; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 10px; letter-spacing: 0.1em; }
+  .booked-badge { position: absolute; top: -0.5rem; left: 0.75rem; background: var(--green); color: white; font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 10px; letter-spacing: 0.05em; box-shadow: 0 2px 4px rgba(0,0,0,0.15); z-index: 2; }
+
+  /* CONFIRMED BOOKINGS PANEL */
+  .bookings-panel { background: linear-gradient(135deg, var(--green-light), var(--card) 50%); border: 2px solid var(--green); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+  .bookings-header { font-size: 1rem; font-weight: 700; color: var(--green); margin-bottom: 0.85rem; letter-spacing: 0.02em; }
+  .booking-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.85rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .booking-card-left { flex: 1; min-width: 220px; }
+  .booking-card .booking-name { font-weight: 700; margin-bottom: 0.15rem; }
+  .booking-card .booking-dates { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.15rem; }
+  .booking-card .booking-loc { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.15rem; }
+  .booking-card .booking-confirm { font-size: 0.75rem; color: var(--text-muted); }
+  .booking-confirm strong { color: var(--green); font-family: 'SF Mono', 'Monaco', 'Consolas', monospace; }
+  .booking-card-right { text-align: right; min-width: 140px; }
+  .booking-price { font-size: 1.1rem; font-weight: 700; color: var(--green); }
+  .booking-price small { display: block; font-size: 0.7rem; font-weight: 400; color: var(--text-muted); margin-top: 0.1rem; }
+  .booking-status { display: inline-block; margin-top: 0.3rem; background: var(--green); color: white; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 10px; letter-spacing: 0.05em; }
+  .bookings-note { font-size: 0.78rem; color: var(--text-muted); margin: 0.85rem 0 0; padding: 0.5rem 0.75rem; background: rgba(255,255,255,0.5); border-radius: 6px; }
+
+  @media (max-width: 768px) {
+    .stay-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Places */
+  .places-location { margin-bottom: 1.5rem; }
+  .places-location-header {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem;
+    color: var(--red); border-bottom: 2px solid var(--red-light); padding-bottom: 0.4rem;
+  }
+  .places-location-header .places-count {
+    font-size: 0.75rem; font-weight: 500; color: var(--text-muted);
+    background: var(--bg); padding: 0.15rem 0.5rem; border-radius: 20px; margin-left: auto;
+  }
+  .place-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 1rem; transition: transform 0.2s, box-shadow 0.2s;
+    display: flex; gap: 0.75rem; align-items: flex-start;
+    margin-bottom: 0.5rem; position: relative;
+  }
+  .place-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+  .place-card .place-check {
+    flex-shrink: 0; margin-top: 0.2rem;
+  }
+  .place-card .place-check input { accent-color: var(--green); width: 18px; height: 18px; cursor: pointer; }
+  .place-card.visited { opacity: 0.55; }
+  .place-card.visited .place-name { text-decoration: line-through; }
+  .place-info { flex: 1; min-width: 0; }
+  .place-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
+  .place-badges { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.4rem; }
+  .place-badge {
+    font-size: 0.68rem; font-weight: 600; padding: 0.12rem 0.45rem;
+    border-radius: 50px; text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .place-badge.cafe { background: #fef3c7; color: #92400e; }
+  .place-badge.matcha { background: #d8f3dc; color: #2d6a4f; }
+  .place-badge.fashion { background: #ede9fe; color: #5f3dc4; }
+  .place-badge.food { background: #fee2e2; color: #d4342b; }
+  .place-badge.bar { background: #dbeafe; color: #1864ab; }
+  .place-badge.market { background: #fce7f3; color: #9d174d; }
+  .place-badge.craft { background: #e0f2fe; color: #0369a1; }
+  .place-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.3rem; }
+  .place-price { font-size: 0.75rem; color: var(--green); font-weight: 600; }
+  .place-tip { font-size: 0.72rem; color: var(--gold); font-weight: 600; }
+
+  /* Comparison table */
+  .compare-table td, .compare-table th { font-size: 0.82rem; }
+
+  /* Print */
+  @media print {
+    .hero { padding: 1.5rem; }
+    .tab-nav { display: none; }
+    .tab-content { display: block !important; page-break-inside: avoid; }
+    .card { box-shadow: none; border: 1px solid var(--border); }
+    .stat-card { box-shadow: none; border: 1px solid var(--border); }
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.8rem; }
+    .quick-stats { grid-template-columns: repeat(2, 1fr); }
+    .weather-grid { grid-template-columns: 1fr; }
+    .packing-grid { grid-template-columns: 1fr; }
+    .budget-table { font-size: 0.8rem; }
+    .itin-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .itin-header-right { width: 100%; justify-content: space-between; }
+    .compare-table { font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>🇻🇳 Vietnam</h1>
+  <div class="subtitle">Don & Katelyn · 21 Jun – 2 Jul 2026 · 12 days</div>
+  <div style="font-size: 0.78rem; opacity: 0.85; margin-top: 0.4rem; font-weight: 500;">First time in Southeast Asia · Open-jaw Hanoi → HCMC · Boutique/comfortable</div>
+  <div style="font-size: 0.75rem; opacity: 0.75; margin-top: 0.35rem; font-weight: 400;">🛍️ Big shoppers &amp; foodies · 🏯 Imperial &amp; temple history · 🏖️ Beach · 🥾 Adventure · 🍺 Nightlife</div>
+  <div class="countdown-bar" id="countdown"></div>
+</div>
+
+<!-- Quick Stats -->
+<div class="quick-stats">
+  <div class="stat-card">
+    <div class="stat-icon">✈️</div>
+    <div class="stat-value">~17h</div>
+    <div class="stat-label">Flight Time</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">💰</div>
+    <div class="stat-value">R24-37k</div>
+    <div class="stat-label">Budget/pp (excl. flights)</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">🌡️</div>
+    <div class="stat-value">30-36°C</div>
+    <div class="stat-label">Avg Temp</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">📅</div>
+    <div class="stat-value">12</div>
+    <div class="stat-label">Days</div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="container">
+  <nav class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="itineraries">🗺️ Itineraries</button>
+    <button class="tab-btn" data-tab="flights">✈️ Flights</button>
+    <button class="tab-btn" data-tab="weather">🌦️ Weather</button>
+    <button class="tab-btn" data-tab="budget">💰 Budget</button>
+    <button class="tab-btn" data-tab="visa">🛂 Visa</button>
+    <button class="tab-btn" data-tab="packing">🧳 Packing</button>
+    <button class="tab-btn" data-tab="stays">🏨 Stays</button>
+    <button class="tab-btn" data-tab="places">📍 Places</button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- ITINERARIES TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content active" id="itineraries">
+
+    <div class="callout">
+      ✅ <strong>Flights confirmed!</strong> Qatar Airways open-jaw (ref: 8MXDM6). Outbound: JNB 20 Jun 12:40 → DOH 21:55 (4h50 layover) → HAN 21 Jun 13:55. Return: SGN 2 Jul 20:00 → DOH 23:15 (2h15 layover) → JNB 3 Jul 09:00. R16,462 pp.
+    </div>
+
+    <div class="callout callout-red">
+      🐉 <strong>DRAGON BRIDGE ALERT — DO NOT MISS!</strong> The Dragon Bridge breathes fire &amp; water <strong>Sat 27 Jun + Sun 28 Jun at 21:00</strong> (free, Han River bank, 20:45 to be in position). Runs Fri/Sat/Sun nights — you are in Da Nang on BOTH nights — second chance Sunday if Saturday is missed.
+    </div>
+
+    <!-- ROUTE MAP -->
+    <div class="route-map">
+      <div class="route-stop city-hanoi" data-city="hanoi">
+        <div class="route-stop-icon">🛬</div>
+        <div class="route-stop-name">Hanoi</div>
+        <div class="route-stop-days">Days 1–2</div>
+      </div>
+      <div class="route-arrow">→</div>
+      <div class="route-stop city-halong" data-city="halong">
+        <div class="route-stop-icon">🛳️</div>
+        <div class="route-stop-name">Ha Long 🚢</div>
+        <div class="route-stop-days">Day 3</div>
+      </div>
+      <div class="route-arrow">→</div>
+      <div class="route-stop city-hoian" data-city="hoian">
+        <div class="route-stop-icon">🏮</div>
+        <div class="route-stop-name">Hoi An</div>
+        <div class="route-stop-days">Days 4–6</div>
+      </div>
+      <div class="route-arrow">→</div>
+      <div class="route-stop city-danang" data-city="danang">
+        <div class="route-stop-icon">🏖️</div>
+        <div class="route-stop-name">Da Nang</div>
+        <div class="route-stop-days">Days 7–8</div>
+      </div>
+      <div class="route-arrow">→</div>
+      <div class="route-stop city-hcmc" data-city="hcmc">
+        <div class="route-stop-icon">🛫</div>
+        <div class="route-stop-name">HCMC</div>
+        <div class="route-stop-days">Days 9–12</div>
+      </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <div class="filter-label">📍 City</div>
+      <span class="chip active" data-filter="city" data-value="all">All 12 days</span>
+      <span class="chip" data-filter="city" data-value="hanoi">Hanoi</span>
+      <span class="chip" data-filter="city" data-value="halong">Ha Long</span>
+      <span class="chip" data-filter="city" data-value="hoian">Hoi An</span>
+      <span class="chip" data-filter="city" data-value="danang">Da Nang</span>
+      <span class="chip" data-filter="city" data-value="hcmc">HCMC</span>
+      <div class="filter-label" style="margin-top: 0.5rem;">✨ Vibe</div>
+      <span class="chip active" data-filter="vibe" data-value="all">All vibes</span>
+      <span class="chip" data-filter="vibe" data-value="history">🏛️ History</span>
+      <span class="chip" data-filter="vibe" data-value="food">🍜 Food</span>
+      <span class="chip" data-filter="vibe" data-value="shopping">🛍️ Shopping</span>
+      <span class="chip" data-filter="vibe" data-value="beach">🏖️ Beach</span>
+      <span class="chip" data-filter="vibe" data-value="nightlife">🌃 Nightlife</span>
+      <span class="chip" data-filter="vibe" data-value="adventure">🛶 Adventure</span>
+      <div class="filter-label" style="margin-top: 0.5rem;">⭐ Highlights</div>
+      <span class="chip gold" data-filter="mustdo" data-value="1">⭐ Must-do days only</span>
+    </div>
+
+    <!-- DAY CARDS -->
+    <div class="day-card city-hanoi open" data-city="hanoi" data-vibe="food shopping nightlife history" data-day="1">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 1</span><span>·</span><span>Sun 21 Jun</span><span class="day-badge">Hanoi</span>
+          </div>
+          <div class="day-title">🛬 Arrive Hanoi · Old Quarter first night</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🌃 Nightlife</span><span class="vibe-tag">🍜 Food</span><span class="vibe-tag">🛍️ Shopping</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 3 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">☀️</span><span>Afternoon — land 13:55</span></div>
+          <ul>
+            <li>Grab to Old Quarter (~45 min) — check in at <strong>La Passion Premium Cau Go</strong> (conf: 5963820548)</li>
+            <li class="mustdo">Hoan Kiem Lake + Ngoc Son Temple — go immediately while it's dry, beautiful afternoon light</li>
+            <li class="mustdo">Cafe Giang — original egg coffee since 1946, perfect indoor stop if rain arrives</li>
+            <li>Note Cafe or Nagocha Matcha — both Old Quarter favourites</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌙</span><span>Evening — stay up to 22:00 to beat jet lag</span></div>
+          <ul>
+            <li class="mustdo">Street food crawl — Ta Hien &amp; Nguyen Trung Truc streets (bun cha, banh cuon, grilled corn)</li>
+            <li>Bia Hoi Corner (Ta Hien &amp; Luong Ngoc Quyen) — 25c draught beer on plastic stools</li>
+            <li>Old Quarter Night Market — Hang Dao Street (Fri &amp; Sat nights only — market is closed on Sunday; Bia Hoi Corner &amp; street food run every night as a replacement)</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R1,380</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ La Passion Premium Cau Go</span>
+          <span class="day-foot-item day-foot-rain">☔ Indoor backup: Cafe Giang + foot massage</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card city-hanoi" data-city="hanoi" data-vibe="history food shopping" data-day="2">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 2</span><span>·</span><span>Mon 22 Jun</span><span class="day-badge">Hanoi</span>
+          </div>
+          <div class="day-title">🏯 Hanoi — Imperial history, train street &amp; shopping</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🏛️ History</span><span class="vibe-tag">🍜 Food</span><span class="vibe-tag">🛍️ Shopping</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 5 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — imperial history</span></div>
+          <ul>
+            <li class="mustdo">⚠️ One Pillar Pagoda + Ba Dinh Square exterior — Mausoleum interior <strong>closed Mondays</strong> (and Fridays), you can't go inside — view the square &amp; Uncle Ho's old stilt-house exterior from outside, then across to the pagoda (open daily, same complex)</li>
+            <li class="mustdo">Temple of Literature — Vietnam's oldest university (1070 AD), pre-11am</li>
+            <li class="mustdo">Bun Cha Huong Lien lunch — Obama &amp; Bourdain's spot, arrive 12pm or queue</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">☀️</span><span>Afternoon — train street &amp; shopping</span></div>
+          <ul>
+            <li class="mustdo">Train Street attempt — access restricted since 2019, go and try</li>
+            <li>The Raw Compound + Loading T'estation — fashion concept spaces</li>
+            <li>Hani / Libé Workshop / Meli / Cara Club — womenswear picks, one Old Quarter walk</li>
+            <li>Gom Nha Tran ceramics + Hang Gai Silk Street</li>
+            <li>Foot massage 16:00 — 150,000 VND, 1 hour, non-negotiable</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌙</span><span>Evening — water puppet &amp; rooftop</span></div>
+          <ul>
+            <li class="mustdo">Thang Long Water Puppet Theatre — uniquely Vietnamese, 1 hour, book ahead</li>
+            <li>Nola or Skylight rooftop — street-level backup: any bar on Ta Hien</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R1,480</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ La Passion Premium Cau Go</span>
+          <span class="day-foot-item day-foot-rain">☔ Shopping all indoor</span>
+          <span class="day-foot-item day-foot-alert">⚠️ Mausoleum closed Mon (just pagoda + exterior)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card city-halong open" data-city="halong" data-vibe="adventure" data-day="3">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 3</span><span>·</span><span>Tue 23 Jun</span><span class="day-badge">Ha Long Bay</span>
+          </div>
+          <div class="day-title">🛳️ Ha Long Bay — Overnight cruise</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🛶 Adventure</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 2 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — transfer &amp; boarding</span></div>
+          <ul>
+            <li>Hotel pickup 07:30 · 3.5h shuttle to Ha Long port · board ~11:30</li>
+            <li>Welcome drink, cabin check-in (Mon Cheri Cruises — conf: 6223585718), buffet lunch while sailing out</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">☀️</span><span>Afternoon — on the bay</span></div>
+          <ul>
+            <li class="mustdo">Kayaking through limestone karsts — paddle through caves &amp; hidden lagoons, magical in mist</li>
+            <li class="mustdo">Sung Sot Cave — cathedral-sized chambers, fully sheltered, ~1 hour</li>
+            <li>Recommended: Lan Ha Bay or Bai Tu Long Bay · Paradise Elegance or Indochine Cruise</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌙</span><span>Evening — golden hour on the water</span></div>
+          <ul>
+            <li>Sundeck cocktails as karsts turn gold — don't be below deck</li>
+            <li>Seafood dinner on board + stargazing — zero light pollution on the water</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R2,000–3,500 pp all-in</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Mon Cheri Cruises</span>
+          <span class="day-foot-item day-foot-rain">☔ Rain = magical mist. Backup if cancelled: Ninh Binh (Trang An + Hoa Lu)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card city-hoian" data-city="hoian" data-vibe="adventure travel" data-day="4">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 4</span><span>·</span><span>Wed 24 Jun</span><span class="day-badge">Ha Long → Hoi An</span>
+          </div>
+          <div class="day-title">🌅 Ha Long → ✈️ Hoi An (travel day)</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🛶 Adventure</span><span class="vibe-tag">🏮 Culture</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 1 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — on the bay</span></div>
+          <ul>
+            <li class="mustdo">Sunrise swim + tai chi on the sundeck — 06:00 surrounded by karsts, don't sleep through it</li>
+            <li>Breakfast on board, disembark ~11:00</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">✈️</span><span>Travel day</span></div>
+          <ul>
+            <li>Transfer to Hanoi Noi Bai (~3.5h) — sleep, read, sort photos</li>
+            <li>Fly HAN → DAD (VietJet or Bamboo, ~R600–900 pp)</li>
+            <li>Grab from Da Nang to Hoi An (~30 min, ~150,000 VND)</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌙</span><span>Evening — first Hoi An</span></div>
+          <ul>
+            <li>Check in — <strong>Hotel Royal Hoi An</strong> (Booking.com conf: 5760294192)</li>
+            <li>First wander through the Ancient Town at night — riverside dinner, lanterns everywhere ✨</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R2,100</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Hotel Royal Hoi An</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card city-hoian" data-city="hoian" data-vibe="history food shopping" data-day="5">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 5</span><span>·</span><span>Thu 25 Jun</span><span class="day-badge">Hoi An</span>
+          </div>
+          <div class="day-title">🏮 Hoi An — Temples, tailoring, leather &amp; food</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🏛️ History</span><span class="vibe-tag">🍜 Food</span><span class="vibe-tag">🛍️ Shopping</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 6 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — temple + tailoring orders</span></div>
+          <ul>
+            <li class="mustdo">Japanese Covered Bridge + Ancient Town stroll — before 09:00, Tan Ky Old House worth the entry</li>
+            <li class="mustdo">Phuc Kien Assembly Hall — most beautiful temple in Hoi An, incense spirals, go early</li>
+            <li class="mustdo">Izi Tailor — order custom pyjamas, 24–48 hr turnaround</li>
+            <li class="mustdo">I Love Fashion — order clothes, collect Day 7</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">☀️</span><span>Late morning — food + shopping</span></div>
+          <ul>
+            <li class="mustdo">Banh Mi Phuong — best banh mi in Vietnam, queue is the point</li>
+            <li class="mustdo">Quan Cao Iau Ba Le — white rose dumplings, only authentically made in Hoi An</li>
+            <li>Com Linh — duck specialist</li>
+            <li class="mustdo">Hoan Leather Store — tabi shoes &amp; bag making, watch the process</li>
+            <li>Da Bao Real Leather, Leather Store 19, Song Leather, Cocobox</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">☀️</span><span>Afternoon — basket boat</span></div>
+          <ul>
+            <li class="mustdo">Cam Thanh Coconut Village — basket boat through mangrove palms, ~1.5 hrs</li>
+            <li>An Bang Beach — cycle from town (50,000 VND), Soul Kitchen sundowners</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌙</span><span>Evening — night market &amp; lanterns</span></div>
+          <ul>
+            <li class="mustdo">Hoi An Night Market — runs every night, street food + souvenirs</li>
+            <li>Phin coffee class — Vietnamese drip coffee</li>
+            <li class="mustdo">Morning Glory — Cao Lau noodles, only properly made in Hoi An</li>
+            <li class="mustdo">Lantern boat ride on Thu Bon River — float a flower lantern together</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R3,950 (incl. R2,000 tailoring deposit)</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Hotel Royal Hoi An</span>
+          <span class="day-foot-item day-foot-rain">☔ All shopping indoor, Phuc Kien beautiful in any weather</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card city-hoian" data-city="hoian" data-vibe="history" data-day="6">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 6</span><span>·</span><span>Fri 26 Jun</span><span class="day-badge">Hue (day trip)</span>
+          </div>
+          <div class="day-title">🏯 Hue — Imperial day trip via Hai Van Pass</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🏛️ History</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 4 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — drive + Hue citadel</span></div>
+          <ul>
+            <li class="mustdo">Depart Hoi An 07:30 over the legendary Hai Van Pass — stop at the summit for panoramic views</li>
+            <li class="mustdo">Hue Imperial Citadel + Forbidden Purple City — 2+ hours, seat of the Nguyen emperors</li>
+            <li class="mustdo">Thien Mu Pagoda — 7-storey pagoda on the Perfume River, iconic</li>
+            <li>Bun Bo Hue lunch at a local plastic-stool spot — spicy lemongrass beef noodles</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">☀️</span><span>Afternoon — tomb + scenic return</span></div>
+          <ul>
+            <li class="mustdo">Royal Tomb of Tu Duc — most romantic of the royal tombs, forested, atmospheric</li>
+            <li>Drive back via Lang Co beach lagoon — ask driver to stop for 20 min</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R2,900 (driver R1,300–1,700 split)</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Hotel Royal Hoi An</span>
+          <span class="day-foot-item day-foot-rain">☔ Citadel has covered corridors. Skip tombs in heavy rain → Royal Antiquities Museum (indoor)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card city-danang" data-city="danang" data-vibe="shopping nightlife history" data-day="7">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 7</span><span>·</span><span>Sat 27 Jun</span><span class="day-badge">Da Nang</span>
+          </div>
+          <div class="day-title">🛍️ Hoi An → Da Nang · 🐉 Dragon Bridge tonight</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🛍️ Shopping</span><span class="vibe-tag">🌃 Nightlife</span><span class="vibe-tag">🏛️ History</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 4 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — collect tailoring + last shops</span></div>
+          <ul>
+            <li class="mustdo">Collect all tailored clothing — final fittings at Izi Tailor &amp; I Love Fashion</li>
+            <li>Old Town last souvenir sweep — lacquerware, silk lanterns, ceramics</li>
+            <li>Magicha Zenbar matcha — last Hoi An coffee</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">☀️</span><span>Afternoon — Ba Na Hills</span></div>
+          <ul>
+            <li>Grab to Da Nang (~30 min), check in — <strong>Chicland Boutique Danang Beach Hotel</strong> (Booking.com conf: 6288175813)</li>
+            <li class="mustdo">Ba Na Hills + Golden Bridge + French Village — book online (~500,000 VND pp), world's longest cable car, giant stone hands, surreal</li>
+            <li>My Khe beachfront seafood — grill restaurants on the sand</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🐉</span><span>Evening — DRAGON BRIDGE 🔥</span></div>
+          <ul>
+            <li class="mustdo">Dragon Bridge fire &amp; water show — 21:00 Saturday, free, Han River bank, be in position 20:45</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R2,000 (Ba Na Hills R500 pp)</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Chicland Boutique Danang Beach</span>
+          <span class="day-foot-item day-foot-alert">⚠️ Don't miss the 21:00 Dragon Bridge show</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card city-danang" data-city="danang" data-vibe="history shopping beach nightlife" data-day="8">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 8</span><span>·</span><span>Sun 28 Jun</span><span class="day-badge">Da Nang</span>
+          </div>
+          <div class="day-title">🏖️ Da Nang — Temples, vintage strip &amp; beach</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🏛️ History</span><span class="vibe-tag">🛍️ Shopping</span><span class="vibe-tag">🏖️ Beach</span><span class="vibe-tag">🌃 Nightlife</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 6 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — temples + sunrise</span></div>
+          <ul>
+            <li class="mustdo">Sunrise swim at My Khe — 06:30, nearly empty, one of SE Asia's great city beaches</li>
+            <li class="mustdo">Linh Ung Pagoda — Son Tra Peninsula, giant Lady Buddha overlooking Da Nang Bay</li>
+            <li class="mustdo">Marble Mountains — Buddhist cave temples inside limestone hills, before 10:00</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🛍️</span><span>Midday — vintage &amp; thrift</span></div>
+          <ul>
+            <li class="mustdo">An Thuong Street — full vintage strip</li>
+            <li class="mustdo">Mango Archive — vintage clothing</li>
+            <li>Rust Rack, Hana 34, ORI jewellery — all nearby</li>
+            <li>Mi Quang for lunch — Da Nang's signature noodle</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">☀️</span><span>Afternoon — beach</span></div>
+          <ul>
+            <li>My Khe Beach — full afternoon, sun lounger, swim, cold beer</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🐉</span><span>Evening — DRAGON BRIDGE second chance</span></div>
+          <ul>
+            <li class="mustdo">Dragon Bridge fire &amp; water show — 21:00 Sunday, second chance — both nights worth it 🐉🔥</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R1,550</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ Chicland Boutique Danang Beach</span>
+          <span class="day-foot-item day-foot-alert">⚠️ Most reliable weather of the trip</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card city-hcmc" data-city="hcmc" data-vibe="travel history food nightlife" data-day="9">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 9</span><span>·</span><span>Mon 29 Jun</span><span class="day-badge">HCMC</span>
+          </div>
+          <div class="day-title">✈️ Da Nang → HCMC · War history on arrival</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🏛️ History</span><span class="vibe-tag">🍜 Food</span><span class="vibe-tag">🌃 Nightlife</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 2 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — last swim + fly</span></div>
+          <ul>
+            <li>Last swim at My Khe — golden hour before checkout</li>
+            <li>Fly DAD → SGN (~1.5h, R600–900 pp) — book midday flight, land early afternoon</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">☀️</span><span>Afternoon — War Remnants Museum</span></div>
+          <ul>
+            <li>Check in District 1 — <strong>ANIMA Boutique Hotel</strong> (Booking.com conf: 6083452364)</li>
+            <li class="mustdo">War Remnants Museum — goes straight from hotel, closes 17:00, 2–3 hrs, essential &amp; powerful</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌙</span><span>Evening — first HCMC night</span></div>
+          <ul>
+            <li class="mustdo">Dinner at Quan Bui Garden Restaurant — traditional Vietnamese in a colonial courtyard</li>
+            <li>Bui Vien Walking Street — HCMC's legendary backpacker strip, loud, chaotic, brilliant</li>
+            <li>Chill Sky Bar or Saigon Saigon rooftop — usually clear by 20:00–21:00</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R2,700</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ ANIMA Boutique Hotel</span>
+          <span class="day-foot-item day-foot-rain">☔ Museum fully indoor. Rule from here: outdoor before noon</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card city-hcmc" data-city="hcmc" data-vibe="adventure shopping food" data-day="10">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 10</span><span>·</span><span>Tue 30 Jun</span><span class="day-badge">HCMC</span>
+          </div>
+          <div class="day-title">🕳️ Cu Chi Tunnels + Streetwear walk</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🛶 Adventure</span><span class="vibe-tag">🛍️ Shopping</span><span class="vibe-tag">🍜 Food</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 6 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — Cu Chi</span></div>
+          <ul>
+            <li class="mustdo">Cu Chi Tunnels — depart 07:30, back by 13:00. 80km VC tunnel network, crawl through, fire a rifle</li>
+            <li class="mustdo">Reunification Palace on the way back — 1975 tanks still on the lawn, arrive before 11:30</li>
+            <li>Lunch: Bep Me In, L'Usine, or The Mockingbird Cafe</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🛍️</span><span>Afternoon — streetwear walk (D1)</span></div>
+          <ul>
+            <li class="mustdo">The New Playground → 11 Garmentory → Compound Garment → Spot Hideout — your bold picks, 2–3 hr walk</li>
+            <li class="mustdo">111 Concept Store — clothing, art, souvenirs, multi-concept</li>
+            <li>The Idiot, Untilfaded, Coromhot, Push Push, Lider, Aastu — weave in between</li>
+            <li>Waa Studio (bags), Lumla Glasses (custom), Deeritage (vintage jewellery), DMD Studios</li>
+            <li>Hardy Boys — basics, denim, affordable</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌙</span><span>Evening — pho &amp; rooftop</span></div>
+          <ul>
+            <li class="mustdo">Pho Viet Nam — dinner tonight</li>
+            <li>EON Heli Bar or Chill Sky Bar — rain clears by 19:00–20:00, rooftop cocktails</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R2,300 (Cu Chi R500 pp)</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ ANIMA Boutique Hotel</span>
+          <span class="day-foot-item day-foot-rain">☔ Cu Chi is morning — already done. Streetwear all indoor</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card city-hcmc" data-city="hcmc" data-vibe="food shopping nightlife" data-day="11">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 11</span><span>·</span><span>Wed 1 Jul</span><span class="day-badge">HCMC</span>
+          </div>
+          <div class="day-title">🍜 HCMC — Free day, food crawl &amp; final beer</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🍜 Food</span><span class="vibe-tag">🛍️ Shopping</span><span class="vibe-tag">🌃 Nightlife</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 4 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — best breakfast in Vietnam</span></div>
+          <ul>
+            <li class="mustdo">Bo Ne Ba Nui — $4 steak breakfast, go first thing, order multiple rounds</li>
+            <li>Notre-Dame Cathedral + Central Post Office — beautiful French colonial, 30 min</li>
+            <li>Dong Khoi Street + Nguyen Hue Boulevard — main promenade, covered arcades</li>
+            <li>A+C Coffee Experience or Shin Coffee</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">☀️</span><span>Midday — shopping &amp; lunch</span></div>
+          <ul>
+            <li>Izakaya Kamura lunch — Japanese-Vietnamese fusion</li>
+            <li>Whose Studios, Rue Miche, DMD Studios — fashion notes</li>
+            <li class="mustdo">Lotte Mart — Vietnamese coffee, cashews, snacks, gifts at half airport price</li>
+            <li>Binh Tay Market — Cholon (Chinatown), totally different energy to Ben Thanh</li>
+            <li>Boulevard Gelato — afternoon treat</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌙</span><span>Evening — final dinner &amp; last beer</span></div>
+          <ul>
+            <li class="mustdo">Last dinner — The Refinery (French-Vietnamese, former opium refinery) or EON51 (floor 51 views)</li>
+            <li class="mustdo">Pasteur Street Brewing Company — final beer, craft brewery, tasting paddle. The perfect last drink in Vietnam 🍺</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R1,900</span>
+          <span class="day-foot-item day-foot-hotel">🛏️ ANIMA Boutique Hotel</span>
+          <span class="day-foot-item day-foot-rain">☔ Fully rain-proof day</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card city-hcmc" data-city="hcmc" data-vibe="food travel" data-day="12">
+      <div class="day-card-head">
+        <div class="day-card-head-left">
+          <div class="day-meta">
+            <span class="day-num">Day 12</span><span>·</span><span>Thu 2 Jul</span><span class="day-badge">HCMC</span>
+          </div>
+          <div class="day-title">✈️ Last morning · Fly home 20:00</div>
+          <div class="day-vibe-row">
+            <span class="vibe-tag">🍜 Food</span>
+          </div>
+        </div>
+        <div class="day-card-head-right">
+          <span class="mustdo-count">⭐ 2 must-do</span>
+          <span class="day-toggle">▼</span>
+        </div>
+      </div>
+      <div class="day-card-body">
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">🌅</span><span>Morning — final wander</span></div>
+          <ul>
+            <li class="mustdo">Bo Ne Ba Nui again — or pho from a local spot, one final Vietnamese breakfast</li>
+            <li>Last wander — Dong Khoi or the riverside, HCMC at 08:00 is calm and beautiful</li>
+            <li>Any missed shops + last Lotte Mart run — Mockingbird Cafe, 111 Concept Store</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">☀️</span><span>Midday — farewell lunch</span></div>
+          <ul>
+            <li class="mustdo">Last lunch with a view — EON51 at Bitexco Tower, book ahead, perfect send-off</li>
+            <li>Trung Nguyen coffee from any supermarket — half airport price</li>
+          </ul>
+        </div>
+        <div class="time-block">
+          <div class="time-block-head"><span class="time-icon">✈️</span><span>Departure</span></div>
+          <ul>
+            <li>Grab to Tan Son Nhat ~17:00 — 30 min from D1, allow extra for peak hour</li>
+            <li>Depart 20:00 → Johannesburg — via Doha, arrive JNB 09:00 on 3 Jul 🇻🇳</li>
+          </ul>
+        </div>
+        <div class="day-foot">
+          <span class="day-foot-item day-foot-cost">💰 R300 + return flight</span>
+          <span class="day-foot-item day-foot-rain">☔ Mostly indoor morning</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="emptyDays" class="empty-days">
+      🚫 No days match the current filter. Try clearing the chips above.
+    </div>
+
+    <div class="day-count" id="dayCount">Showing <span id="visibleCount">12</span> of 12 days</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- FLIGHTS TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="flights">
+    <div class="callout">
+      ✅ <strong>Flights locked in!</strong> Qatar Airways open-jaw via Doha. Booking ref <strong>8MXDM6</strong>. Total <strong>R32,924</strong> for 2 (R16,462 pp).
+    </div>
+
+    <!-- CONFIRMED ITINERARY -->
+    <div class="card">
+      <h2>✈️ Confirmed Itinerary</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Direction</th>
+              <th>Date</th>
+              <th>Route</th>
+              <th>Departs</th>
+              <th>Arrives</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="best">
+              <td rowspan="2"><strong>Outbound</strong></td>
+              <td>Sat 20 Jun</td>
+              <td>JNB → DOH</td>
+              <td>12:40</td>
+              <td>21:55</td>
+              <td>~8h 15m</td>
+            </tr>
+            <tr class="best">
+              <td>Sun 21 Jun</td>
+              <td>DOH → HAN</td>
+              <td>02:45</td>
+              <td>13:55</td>
+              <td>~7h 10m</td>
+            </tr>
+            <tr>
+              <td colspan="6" style="background: var(--gold-light); text-align: center; font-size: 0.85rem;">
+                <strong>🛬 Doha layover — 4h 50m</strong> · Hamad International Airport (HIA) · No transit visa needed
+              </td>
+            </tr>
+            <tr class="best">
+              <td rowspan="2"><strong>Return</strong></td>
+              <td>Wed 2 Jul</td>
+              <td>SGN → DOH</td>
+              <td>20:00</td>
+              <td>23:15</td>
+              <td>~7h 15m</td>
+            </tr>
+            <tr class="best">
+              <td>Thu 3 Jul</td>
+              <td>DOH → JNB</td>
+              <td>01:30</td>
+              <td>09:00</td>
+              <td>~8h 30m</td>
+            </tr>
+            <tr>
+              <td colspan="6" style="background: var(--gold-light); text-align: center; font-size: 0.85rem;">
+                <strong>🛬 Doha layover — 2h 15m</strong> · Hamad International Airport (HIA) · Quick transit
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem;">
+        🗺️ <strong>Routing:</strong> JNB ➜ DOH ➜ HAN ··· 12 days in Vietnam ··· SGN ➜ DOH ➜ JNB<br>
+        🌏 <strong>Time zones:</strong> SAST +0 · Doha +1 · Vietnam +5 (5h ahead of Joburg)
+      </p>
+    </div>
+
+    <!-- DOHA LAYOVER STRATEGY -->
+    <div class="card">
+      <h2>⏱️ Doha Layover Plan</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Layover</th><th>Duration</th><th>Vibe</th><th>What to do</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Outbound</strong> (Doha)</td>
+              <td>4h 50m</td>
+              <td>Plenty of time</td>
+              <td>Eat a proper meal, stretch, freshen up, charge everything, walk around. HIA is one of the world's best airports for layovers.</td>
+            </tr>
+            <tr>
+              <td><strong>Return</strong> (Doha)</td>
+              <td>2h 15m</td>
+              <td>Quick</td>
+              <td>Grab dinner at the gate, freshen up, last Doha coffee, board. Not enough time to leave the airport — and you don't need to.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem;">
+        💡 <strong>No transit visa needed</strong> for Doha layovers under 24h — you stay airside. Both connections at Hamad International Airport (HIA).
+      </p>
+    </div>
+
+    <!-- JET LAG -->
+    <div class="card">
+      <h2>😴 Jet Lag Plan (Vietnam = +5h from JNB)</h2>
+      <div class="callout">
+        🌅 <strong>Day 1 strategy:</strong> Land HAN 13:55 local, stay up until at least 22:00 — the Old Quarter on a Sunday night is still lively (great street food, Bia Hoi Corner, and a gentler crowd than weekends). The night market is Fri/Sat only, but the rest of the Old Quarter runs every night. Perfect reason to fight the fatigue.
+      </div>
+      <ul class="tip-list tip-info">
+        <li><strong>Outbound — sleep on JNB → DOH (8h):</strong> Take a melatonin 0.5–1mg ~30 min before boarding. Aim to sleep through as much of this leg as possible.</li>
+        <li><strong>Outbound — stay awake DOH → HAN (7h):</strong> Watch films, walk the cabin, drink water, skip alcohol. Force yourself into Hanoi daytime so you arrive aligned.</li>
+        <li><strong>Return — sleep SGN → DOH (7h):</strong> Aim to be up until 21:00 in SGN to make the evening flight feel natural. Sleep on the plane.</li>
+        <li><strong>Return — sleep DOH → JNB (8h):</strong> Sleep again if you can. Arriving JNB 09:00 is brutal — straight home, bed, wake at sunset, then normal sleep that night.</li>
+        <li>Melatonin 0.5–1mg 30 min before target bedtime for the first 2–3 nights on the ground.</li>
+        <li>Hydration is the single biggest factor — drink water constantly on all 4 legs.</li>
+      </ul>
+    </div>
+
+    <!-- BAGGAGE & SEATS -->
+    <div class="card">
+      <h2>🧳 Baggage & Seats</h2>
+      <ul class="tip-list tip-info">
+        <li><strong>Checked baggage:</strong> 30kg per person on Qatar economy — confirm in Manage Booking on qr.com</li>
+        <li><strong>Carry-on:</strong> 1 piece, 7kg max + 1 small personal item (laptop bag or handbag)</li>
+        <li><strong>Seat pitch:</strong> Qatar economy is ~32" — tight on the 8h JNB↔Doha legs</li>
+        <li><strong>Seat selection:</strong> Pay extra for seats together + extra legroom (exit rows or front cabin) on the long-haul legs — worth it</li>
+        <li><strong>Meals:</strong> Included on all long-haul. Pre-order special meals (vegetarian, halal, kosher) 24h+ before departure via Manage Booking</li>
+        <li><strong>Online check-in:</strong> Opens 48h before each flight — qr.com or the Qatar Airways app</li>
+        <li><strong>Mobile boarding pass:</strong> Download to wallet — works offline</li>
+      </ul>
+    </div>
+
+    <!-- PRE-DEPARTURE CHECKLIST -->
+    <div class="card">
+      <h2>📋 Pre-Departure Checklist</h2>
+      <div class="packing-grid">
+        <label class="packing-item"><input type="checkbox"> <strong>Online check-in</strong> 48h before each leg — qr.com or app</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Mobile boarding passes</strong> downloaded to phone wallet</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Seat selection paid</strong> for JNB↔Doha legs (long haul)</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Booking ref 8MXDM6</strong> saved in phone notes + printed copy</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Passport valid</strong> 6+ months past 3 Jul 2026 (until 3 Jan 2027+)</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Vietnam e-visa</strong> printed + digital copy in cloud</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Travel insurance</strong> docs accessible offline (adventure cover)</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Qatar Airways app</strong> installed for live flight updates</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Bank notified</strong> of travel dates</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Cash</strong> — R3,000 + ~R2,000 USD for the trip</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Phone unlocked</strong> for Vietnamese SIM at airport</label>
+        <label class="packing-item"><input type="checkbox"> <strong>WhatsApp</strong> working with South African number for hotel comms</label>
+      </div>
+    </div>
+
+    <!-- USEFUL LINKS -->
+    <div class="card">
+      <h2>🔗 Quick Links</h2>
+      <ul class="tip-list tip-info">
+        <li><a href="https://www.qatarairways.com/en/manage-booking.html" target="_blank" style="color: var(--red);"><strong>Qatar Airways Manage Booking</strong></a> — check-in, seats, meals, flight status</li>
+        <li><a href="https://www.qatarairways.com/en/travel-alerts/flight-status.html" target="_blank" style="color: var(--red);"><strong>Live Flight Status</strong></a> — both directions</li>
+        <li><a href="https://www.dohahamadairport.com/" target="_blank" style="color: var(--red);"><strong>Hamad International Airport (HIA)</strong></a> — Doha terminal map, lounge access, dining</li>
+        <li><a href="https://evisa.gov.vn/" target="_blank" style="color: var(--red);"><strong>Vietnam e-Visa</strong></a> — print + save digital copy</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- WEATHER TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="weather">
+    <div class="callout">
+      🌦️ <strong>Late June/July weather varies hugely by region.</strong> Central Vietnam is the sweet spot — hot and mostly dry. North and South get rain. Plan outdoor HCMC activities before noon.
+    </div>
+
+    <div class="callout callout-red">
+      ☔ <strong>HCMC rain pattern:</strong> Clear mornings → heavy rain 14:00–17:00 → clears again by 19:00. Plan ALL outdoor activities (War Remnants Museum, Reunification Palace, Cu Chi, walking streets) before noon — the rest of the day is a wash.
+    </div>
+
+    <div class="card">
+      <h2>🌦️ Weather by Region</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Region</th><th>Dates</th><th>Temp</th><th>Conditions</th><th>Risk</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Hanoi</strong></td>
+              <td>21–22 Jun</td>
+              <td>34–36°C</td>
+              <td>Afternoon thunderstorms</td>
+              <td><span class="badge badge-warn">Medium</span> — outdoor mornings only</td>
+            </tr>
+            <tr class="best">
+              <td><strong>Ha Long Bay</strong></td>
+              <td>23–24 Jun</td>
+              <td>30–32°C</td>
+              <td>Misty · cruises run</td>
+              <td><span class="badge badge-best">Low</span> — mist looks magical</td>
+            </tr>
+            <tr class="best">
+              <td><strong>Hoi An & Da Nang ⭐</strong></td>
+              <td>25–28 Jun</td>
+              <td>32–34°C</td>
+              <td>Dry season, sunny</td>
+              <td><span class="badge badge-best">Low — best of the trip</span></td>
+            </tr>
+            <tr>
+              <td><strong>Ho Chi Minh City</strong></td>
+              <td>29 Jun – 2 Jul</td>
+              <td>30–33°C</td>
+              <td>Heavy afternoon rain</td>
+              <td><span class="badge badge-warn">High</span> — outdoor activities before noon only</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🌡️ Regional Cards</h2>
+      <div class="weather-grid">
+        <div class="weather-card">
+          <div class="temp">🌩️ 34–36°C</div>
+          <div class="region">Hanoi</div>
+          <div class="desc">21–22 Jun · afternoon thunderstorms</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-warn">Medium Risk</span></div>
+        </div>
+        <div class="weather-card">
+          <div class="temp">🌫️ 30–32°C</div>
+          <div class="region">Ha Long Bay</div>
+          <div class="desc">23–24 Jun · misty, cruises run</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-best">Low Risk</span></div>
+        </div>
+        <div class="weather-card best">
+          <div class="temp">☀️ 32–34°C</div>
+          <div class="region">Hoi An & Da Nang ⭐</div>
+          <div class="desc">25–28 Jun · dry season, sunny</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-best">Best of Trip</span></div>
+        </div>
+        <div class="weather-card">
+          <div class="temp">🌧️ 30–33°C</div>
+          <div class="region">Ho Chi Minh City</div>
+          <div class="desc">29 Jun – 2 Jul · heavy afternoon rain</div>
+          <div style="margin-top: 0.5rem;"><span class="badge badge-warn">High Risk</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>⚠️ Weather Warnings</h2>
+      <ul class="tip-list tip-warn">
+        <li><strong>Hanoi</strong> afternoon thunderstorms are loud but short — plan temple & mausoleum visits in the morning</li>
+        <li><strong>Ha Long Bay</strong> cruises can be cancelled due to storms — have Ninh Binh (Trang An, Hoa Lu, Mua Cave) as backup</li>
+        <li><strong>Hoi An & Da Nang</strong> are the best weather windows — protect against midday sun</li>
+        <li><strong>HCMC</strong> rain pattern is reliable: clear mornings, downpours 14:00–17:00, clear again 19:00 — schedule Cu Chi + War Remnants Museum for AM</li>
+        <li>Pack rain gear regardless — even "dry" Central can get a passing shower</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>✅ What's Great in Late June</h2>
+      <ul class="tip-list tip-good">
+        <li>Hoi An & Da Nang beaches at their peak — My Khe in Da Nang, An Bang in Hoi An</li>
+        <li>Fewer tourists in Hanoi & HCMC = cheaper accommodation and no crowds</li>
+        <li>HCMC rain is usually short, dramatic afternoon bursts — evenings and mornings are perfect for walking streets</li>
+        <li>Lush green landscapes — best time for photography</li>
+        <li>Dragon Bridge fire show runs Fri/Sat/Sun nights — you're there for both Sat 27 &amp; Sun 28 🔥</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- BUDGET TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="budget">
+    <div class="card">
+      <h2>💰 Budget — Comfortable (per person, per day)</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">Boutique hotels, mix of local + restaurants, Grab for transport. Excludes international flights.</p>
+      <div class="table-wrap">
+        <table class="budget-table">
+          <thead>
+            <tr><th>Category</th><th>Per Day (USD)</th><th>Per Day (ZAR)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>🏨 Boutique accommodation</td><td>$50–80</td><td>R1,100–1,800</td></tr>
+            <tr><td>🍜 Food (mix of local + restaurants)</td><td>$20–35</td><td>R440–770</td></tr>
+            <tr><td>🎯 Activities & transport</td><td>$20–30</td><td>R440–660</td></tr>
+            <tr class="budget-total"><td><strong>Total per person, per day</strong></td><td><strong>$90–145</strong></td><td><strong>R1,980–3,190</strong></td></tr>
+            <tr class="budget-total"><td><strong>12-day trip per person</strong></td><td><strong>≈ $1,100–1,700</strong></td><td><strong>≈ R24,200–37,400</strong></td></tr>
+            <tr class="budget-total"><td><strong>12-day trip for 2</strong></td><td><strong>≈ $2,200–3,400</strong></td><td><strong>≈ R48,400–74,800</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.75rem;">
+        💡 Add international flights: <strong>R16,462 pp</strong> (Qatar Airways, ref 8MXDM6) → grand total for 2 ≈ <strong>R81,300–107,700</strong>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>💸 Money-Saving Tips</h2>
+      <ul class="tip-list tip-money">
+        <li>Vietnam is very affordable even at the "comfortable" tier — boutique hotels are still cheap by global standards</li>
+        <li>Street food is incredible and costs R15-60 per meal — mix with mid-range restaurants for variety</li>
+        <li>ATMs give better exchange rates than currency exchange counters</li>
+        <li>Internal flights (Vietjet, Bamboo) are cheap — ~R600-900 per sector (HAN→DAD, DAD→SGN)</li>
+        <li>Grab (SE Asian Uber) is cheap and reliable — always use over flagged taxis</li>
+        <li>Haggling is expected at markets — start at 50% and negotiate up</li>
+        <li>1 ZAR ≈ 1,200 VND (check current rate before you go)</li>
+        <li>Boutique hotels in Old Quarter Hanoi & District 1 HCMC are a great value zone</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- VISA TAB -->
+  <div class="tab-content" id="visa">
+    <div class="card">
+      <h2>🛂 Visa Requirements — South African Citizens</h2>
+      <ul class="tip-list tip-info">
+        <li>South Africans <strong>need a visa</strong> for Vietnam</li>
+        <li><strong>E-visa</strong> available online: ~$25 USD (~R470) for 90 days single entry</li>
+        <li><strong>E-visa 90 days multiple entry:</strong> ~$50 USD (~R940) — recommended if doing open-jaw flights</li>
+        <li>Apply at: <a href="https://evisa.gov.vn/" target="_blank" style="color: var(--red);">evisa.gov.vn</a></li>
+        <li>Processing: ~3 working days</li>
+        <li>Passport must be valid for at least <strong>6 months</strong></li>
+        <li><strong>No transit visa</strong> needed for Doha or Dubai layovers under 24h</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      📝 Apply for your e-visa at least 2-3 weeks before departure. Quick and straightforward — just need a passport photo and itinerary details.
+    </div>
+
+    <div class="card">
+      <h2>💉 Health & Vaccinations</h2>
+      <ul class="tip-list tip-info">
+        <li><strong>Hepatitis A & B</strong> recommended — standard for most of SE Asia</li>
+        <li><strong>Typhoid</strong> recommended — especially if you'll eat street food (you will)</li>
+        <li>Consult a travel doctor 4-6 weeks before departure for boosters</li>
+        <li>Travel insurance <strong>must cover adventure activities</strong> — kayaking (Ha Long Bay), Cu Chi Tunnels crawling, motorbike trips</li>
+        <li>Pharmacies in Vietnam are well-stocked; bring basics (rehydration, painkillers, plasters)</li>
+        <li>Tap water: don't drink it. Use bottled or filtered.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>📱 Apps to Download Before You Go</h2>
+      <div class="packing-grid">
+        <label class="packing-item"><input type="checkbox"> <strong>Grab</strong> — SE Asia's Uber. The single most important app. </label>
+        <label class="packing-item"><input type="checkbox"> <strong>Google Translate</strong> — download <strong>offline Vietnamese</strong> pack before you fly</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Maps.me</strong> — offline maps, works without SIM</label>
+        <label class="packing-item"><input type="checkbox"> <strong>VietJet / Bamboo Airways</strong> apps for domestic flight mobile boarding passes</label>
+        <label class="packing-item"><input type="checkbox"> <strong>XE Currency</strong> — VND conversion (the numbers are huge!)</label>
+        <label class="packing-item"><input type="checkbox"> <strong>WhatsApp</strong> — Grab drivers and hotels message here</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📋 Checklist</h2>
+      <div class="packing-grid">
+        <label class="packing-item"><input type="checkbox"> Valid passport (6+ months)</label>
+        <label class="packing-item"><input type="checkbox"> E-visa application done</label>
+        <label class="packing-item"><input type="checkbox"> Travel insurance purchased</label>
+        <label class="packing-item"><input type="checkbox"> Flight tickets booked</label>
+        <label class="packing-item"><input type="checkbox" checked> ✅ Accommodation — all 5 stays booked</label>
+        <label class="packing-item"><input type="checkbox"> Copies of docs (digital + printed)</label>
+        <label class="packing-item"><input type="checkbox"> Notify bank of travel</label>
+        <label class="packing-item"><input type="checkbox" checked> ✅ Mon Cheri Cruises booked (conf: 6223585718)</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- PACKING TAB -->
+  <div class="tab-content" id="packing">
+    <div class="card">
+      <h2>🧳 Packing List</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">Click items to check them off — your progress saves locally.</p>
+      <div class="packing-grid" id="packingList"></div>
+      <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+        <span id="packingProgress"></span>
+      </div>
+    </div>
+
+    <div class="callout callout-red">
+      🌧️ <strong>Essential:</strong> Pack a rain jacket/poncho — you WILL need it in Hanoi and HCMC. This is a boutique/comfortable trip, not a trekking trip — pack light, focus on breathable pieces and one dressy outfit for rooftop bars in HCMC.
+    </div>
+
+    <div class="card">
+      <h2>💡 Vietnam Packing Tips</h2>
+      <ul class="tip-list tip-info">
+        <li>Pack light — you can buy tailored clothes in Hoi An (cheaper than anywhere) and HCMC has great streetwear</li>
+        <li>Laundry is R20-30/kg everywhere — no need to overpack</li>
+        <li><strong>Modest temple wear</strong>: cover shoulders and knees (Imperial Citadel, Temple of Literature, Phuc Kien, Linh Ung Pagoda, Marble Mountains)</li>
+        <li><strong>Swimwear</strong> — beach days at My Khe (Da Nang) and An Bang (Hoi An), plus the Ha Long Bay cruise</li>
+        <li>Waterproof phone pouch is essential for the Ha Long cruise and afternoon HCMC storms</li>
+        <li>Comfortable walking sandals > sneakers (it's too hot for closed shoes most days)</li>
+        <li>Bring one light scarf/cover-up — temples require shoulders covered and it doubles as AC relief in restaurants</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- STAYS TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="stays">
+    <div class="callout">
+      🏨 <strong>All 5 stays confirmed on Booking.com</strong> — everything below is locked in. See the summary table for the full cost breakdown.
+    </div>
+
+    <!-- CONFIRMED BOOKINGS -->
+    <div class="bookings-panel">
+      <div class="bookings-header">✅ All 5 Stays Confirmed on Booking.com</div>
+
+      <div class="booking-card">
+        <div class="booking-card-left">
+          <div class="booking-name">La Passion Premium Cau Go</div>
+          <div class="booking-loc">📍 Hanoi — Old Quarter</div>
+          <div class="booking-dates">📅 Sun 21 Jun – Tue 23 Jun · 2 nights</div>
+          <div class="booking-confirm">Confirmation: <strong>5963820548</strong> · 📞 +84 886 087 576</div>
+        </div>
+        <div class="booking-card-right">
+          <div class="booking-status">✅ BOOKED</div>
+        </div>
+      </div>
+
+      <div class="booking-card">
+        <div class="booking-card-left">
+          <div class="booking-name">Mon Cheri Cruises</div>
+          <div class="booking-loc">🚢 Ha Long Bay — Overnight cruise</div>
+          <div class="booking-dates">📅 Tue 23 Jun – Wed 24 Jun · 1 night</div>
+          <div class="booking-confirm">Confirmation: <strong>6223585718</strong> · 📞 +84 946 982 299</div>
+        </div>
+        <div class="booking-card-right">
+          <div class="booking-status">✅ BOOKED</div>
+        </div>
+      </div>
+
+      <div class="booking-card">
+        <div class="booking-card-left">
+          <div class="booking-name">Hotel Royal Hoi An, Danang</div>
+          <div class="booking-loc">📍 Hoi An — Ancient Town area</div>
+          <div class="booking-dates">📅 Wed 24 Jun – Sat 27 Jun · 3 nights</div>
+          <div class="booking-confirm">Confirmation: <strong>5760294192</strong> · 📞 +84 235 3950 777</div>
+        </div>
+        <div class="booking-card-right">
+          <div class="booking-status">✅ BOOKED</div>
+        </div>
+      </div>
+
+      <div class="booking-card">
+        <div class="booking-card-left">
+          <div class="booking-name">Chicland Boutique Danang Beach Hotel</div>
+          <div class="booking-loc">📍 Da Nang — My Khe Beach</div>
+          <div class="booking-dates">📅 Sat 27 Jun – Mon 29 Jun · 2 nights</div>
+          <div class="booking-confirm">Confirmation: <strong>6288175813</strong> · 📞 +84 236 2232 222</div>
+        </div>
+        <div class="booking-card-right">
+          <div class="booking-status">✅ BOOKED</div>
+        </div>
+      </div>
+
+      <div class="booking-card">
+        <div class="booking-card-left">
+          <div class="booking-name">ANIMA - Vietnamese Contemporary Art Boutique Hotel</div>
+          <div class="booking-loc">📍 HCMC — District 1</div>
+          <div class="booking-dates">📅 Mon 29 Jun – Thu 2 Jul · 3 nights</div>
+          <div class="booking-confirm">Confirmation: <strong>6083452364</strong> · 📞 +84 833 881 010</div>
+        </div>
+        <div class="booking-card-right">
+          <div class="booking-status">✅ BOOKED</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Summary -->
+    <div class="card">
+      <h2>💰 Accommodation Cost Summary</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">All 5 stays confirmed on Booking.com. Prices are estimates based on typical rates — exact amounts will be in your Booking.com confirmation.</p>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr><th>Location</th><th>Nights</th><th>Booked</th><th>Est. Total</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>📍 Hanoi (Old Quarter)</td><td>2</td><td>La Passion Premium Cau Go ✅</td><td>R3,300 booked</td></tr>
+            <tr><td>🚢 Ha Long Bay</td><td>1 (cruise)</td><td>Mon Cheri Cruises ✅</td><td>~R5,500 booked</td></tr>
+            <tr><td>📍 Hoi An</td><td>3</td><td>Hotel Royal Hoi An ✅</td><td>~R6,000 booked</td></tr>
+            <tr><td>📍 Da Nang (My Khe Beach)</td><td>2</td><td>Chicland Boutique Danang Beach ✅</td><td>~R3,600 booked</td></tr>
+            <tr><td>📍 HCMC (District 1)</td><td>3</td><td>ANIMA Boutique Hotel ✅</td><td>~R6,900 booked</td></tr>
+            <tr style="font-weight:700; border-top: 2px solid var(--border);">
+              <td><strong>Total (10 hotel nights + 1 cruise night)</strong></td><td>11</td><td></td><td><strong>~R25,300 (all booked)</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.75rem;">
+        💡 All prices are estimates — check your Booking.com confirmation for exact totals. ~R25k for 11 nights across 5 stays is solid value for a trip like this.
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- PLACES TAB -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="places">
+    <div class="callout">
+      📍 <strong>Cafes, matcha spots, fashion stores & more</strong> — our wishlist of places to hit. Check them off as you go!
+    </div>
+
+    <!-- HANOI -->
+    <div class="places-location">
+      <div class="places-location-header">📍 Hanoi<span class="places-count">15 places</span></div>
+
+      <div class="place-card" id="p1">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p1')"></div>
+        <div class="place-info">
+          <div class="place-name">Nagocha Matcha</div>
+          <div class="place-badges">
+            <span class="place-badge matcha">🍵 Matcha</span>
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Matcha-focused cafe in Hanoi — the one that kicked off this whole list. Proper matcha drinks in a stylish setting. 🍵</div>
+          <div class="place-price">~R35–70 per drink</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p2">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p2')"></div>
+        <div class="place-info">
+          <div class="place-name">Loading T'estation</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Multi-concept store: specialty coffee & matcha bar on the ground floor, curated fashion retail upstairs. Minimalist white interiors, clean lines — screams "Instagram grid." Hanoi's fashion-forward crowd hangs here.</div>
+          <div class="place-price">Drinks ~R40–85 · Clothing ~R300–1,300</div>
+          <div class="place-tip">💡 Fashion + coffee in one stop — perfect for a mid-afternoon break between sightseeing</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p21">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p21')"></div>
+        <div class="place-info">
+          <div class="place-name">The Raw Compound</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge craft">🎨 Creative</span>
+          </div>
+          <div class="place-desc">Creative concept space in the Old Quarter — fashion-forward boutique gallery mixing Vietnamese designers, art, and lifestyle brands. The kind of place where you'll discover three new labels in one visit. Combine with Loading T'estation next door for a full fashion walk.</div>
+          <div class="place-price">~R300–1,400 per piece</div>
+          <div class="place-tip">💡 Group with Loading T'estation and the surrounding Old Quarter fashion strip in one focused walk</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p3">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p3')"></div>
+        <div class="place-info">
+          <div class="place-name">The Note Coffee</div>
+          <div class="place-badges">
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Viral-worthy cafe near Hoan Kiem Lake — every surface covered in colourful sticky notes from visitors worldwide. Serves Vietnamese coffee, egg coffee, and matcha. The most Instagrammable spot in Hanoi.</div>
+          <div class="place-price">~R30–55 per drink</div>
+          <div class="place-tip">💡 Bring a sticky note to leave your mark! Go early (before 10am) to avoid queues</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p14">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p14')"></div>
+        <div class="place-info">
+          <div class="place-name">Gom Nha Tran</div>
+          <div class="place-badges">
+            <span class="place-badge craft">🏺 Craft</span>
+          </div>
+          <div class="place-desc">The cutest ceramics shop in Hanoi's Old Quarter. Handmade pottery, ceramic homeware, and adorable figurines — perfect for unique souvenirs. Found via Instagram and it actually delivers IRL.</div>
+          <div class="place-price">~R30–300 per piece</div>
+          <div class="place-tip">💡 Hidden gem in the Old Quarter — easy to add in between sightseeing stops</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p15">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p15')"></div>
+        <div class="place-info">
+          <div class="place-name">HANI Clothes</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Popular womenswear boutique in the Old Quarter — 220K followers on Instagram. Trendy ready-to-wear pieces at local prices. 44 Hàng Vải, right in the heart of the Old Quarter.</div>
+          <div class="place-price">~R150–600 per piece</div>
+          <div class="place-tip">💡 Open 9:30am–9:30pm daily — perfect for a wander between sightseeing. Call 035 746 0707.</div>
+        </div>
+      </div>
+      <div class="place-card" id="p16">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p16')"></div>
+        <div class="place-info">
+          <div class="place-name">LIBÉ Workshop</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Trendy womenswear boutique with a workshop concept — local fashion favourite in Hanoi. Known for feminine, modern cuts at accessible prices. 29 Thái Phiên, near the Old Quarter.</div>
+          <div class="place-price">~R150–500 per piece</div>
+          <div class="place-tip">💡 Also online at libeworkshop — can browse ahead to see what's in</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p17">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p17')"></div>
+        <div class="place-info">
+          <div class="place-name">Meli</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Popular Vietnamese womenswear brand — stylish everyday pieces at local prices. Part of the Hanoi fashion circuit alongside HANI and Libé.</div>
+          <div class="place-price">~R150–500 per piece</div>
+          <div class="place-tip">💡 Store at 110B1 Phạm Ngọc Thạch, Đống Đa — a bit out of the Old Quarter but worth the Grab</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p18">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p18')"></div>
+        <div class="place-info">
+          <div class="place-name">Cara Club</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Popular Vietnamese womenswear chain — modern, feminine styles with a touch of European influence. Multiple locations across Hanoi including Hanoi Centre (175 Nguyễn Thái Học, Ba Đình) and AEON malls.</div>
+          <div class="place-price">~R200–700 per piece</div>
+          <div class="place-tip">💡 Hanoi Centre location (1F, 175 Nguyễn Thái Học) is the most central — about 10min Grab from Old Quarter</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p39">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p39')"></div>
+        <div class="place-info">
+          <div class="place-name">Bun Cha Huong Lien</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">Obama &amp; Anthony Bourdain ate here in 2016 — the bun cha spot that put Hanoi on the global food map. Grilled pork patties in sweet-sour broth with rice noodles and herbs. Plastic-stool local spot, no airs. Arrive at 12pm or join the queue.</div>
+          <div class="place-price">~R80–140 per person</div>
+          <div class="place-tip">💡 Bourdain's table is preserved upstairs. Order the combo + a Hanoi beer.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p40">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p40')"></div>
+        <div class="place-info">
+          <div class="place-name">Cafe Giang</div>
+          <div class="place-badges">
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">The original Hanoi egg coffee since 1946. Whisky-yellow coffee made with whipped egg yolk and condensed milk, served hot or over ice. The recipe hasn't changed in 80 years.</div>
+          <div class="place-price">~R25–45 per cup</div>
+          <div class="place-tip">💡 Order cà phê trứng nóng (hot) on a cool day, đá (iced) when it's hot. Both are perfect.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p41">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p41')"></div>
+        <div class="place-info">
+          <div class="place-name">Hoan Kiem Lake + Ngoc Son Temple</div>
+          <div class="place-badges">
+            <span class="place-badge view">🌅 View</span>
+            <span class="place-badge temple">🛕 Temple</span>
+          </div>
+          <div class="place-desc">The heart of Hanoi. Small lake in the old town, walking path around it, red bridge to Ngoc Son Temple on the island. Go on Day 1 afternoon while it's dry — beautiful in afternoon light. Locals doing tai chi at sunrise.</div>
+          <div class="place-price">~R10 lake area · Temple free</div>
+          <div class="place-tip">💡 Sunrise tai chi scene is a different vibe from afternoon stroll — worth setting an alarm once.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p42">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p42')"></div>
+        <div class="place-info">
+          <div class="place-name">Ho Chi Minh Mausoleum + One Pillar Pagoda</div>
+          <div class="place-badges">
+            <span class="place-badge history">🏛️ History</span>
+            <span class="place-badge temple">🛕 Temple</span>
+          </div>
+          <div class="place-desc">HCM's preserved body in a Soviet-style mausoleum (closes at 11am, closed Mon/Fri). One Pillar Pagoda next door — Vietnam's most iconic Buddhist temple, built 1049, on a single stone pillar rising from a square pond.</div>
+          <div class="place-price">Free</div>
+          <div class="place-tip">💡 Get there at 8am sharp. Modest dress required (shoulders + knees covered). Closed Mondays and Fridays.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p43">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p43')"></div>
+        <div class="place-info">
+          <div class="place-name">Bia Hoi Corner (Ta Hien &amp; Luong Ngoc Quyen)</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+            <span class="place-badge nightlife">🌃 Nightlife</span>
+          </div>
+          <div class="place-desc">Hanoi's most famous street corner. 25c draught beer (beverages) on plastic stools with locals. Open from mid-morning to late. The cheapest legal beer in Vietnam and a genuine cross-section of Hanoians.</div>
+          <div class="place-price">~R6 per beer (yes, really)</div>
+          <div class="place-tip">💡 Go in the late afternoon — locals pile in from 5pm. A few of the spots have English menus, most don't. Point and enjoy.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p44">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p44')"></div>
+        <div class="place-info">
+          <div class="place-name">Train Street</div>
+          <div class="place-badges">
+            <span class="place-badge view">🌅 View</span>
+            <span class="place-badge adventure">🥾 Adventure</span>
+          </div>
+          <div class="place-desc">The famous narrow street where trains pass through café tables. Access has been restricted on and off since 2019 — go and try. Worst case: you're on a great street with a delicious coffee. Best case: you watch a train roll past your cup.</div>
+          <div class="place-price">Free · coffee ~R30–60</div>
+          <div class="place-tip">💡 Go during the day, ask cafés about train times. The experience is the attempt, not the certainty.</div>
+        </div>
+      </div>
+
+    </div>
+    <!-- HOI AN -->
+    <div class="places-location">
+      <div class="places-location-header">📍 Hoi An<span class="places-count">10 places</span></div>
+
+      <div class="place-card" id="p4">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p4')"></div>
+        <div class="place-info">
+          <div class="place-name">Mia Coffee</div>
+          <div class="place-badges">
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Specialty coffee in a beautifully restored heritage building. Artisanal brews (V60, AeroPress, traditional Vietnamese), weathered yellow walls, wooden beams, lush plants. This is the Hoi An coffee experience.</div>
+          <div class="place-price">~R35–70 per drink</div>
+          <div class="place-tip">💡 The building itself is the draw — go for golden hour photos</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p5">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p5')"></div>
+        <div class="place-info">
+          <div class="place-name">Cocobox</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge cafe">☕ Cafe</span>
+            <span class="place-badge market">🛍️ Market</span>
+          </div>
+          <div class="place-desc">Concept store blending artisan fashion/boutique with a laid-back cafe. Locally-made clothing, textiles, jewellery, and homeware. Serves great Vietnamese coffee and light bites. Sustainable, traditional Vietnamese craftsmanship vibes.</div>
+          <div class="place-price">Drinks ~R20–55 · Clothing ~R140–700</div>
+          <div class="place-tip">💡 Perfect for souvenirs that aren't mass-produced — grab unique pieces here</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p45">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p45')"></div>
+        <div class="place-info">
+          <div class="place-name">Banh Mi Phuong</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">Bold pick — arguably Vietnam's best banh mi. Anthony Bourdain named it in 2009. The queue out the door is the point. Pork pâté, cold cuts, fresh herbs, baguette shatter on a grill press. 3-minute wait for a lifetime of banh mi knowledge.</div>
+          <div class="place-price">~R25–40 per sandwich</div>
+          <div class="place-tip">💡 Go at breakfast (before 9am) to skip the queue. Don't over-order — one is filling.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p46">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p46')"></div>
+        <div class="place-info">
+          <div class="place-name">Quan Cao Iau Ba Le</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">The only place to eat authentic white rose dumplings (bánh bao vacuống) — a Hoi An specialty. Translucent shrimp dumplings shaped like roses, lightly steamed, dipped in a sweet-savoury fish sauce. Can ONLY be made properly in Hoi An because the well water gives the dough its unique texture.</div>
+          <div class="place-price">~R80–140 for a plate of 8–10</div>
+          <div class="place-tip">💡 Order early in your Hoi An stay — they often sell out by 2pm.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p47">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p47')"></div>
+        <div class="place-info">
+          <div class="place-name">Morning Glory Restaurant</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">The place to try Cao Lau — the noodle dish that can only properly be made in Hoi An (the water is the secret). Thick rice noodles, char siu pork, greens, crispy rice crackers, in a small amount of rich broth. Set in a colonial building, cooking-school pedigree.</div>
+          <div class="place-price">~R120–200 per dish</div>
+          <div class="place-tip">💡 Book a cooking class here if interested (Red Bridge is the other top pick). The menu covers all central Vietnamese specialties.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p48">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p48')"></div>
+        <div class="place-info">
+          <div class="place-name">Phuc Kien Assembly Hall (Fujian)</div>
+          <div class="place-badges">
+            <span class="place-badge temple">🛕 Temple</span>
+            <span class="place-badge view">🌅 View</span>
+          </div>
+          <div class="place-desc">Bold pick — THE most beautiful temple in Hoi An. Chinese-Vietnamese assembly hall dedicated to the Goddess of the Sea. Enormous incense spirals hanging from the ceiling, ornate red altars, thick incense smoke, dragon carvings, lantern light. Go early when light comes through the entrance gate. Unmissable.</div>
+          <div class="place-price">Entry included in Old Town ticket (~R120)</div>
+          <div class="place-tip">💡 Don't skip the inner courtyard — the real beauty is past the entrance. Light is best 8–10am.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p49">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p49')"></div>
+        <div class="place-info">
+          <div class="place-name">Japanese Covered Bridge</div>
+          <div class="place-badges">
+            <span class="place-badge temple">🛕 Temple</span>
+            <span class="place-badge history">🏛️ History</span>
+          </div>
+          <div class="place-desc">Hoi An's most iconic landmark — a 16th-century wooden bridge with a tiny temple inside, connecting the Japanese and Chinese quarters. Covered roof, weathered wood, two dog and two monkey statues guarding each end (the story behind them is dark and lovely).</div>
+          <div class="place-price">Entry included in Old Town ticket</div>
+          <div class="place-tip">💡 Photographed best from the riverside at sunrise. Cross it both ways — the angles are very different.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p50">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p50')"></div>
+        <div class="place-info">
+          <div class="place-name">Cam Thanh Coconut Village</div>
+          <div class="place-badges">
+            <span class="place-badge adventure">🥾 Adventure</span>
+            <span class="place-badge view">🌅 View</span>
+          </div>
+          <div class="place-desc">Mangrove palm forest a few km from Hoi An. The activity: bamboo basket boats (thúng chai), round woven boats, paddled by locals. Spinning tricks, fishing nets, a slow paddle through the mangrove tunnels. Genuinely fun, very photogenic.</div>
+          <div class="place-price">~R200–350 pp for the boat experience</div>
+          <div class="place-tip">💡 Book a half-morning slot (8–11am or 2–5pm). Avoid the worst midday sun. Wear something you don't mind getting splashed.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p51">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p51')"></div>
+        <div class="place-info">
+          <div class="place-name">An Bang Beach</div>
+          <div class="place-badges">
+            <span class="place-badge beach">🏖️ Beach</span>
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">Hoi An's beach — 4km of clean sand, 4km from the Old Town, reached by bicycle in 15 min. Soul Kitchen is the famous beach bar: sun loungers, cold beer, wood-fired pizzas, sunset sessions. Quieter than My Khe in Da Nang.</div>
+          <div class="place-price">Free · Sun lounger ~R50 · Beer ~R30</div>
+          <div class="place-tip">💡 Bicycle from Old Town (R50k VND/day rental). Go for sunset, not during peak heat.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p52">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p52')"></div>
+        <div class="place-info">
+          <div class="place-name">Hoi An Night Market</div>
+          <div class="place-badges">
+            <span class="place-badge market">🛍️ Market</span>
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">Runs every night along Nguyen Hoang Street by the river. Lanterns lit everywhere, street food, souvenirs, tailoring tents, lanterns, ceramics, silk. The whole Old Town becomes this on summer evenings — atmospheric, busy, family-friendly.</div>
+          <div class="place-price">Free · food ~R30–80 per item</div>
+          <div class="place-tip">💡 Combine with a lantern boat ride on the Thu Bon River (release a flower lantern together).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOI AN TAILORING & LEATHER -->
+    <div class="places-location">
+      <div class="places-location-header">✂️ Hoi An — Tailors &amp; Leather<span class="places-count">10 places</span></div>
+
+      <div class="place-card" id="p22">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p22')"></div>
+        <div class="place-info">
+          <div class="place-name">Izi Tailor</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Bold pick — custom pyjamas, 24–48hr turnaround. The bold move: order a couple of sets on Day 5 morning, collect on Day 7. Their specialty. Get measured before lunch, pick fabric from the wall, and chat through the cut.</div>
+          <div class="place-price">Pyjamas ~R600–1,400 per set</div>
+          <div class="place-tip">💡 Order on Day 5, collect Day 7 before heading to Da Nang. Give them your WhatsApp for fitting updates.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p23">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p23')"></div>
+        <div class="place-info">
+          <div class="place-name">I Love Fashion</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Second tailor stop for bold pieces. Order today, collect Day 7. Trusted by travellers for on-trend cuts and good communication. Make the most of the 48-hour turnaround window.</div>
+          <div class="place-price">Dresses ~R800–1,800 · Suits ~R1,500–3,000</div>
+          <div class="place-tip">💡 Pair with Izi Tailor — same-day visit, different vibe, full week of custom pieces</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p24">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p24')"></div>
+        <div class="place-info">
+          <div class="place-name">Hoan Leather Store</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge craft">👜 Leather</span>
+          </div>
+          <div class="place-desc">Bold pick — tabi shoes & bag making. One of the most unique shopping experiences in Vietnam: watch the leather being cut and stitched in front of you, then walk out with custom tabi shoes. Half-shoe, half-sock, distinctly Japanese-influenced.</div>
+          <div class="place-price">Tabi shoes ~R800–1,600 · Bags ~R1,200–3,000</div>
+          <div class="place-tip">💡 Watch the process — this is the whole point. Allow ~1.5 hrs. Combine with Da Bao / Leather Store 19 / Song Leather nearby for a full leather walk.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p6">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p6')"></div>
+        <div class="place-info">
+          <div class="place-name">Yaly Couture</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">The most established tailor in Hoi An. Higher-end aesthetic with structured silhouettes and modern cuts alongside traditional Vietnamese pieces. Slightly pricier but the quality finish shows — worth a browse even if you don't order.</div>
+          <div class="place-price">Suits ~R2,000–4,000 · Dresses ~R1,000–2,500</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p7">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p7')"></div>
+        <div class="place-info">
+          <div class="place-name">Be Be Tailor</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">One of Hoi An's most popular tailors. Suits from ~R1,500, dresses from ~R800, ready in 24-48h. Great fabric selection and honest pricing. The safe-bet backup if Izi or I Love Fashion is fully booked.</div>
+          <div class="place-price">Suits ~R1,500–3,000 · Dresses ~R800–2,000</div>
+          <div class="place-tip">💡 Go early in your Hoi An stay so there's time for fittings</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p53">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p53')"></div>
+        <div class="place-info">
+          <div class="place-name">Da Bao Real Leather</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge craft">👜 Leather</span>
+          </div>
+          <div class="place-desc">Independent leather workshop near Hoan. Bags, belts, wallets — all hand-cut and stitched on-site. The quality is solid and prices are more negotiable than Hoan's.</div>
+          <div class="place-price">~R150–800 per piece</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p54">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p54')"></div>
+        <div class="place-info">
+          <div class="place-name">Leather Store 19</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge craft">👜 Leather</span>
+          </div>
+          <div class="place-desc">Small leather specialist with a good selection of finished pieces and a few made-to-order options. Combine with the other leather shops in one focused walk.</div>
+          <div class="place-price">~R150–800 per piece</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p55">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p55')"></div>
+        <div class="place-info">
+          <div class="place-name">Song Leather</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge craft">👜 Leather</span>
+          </div>
+          <div class="place-desc">Family-run leather shop — bags and small accessories, traditional Vietnamese craftsmanship. Worth a browse if you're doing the full leather strip.</div>
+          <div class="place-price">~R150–800 per piece</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p56">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p56')"></div>
+        <div class="place-info">
+          <div class="place-name">Sam Tailor</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Mid-range tailor with a long history in Hoi An. Suits, dresses, shirts — solid 24–48hr turnaround. Good backup if the bold picks are booked up.</div>
+          <div class="place-price">~R1,500–3,000 for tailoring</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p57">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p57')"></div>
+        <div class="place-info">
+          <div class="place-name">Sewing Bee</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Boutique tailor with personal attention. Better for one or two well-considered pieces than a full wardrobe order.</div>
+          <div class="place-price">~R1,500–3,000 for tailoring</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DA NANG -->
+    <div class="places-location">
+      <div class="places-location-header">🌉 Da Nang<span class="places-count">12 places</span></div>
+
+      <div class="place-card" id="p25">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p25')"></div>
+        <div class="place-info">
+          <div class="place-name">Linh Ung Pagoda (Son Tra Peninsula)</div>
+          <div class="place-badges">
+            <span class="place-badge temple">🛕 Temple</span>
+            <span class="place-badge view">🌅 View</span>
+          </div>
+          <div class="place-desc">Bold pick — giant Lady Buddha statue (67m tall) overlooking Da Nang Bay. Drive the full Son Tra Peninsula for panoramic views of the coast, jungle, and city. One of central Vietnam's most spectacular temple sites.</div>
+          <div class="place-price">Free · ~R200 Grab from My Khe</div>
+          <div class="place-tip">💡 Combine with Marble Mountains in one morning — both are on the Da Nang side and ~30 mins apart</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p26">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p26')"></div>
+        <div class="place-info">
+          <div class="place-name">Marble Mountains</div>
+          <div class="place-badges">
+            <span class="place-badge temple">🛕 Temple</span>
+            <span class="place-badge adventure">🥾 Adventure</span>
+          </div>
+          <div class="place-desc">Bold pick — Buddhist cave temples inside five limestone hills just south of Da Nang. Climb the steps, explore the caves, see pagodas tucked into the rock. Go before 10am to beat the heat and the tour buses.</div>
+          <div class="place-price">~R70 entry + lift</div>
+          <div class="place-tip">💡 The caves are sheltered — works in any weather. Wear shoes with grip, the steps are uneven.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p27">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p27')"></div>
+        <div class="place-info">
+          <div class="place-name">Ba Na Hills + Golden Bridge + French Village</div>
+          <div class="place-badges">
+            <span class="place-badge view">🌅 View</span>
+            <span class="place-badge adventure">🎢 Activity</span>
+          </div>
+          <div class="place-desc">World's longest single-cable carway up into the cloud forest. The Golden Bridge is the surreal one: giant stone hands cradling a pedestrian bridge above the mist. French Village replica + fantasy park at the top.</div>
+          <div class="place-price">~R500 pp (book online in advance)</div>
+          <div class="place-tip">💡 Go afternoon — fewer crowds, better light. Plan 4–5 hours including cable car each way.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p28">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p28')"></div>
+        <div class="place-info">
+          <div class="place-name">Dragon Bridge Fire &amp; Water Show</div>
+          <div class="place-badges">
+            <span class="place-badge view">🐉 Landmark</span>
+            <span class="place-badge nightlife">🌃 Nightlife</span>
+          </div>
+          <div class="place-desc">FREE show — the bridge breathes fire and shoots water from its dragon head. Runs Fri/Sat/Sun at 21:00. You're in Da Nang Sat 27 Jun AND Sun 28 Jun — both nights worth it. Position yourself on the Han River bank by 20:45.</div>
+          <div class="place-price">Free</div>
+          <div class="place-tip">💡 The riverside bars on Bach Dang fill up fast. Get there by 20:30 for a good view with a drink.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p29">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p29')"></div>
+        <div class="place-info">
+          <div class="place-name">My Khe Beach</div>
+          <div class="place-badges">
+            <span class="place-badge beach">🏖️ Beach</span>
+          </div>
+          <div class="place-desc">One of Southeast Asia's great city beaches — 30km of clean white sand right in Da Nang. Sunrise swim at 06:30 is nearly empty and golden. Sunset session with cold beer at Soul Kitchen-style beachfront bars is the move.</div>
+          <div class="place-price">Free · Sun lounger ~R50</div>
+          <div class="place-tip">💡 Late June is the most reliable weather — full beach day. Beachfront seafood grills are excellent for dinner.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p30">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p30')"></div>
+        <div class="place-info">
+          <div class="place-name">Mango Archive</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Vintage</span>
+          </div>
+          <div class="place-desc">Bold pick — Da Nang's best vintage clothing store. Curated second-hand pieces, retro sportswear, and one-off finds. The kind of place you walk out with three things you didn't know you needed.</div>
+          <div class="place-price">~R150–800 per piece</div>
+          <div class="place-tip">💡 Hit it on the An Thuong Street vintage strip — pair with Rust Rack, Hana 34, ORI jewellery in one walk</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p31">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p31')"></div>
+        <div class="place-info">
+          <div class="place-name">An Thuong Street Vintage Strip</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Vintage</span>
+            <span class="place-badge cafe">☕ Cafes</span>
+          </div>
+          <div class="place-desc">The full vintage & thrift strip near My Khe Beach — Mango Archive, Rust Rack, Hana 34, ORI jewellery, plus dozens of independent shops. Cafes and bars mixed in. Plan a 2-3 hour browse.</div>
+          <div class="place-price">Varies — R100–1,500</div>
+          <div class="place-tip">💡 Walk the whole strip once before buying — you'll find the best pieces on the second loop</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p58">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p58')"></div>
+        <div class="place-info">
+          <div class="place-name">Han River Cruise</div>
+          <div class="place-badges">
+            <span class="place-badge view">🌅 View</span>
+            <span class="place-badge nightlife">🌃 Nightlife</span>
+          </div>
+          <div class="place-desc">Dinner cruise or simple boat ride on the Han River — see Da Nang lit up from the water, with the Dragon Bridge as the centrepiece. Runs nightly, several operators along Bach Dang waterfront.</div>
+          <div class="place-price">~R350–700 pp with dinner</div>
+          <div class="place-tip">💡 Book the 19:00 slot to see the bridges lit up before the Dragon Bridge show at 21:00.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p59">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p59')"></div>
+        <div class="place-info">
+          <div class="place-name">Son Tra Peninsula Drive</div>
+          <div class="place-badges">
+            <span class="place-badge view">🌅 View</span>
+            <span class="place-badge adventure">🥾 Adventure</span>
+          </div>
+          <div class="place-desc">Scenic 30km loop around the Son Tra Peninsula — jungle, ocean views, Linh Ung Pagoda at the peak, hidden beaches, the occasional wild monkey. Rent a scooter or hire a Grab for a half-day. The single best thing to do in Da Nang if you have a window.</div>
+          <div class="place-price">Free · scooter ~R150k VND/day</div>
+          <div class="place-tip">💡 Drive the loop clockwise for the best views. Stop at the multiple viewpoints — there are at least 5 worth pulling over for.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p60">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p60')"></div>
+        <div class="place-info">
+          <div class="place-name">Rust Rack</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Vintage</span>
+          </div>
+          <div class="place-desc">Another An Thuong Street vintage pick — curated second-hand with a more streetwear / workwear lean than Mango Archive. Good for denim and overshirts.</div>
+          <div class="place-price">~R150–700 per piece</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p61">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p61')"></div>
+        <div class="place-info">
+          <div class="place-name">Hana 34</div>
+          <div class="place-badges">
+            <span class="place-badge craft">💍 Vintage</span>
+          </div>
+          <div class="place-desc">Handmade jewellery on the An Thuong strip — delicate pieces, mostly gold and silver, with a focus on minimalist Vietnamese design. Good for gifts.</div>
+          <div class="place-price">~R100–800 per piece</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p62">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p62')"></div>
+        <div class="place-info">
+          <div class="place-name">Mi Quang (Da Nang's signature)</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">The dish Da Nang is most proud of — turmeric-coloured broth, rice noodles, pork and prawn, peanuts, sesame rice crackers, fresh herbs. Served in small portions as a snack or main. Many local spots, look for the steam coming off the pots.</div>
+          <div class="place-price">~R50–100 per bowl</div>
+          <div class="place-tip">💡 Eat it at a local spot with plastic stools, not a tourist restaurant. The dish is best when it's been on the burner for hours.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HCMC -->
+    <div class="places-location">
+      <div class="places-location-header">📍 Ho Chi Minh City<span class="places-count">33 places</span></div>
+
+      <div class="place-card" id="p8">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p8')"></div>
+        <div class="place-info">
+          <div class="place-name">L'Usine</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge cafe">☕ Cafe</span>
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">THE fashion-meets-cafe destination in HCMC. Ground floor: specialty coffee bar and restaurant. Upper floors: curated fashion/lifestyle boutique with indie Vietnamese designers. French-colonial building, vintage tile floors, exposed brick. Like stepping into a fashion magazine.</div>
+          <div class="place-price">Drinks ~R45–105 · Clothing ~R350–1,750</div>
+          <div class="place-tip">💡 Go for brunch, then shop upstairs — best of both worlds</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p9">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p9')"></div>
+        <div class="place-info">
+          <div class="place-name">The Mockingbird Cafe</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Fashion boutique meets specialty coffee shop. Vintage/rustic-chic decor with curated clothing rails artfully displayed alongside cafe seating. Stocks indie Vietnamese fashion brands. Warm, effortless cool — like your stylish friend's living room.</div>
+          <div class="place-price">Drinks ~R40–70 · Clothing ~R250–1,050</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p10">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p10')"></div>
+        <div class="place-info">
+          <div class="place-name">Shin Coffee</div>
+          <div class="place-badges">
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Multi-story specialty Vietnamese coffee shop with stunning interior — industrial-chic meets tropical greenery. Known for phin drip, egg coffee, and matcha lattes. Beautiful tile work, plants, and photo-worthy corners on every floor.</div>
+          <div class="place-price">~R35–70 per drink</div>
+          <div class="place-tip">💡 Go to the top floor for the best photos — the plant wall is incredible</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p11">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p11')"></div>
+        <div class="place-info">
+          <div class="place-name">waa. studios</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Vietnamese leather goods brand — genuine leather footwear, bags, and small leather accessories. Flagship store at 38 Đặng Thị Nhu (5min walk from Ben Thanh Market) on a pedestrian-friendly street packed with local fashion labels. Warm, welcoming interior, well-crafted products at fair prices. Also stocks clothing, home decor, and accessories.</div>
+          <div class="place-price">Shoes/bags ~R550–1,100</div>
+          <div class="place-tip">💡 Đặng Thị Nhu street is a whole fashion strip — hit waa. and the other brands on the same block</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p12">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p12')"></div>
+        <div class="place-info">
+          <div class="place-name">DMD Studios</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Vietnamese minimalist womenswear brand — think quiet luxury, clean lines, capsule wardrobe energy. Tops, dresses, bodysuits, skirts, pants, outerwear, swimwear, and more in neutral palettes. "Beauty lies precisely in simplicity" is their ethos. Flagship at 9 Đặng Thị Nhu, same fashion strip as waa. studios.</div>
+          <div class="place-price">~R350–1,300 per piece</div>
+          <div class="place-tip">💡 Also has a Thao Dien location (temporarily closed) — stick to the D1 flagship</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p13">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p13')"></div>
+        <div class="place-info">
+          <div class="place-name">Compound Garment</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Vietnamese streetwear haven — affordable, unisex, oversized fits that actually suit different body types. Denim jackets and pants are the standout pieces. Two locations literally across the street from each other, each carrying different inventory. Local designers, no tourist markup, quality fabrics that hold up.</div>
+          <div class="place-price">~R350–1,100 per piece</div>
+          <div class="place-tip">💡 Hit BOTH locations — they carry different stock. Weekdays are calmer for browsing. At 158/5 Nguyễn Công Trứ</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p32">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p32')"></div>
+        <div class="place-info">
+          <div class="place-name">The New Playground</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Streetwear</span>
+          </div>
+          <div class="place-desc">Bold pick — anchor of HCMC streetwear. Multi-brand store with a tight edit of Vietnamese and international streetwear labels. The starting point of the District 1 streetwear walk. The "if I only hit one shop" pick.</div>
+          <div class="place-price">~R500–2,500 per piece</div>
+          <div class="place-tip">💡 Start the streetwear crawl here. Pair with 11 Garmentory → Compound Garment → Spot Hideout for a focused 2–3 hour loop.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p33">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p33')"></div>
+        <div class="place-info">
+          <div class="place-name">11 Garmentory</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Streetwear</span>
+          </div>
+          <div class="place-desc">Bold pick — District 1 streetwear cornerstone. Curated edit of local streetwear and contemporary brands. The kind of shop where the buyer actually has taste. Walk-through space, not a stockpile.</div>
+          <div class="place-price">~R400–2,000 per piece</div>
+          <div class="place-tip">💡 Hit it second in the streetwear loop after The New Playground. Ask the staff for new arrivals.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p34">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p34')"></div>
+        <div class="place-info">
+          <div class="place-name">Spot Hideout</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Streetwear</span>
+          </div>
+          <div class="place-desc">Bold pick — end of the District 1 streetwear loop. The "hidden gem" stop — smaller footprint, tighter edit, often has the most interesting pieces in the cluster. Worth finding even if you have to circle the block.</div>
+          <div class="place-price">~R400–1,800 per piece</div>
+          <div class="place-tip">💡 Save for last in the loop — it's the slowest browse and you'll want time here. Good for one-off statement pieces.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p35">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p35')"></div>
+        <div class="place-info">
+          <div class="place-name">111 Concept Store</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge craft">🎨 Concept</span>
+          </div>
+          <div class="place-desc">Bold pick — multi-concept space mixing clothing, art, and souvenirs. The "buy something interesting for the folks back home" stop. Vietnamese designers, design objects, prints, and curated lifestyle pieces in one bright airy space.</div>
+          <div class="place-price">~R150–1,500 per piece</div>
+          <div class="place-tip">💡 Best souvenir stop in District 1. Pair with Mockingbird Cafe (one block away) for a coffee-and-gifts run.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p36">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p36')"></div>
+        <div class="place-info">
+          <div class="place-name">A+C Coffee Experience</div>
+          <div class="place-badges">
+            <span class="place-badge cafe">☕ Cafe</span>
+          </div>
+          <div class="place-desc">Specialty coffee bar with a small-batch, single-origin focus. Worth a stop mid-afternoon between shopping legs in District 1. Quieter, more deliberate coffee experience than the big cafe concept stores.</div>
+          <div class="place-price">~R40–80 per drink</div>
+          <div class="place-tip">💡 Pair with the Mockingbird / L'Usine route for a full cafe + fashion day</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p37">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p37')"></div>
+        <div class="place-info">
+          <div class="place-name">Hardy Boys</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Basics</span>
+          </div>
+          <div class="place-desc">Affordable basics and denim — the wardrobe-filler stop. Quality tees, denim, simple cuts at Vietnamese streetwear prices. Perfect for restocking everyday pieces after weeks of travelling.</div>
+          <div class="place-price">~R150–500 per piece</div>
+          <div class="place-tip">💡 Stock up on tees and denim — much cheaper than airport prices if you need travel basics refreshed</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p38">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p38')"></div>
+        <div class="place-info">
+          <div class="place-name">Lumla Glasses</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">🕶️ Custom</span>
+          </div>
+          <div class="place-desc">Custom-made eyewear at Vietnamese prices. Pick a frame, get lenses fitted, walk out with prescription or fashion glasses in under an hour. One of the best custom-shop experiences in the city.</div>
+          <div class="place-price">~R600–1,800 per pair (incl. prescription lenses)</div>
+          <div class="place-tip">💡 Bring your prescription if you have one. Turnaround is same-day for most prescriptions.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p19">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p19')"></div>
+        <div class="place-info">
+          <div class="place-name">Deeritage</div>
+          <div class="place-badges">
+            <span class="place-badge craft">💍 Vintage</span>
+          </div>
+          <div class="place-desc">Vintage jewelry shop with a curated collection of unique rings, necklaces, and accessories — thrifted gems and one-of-a-kind pieces. Like treasure hunting but make it fashion. 18/4 Trần Quý Khoách, District 1.</div>
+          <div class="place-price">~R40–400 per piece</div>
+          <div class="place-tip">💡 Open 9:30am–10pm daily — rings start as low as R40!</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p20">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p20')"></div>
+        <div class="place-info">
+          <div class="place-name">Rue Miche</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Multi-brand fashion boutique housed in a restored 1952 French colonial villa — 25+ curated local brands under one roof. Think concept-store energy with independent Vietnamese designers. Also has a healthy beverage bar. 9B Phùng Khắc Khoan, District 1.</div>
+          <div class="place-price">~R300–1,500 per piece</div>
+          <div class="place-tip">💡 Also has Rue Miche L'Édition at Union Square (171 Đồng Khởi) — bigger flagship space</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p63">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p63')"></div>
+        <div class="place-info">
+          <div class="place-name">Cu Chi Tunnels</div>
+          <div class="place-badges">
+            <span class="place-badge history">🏛️ History</span>
+            <span class="place-badge adventure">🥾 Adventure</span>
+          </div>
+          <div class="place-desc">80km of Viet Cong tunnel network used during the Vietnam War. Half-day tour from HCMC — crawl through the tunnels (now widened for tourists), see the trapdoors, the kitchens, the field hospital. Fire a rifle range at the end (extra). Powerful, intense, sometimes heavy. Small group tour recommended.</div>
+          <div class="place-price">~R400–600 pp (~$20–30)</div>
+          <div class="place-tip">💡 Depart 07:30, back by 13:00. Morning-only is non-negotiable for the HCMC weather — afternoons are heavy rain.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p64">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p64')"></div>
+        <div class="place-info">
+          <div class="place-name">War Remnants Museum</div>
+          <div class="place-badges">
+            <span class="place-badge history">🏛️ History</span>
+          </div>
+          <div class="place-desc">The most visceral museum in Vietnam. US military equipment on the lawn, photo exhibitions inside that are unflinching about the war's human cost. Powerful, often upsetting, essential. Closes 17:00 — go straight from the airport on Day 9.</div>
+          <div class="place-price">~R40 entry</div>
+          <div class="place-tip">💡 Allow 2–3 hours. The Agent Orange exhibition on the upper floor is the hardest part. Bring water, sit in the garden if it gets too much.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p65">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p65')"></div>
+        <div class="place-info">
+          <div class="place-name">Reunification Palace</div>
+          <div class="place-badges">
+            <span class="place-badge history">🏛️ History</span>
+          </div>
+          <div class="place-desc">The presidential palace of South Vietnam, taken over by a North Vietnamese army tank on 30 April 1975. The tank is still on the front lawn. Inside: 1960s furnishings, the war command room, the presidential dining room, the rooftop helipad. Time capsule.</div>
+          <div class="place-price">~R40 entry</div>
+          <div class="place-tip">💡 Combine with the War Remnants Museum in one afternoon. The two together are 4–5 hours and you understand the war from both sides.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p66">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p66')"></div>
+        <div class="place-info">
+          <div class="place-name">Bo Ne Ba Nui</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">Bold pick — the $4 Vietnamese 'steak and eggs' breakfast. Beef, eggs, onions, pate, tomatoes sizzling on a cast-iron skillet. Add a fried egg on top. Local institution, simple plastic-stool setting. Goes back twice on Day 11 — once is not enough.</div>
+          <div class="place-price">~R70–130 per person</div>
+          <div class="place-tip">💡 Go first thing in the morning — that's when the beef is freshest. Order one per person + a side of banh mi.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p67">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p67')"></div>
+        <div class="place-info">
+          <div class="place-name">Pho Viet Nam</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">Bold pick — your HCMC pho spot for Day 10 dinner. Southern pho is sweeter and more herb-forward than Hanoi's, with bean sprouts, basil, lime, hoisin &amp; sriracha on the side. The original is the one Bourdain visited in 2002.</div>
+          <div class="place-price">~R80–140 per bowl</div>
+          <div class="place-tip">💡 Add the rare beef (tái) — it's the move.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p68">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p68')"></div>
+        <div class="place-info">
+          <div class="place-name">Quan Bui Garden Restaurant</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">Traditional Vietnamese in a gorgeous colonial courtyard — wooden shutters, hanging lanterns, tropical greenery. One of the best meals of the trip. The menu covers the full Vietnamese canon: pho, bun, com, goi cuon, all done well.</div>
+          <div class="place-price">~R300–600 pp with drinks</div>
+          <div class="place-tip">💡 Book ahead for the courtyard tables at dinner. The upstairs section is air-conditioned.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p69">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p69')"></div>
+        <div class="place-info">
+          <div class="place-name">Pasteur Street Brewing Company</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+            <span class="place-badge nightlife">🌃 Nightlife</span>
+          </div>
+          <div class="place-desc">Bold pick — HCMC's best craft brewery. The perfect FINAL BEER of the trip. Vietnamese-inspired beers brewed with local ingredients: jasmine IPA, dragon fruit saison, lemongrass wit, passionfruit pale ale. Order the tasting paddle (4–6 beers), raise a glass, and reflect on 12 days done.</div>
+          <div class="place-price">~R150–250 for a tasting paddle</div>
+          <div class="place-tip">💡 District 1, easy Grab from dinner. Don't drink and fly — book the paddle for the night before departure.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p70">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p70')"></div>
+        <div class="place-info">
+          <div class="place-name">The Refinery</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">French-Vietnamese fusion in a former opium refinery — exposed brick, wooden beams, the building alone is worth the booking. Bistro classics done well: steak frites, duck confit, creme brulee. The farewell-dinner move for a couple.</div>
+          <div class="place-price">~R600–1,000 pp with wine</div>
+          <div class="place-tip">💡 Book ahead for the garden tables. Pair the tasting menu with a French wine.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p71">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p71')"></div>
+        <div class="place-info">
+          <div class="place-name">EON51 at Bitexco Tower</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+            <span class="place-badge view">🌅 View</span>
+          </div>
+          <div class="place-desc">Floor 51 of the Bitexco Financial Tower — floor-to-ceiling windows, 360° city views, Vietnamese-European menu. Both a farewell lunch option (Day 12) and a special-occasion dinner. The lunch is the value move — a long meal, a view, and you walk out under budget for dinner.</div>
+          <div class="place-price">~R600–1,200 pp for lunch</div>
+          <div class="place-tip">💡 Book the 13:00 lunch slot on Day 12. Dress smart — they hold the dress code for the dining room.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p72">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p72')"></div>
+        <div class="place-info">
+          <div class="place-name">Bep Me In</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">Vietnamese home cooking — the kind of spot that feels like a friend's kitchen, with a short daily menu of what the cook decided to make. Bun, com tam, canh chua. Trust the menu.</div>
+          <div class="place-price">~R100–200 pp</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p73">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p73')"></div>
+        <div class="place-info">
+          <div class="place-name">Izakaya Kamura</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">Japanese-Vietnamese fusion in a small, dark, atmospheric setting. Sashimi-grade fish, creative rolls, a great break from Vietnamese food. The cocktail list is also a step up.</div>
+          <div class="place-price">~R400–700 pp with drinks</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p74">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p74')"></div>
+        <div class="place-info">
+          <div class="place-name">Boulevard Gelato, Pastry and Coffee</div>
+          <div class="place-badges">
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">Italian-style gelato and pastries on a District 1 side street. Real Italian gelato, not soft-serve. Salted egg yolk and Vietnamese coffee are the local flavours to try.</div>
+          <div class="place-price">~R50–100 per scoop</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p75">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p75')"></div>
+        <div class="place-info">
+          <div class="place-name">Bui Vien Walking Street</div>
+          <div class="place-badges">
+            <span class="place-badge nightlife">🌃 Nightlife</span>
+            <span class="place-badge food">🍽️ Food</span>
+          </div>
+          <div class="place-desc">HCMC's legendary backpacker strip — Pham Ngu Lao / Bui Vien. Loud, chaotic, brilliant. Street food vendors, bars with plastic stools, the smell of grilled meat and Bia Saigon. Go at least once. The authentic backpacker experience.</div>
+          <div class="place-price">Free · food ~R30–80 per item</div>
+          <div class="place-tip">💡 Go at 21:00 — that's when it really wakes up. Have a Bia Saigon and watch the parade.</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p76">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p76')"></div>
+        <div class="place-info">
+          <div class="place-name">The Idiot</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Elevated unique pieces — the District 1 streetwear pick for when you want something a step above the standard t-shirt-and-hoodie. Curated Vietnamese designers, limited drops, the kind of store where you ask questions and learn things.</div>
+          <div class="place-price">~R500–2,500 per piece</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p77">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p77')"></div>
+        <div class="place-info">
+          <div class="place-name">Coromhot</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Like Chrome Hearts energy in District 1 — silver jewellery, heavy leather pieces, the more aggressive end of the Vietnamese streetwear scene. Look at this as a shopping detour, not a full visit.</div>
+          <div class="place-price">~R500–3,000 per piece</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p78">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p78')"></div>
+        <div class="place-info">
+          <div class="place-name">Untilfaded</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Vintage shop in District 1 — the pickier, more curated vintage option. More designer-leaning than the standard vintage stores. Small footprint, well-edited selection.</div>
+          <div class="place-price">~R300–2,000 per piece</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p79">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p79')"></div>
+        <div class="place-info">
+          <div class="place-name">Whose Studios</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Local Vietnamese streetwear label — hoodies, tees, the kind of brand you'd see on a Vietnamese fashion person's Instagram. Flagship on a District 1 side street.</div>
+          <div class="place-price">~R300–900 per piece</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p80">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p80')"></div>
+        <div class="place-info">
+          <div class="place-name">Lotte Mart</div>
+          <div class="place-badges">
+            <span class="place-badge market">🛍️ Market</span>
+          </div>
+          <div class="place-desc">Bold pick — the supermarket move for souvenirs. Vietnamese coffee (Trung Nguyen, Highland), cashews, dried fruit, snacks, gifts, all at far cheaper prices than the airport. A full trolley for a fraction of what you'd pay elsewhere.</div>
+          <div class="place-price">Varies — coffee ~R50–150 per pack</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p81">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p81')"></div>
+        <div class="place-info">
+          <div class="place-name">Ben Thanh Market</div>
+          <div class="place-badges">
+            <span class="place-badge market">🛍️ Market</span>
+          </div>
+          <div class="place-desc">HCMC's most famous market — central, covered, busy. The standard souvenir gauntlet: lacquerware, silk, ao dai, T-shirts. Bargain hard, start at 50% of the asking price.</div>
+          <div class="place-price">Varies · always negotiate</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p82">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p82')"></div>
+        <div class="place-info">
+          <div class="place-name">Binh Tay Market (Cholon / Chinatown)</div>
+          <div class="place-badges">
+            <span class="place-badge market">🛍️ Market</span>
+          </div>
+          <div class="place-desc">Huge local market in Cholon (HCMC's Chinatown) — completely different energy to Ben Thanh. Wholesale-style, fabric, dried goods, herbs, live fish, the full Chinese-Vietnamese commerce experience. For bulk buying, fabric, or the experience.</div>
+          <div class="place-price">Varies</div>
+          <div class="place-tip">💡 Take a Grab (~20 mins from D1). Go in the morning for full activity. Bring cash.</div>
+        </div>
+
+      <div class="place-card" id="p83">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p83')"></div>
+        <div class="place-info">
+          <div class="place-name">Das Studios</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Leading Vietnamese men's fashion brand — clean, contemporary cuts with a sharp eye on tailoring. Shirts, T-shirts, trousers, suits, and outerwear with a modern minimalist aesthetic. One of the top local labels for quality menswear.</div>
+          <div class="place-price">~R400–1,500 per piece</div>
+          <div class="place-tip">💡 Check their tailoring section — made-to-measure pieces at a fraction of international prices</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p84">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p84')"></div>
+        <div class="place-info">
+          <div class="place-name">Aesir Studios</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">German-Vietnamese designer streetwear label — minimal yet inventive pieces with a bold edge. Known for collaborations and limited drops. Two locations: AE Space in Thao Dien (20 Duong 46) and the flagship at 128G Nguyen Dinh Chinh.</div>
+          <div class="place-price">~R500–2,000 per piece</div>
+          <div class="place-tip">💡 The Thao Dien space (AE Space) has a different vibe to the flagship — worth visiting both if you have time</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p85">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p85')"></div>
+        <div class="place-info">
+          <div class="place-name">The New Playground</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+            <span class="place-badge market">🛍️ Market</span>
+          </div>
+          <div class="place-desc">Underground shopping hub in District 1 — a curated collection of local and Southeast Asian streetwear brands all under one roof. Think concept-market energy with independent labels, sneakers, and accessories. 26 Ly Tu Trong, D1 (also has a second location at Central Market).</div>
+          <div class="place-price">~R200–1,000 per piece</div>
+          <div class="place-tip">💡 Open 10:00–21:30 daily. The best spot to browse multiple local streetwear brands in one go without hopping between stores</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p86">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p86')"></div>
+        <div class="place-info">
+          <div class="place-name">AASTU (AA Flagship Store)</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">American-style Vietnamese menswear in a striking flagship space. Clean lines, contemporary cuts, the kind of pieces that look expensive but aren't. Well-designed store, friendly staff who actually help you find your size. 118/12 Tran Quang Dieu, District 3.</div>
+          <div class="place-price">~R300–1,200 per piece</div>
+          <div class="place-tip">💡 District 3 is a quick Grab from D1 — combine with a coffee in the area for a relaxed afternoon</div>
+        </div>
+      </div>
+
+      <div class="place-card" id="p87">
+        <div class="place-check"><input type="checkbox" onchange="togglePlace('p87')"></div>
+        <div class="place-info">
+          <div class="place-name">Lider</div>
+          <div class="place-badges">
+            <span class="place-badge fashion">👗 Fashion</span>
+          </div>
+          <div class="place-desc">Trendy unisex fashion brand in District 1 — clean cuts, flare jeans, t-shirts, and streetwear with an all-genders-welcome energy. One of the more popular local labels for young fashion in Saigon. 7 Tôn Thất Thiệp, Bến Nghé, D1 (also has a pop-up at The New Playground, B2 Vincom Center).</div>
+          <div class="place-price">~R300–1,000 per piece</div>
+          <div class="place-tip">💡 Right around the corner from many other D1 fashion spots — easy to hit in a shopping walk</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick reference -->
+    <div class="card">
+      <h2>☕ Vietnam Coffee Culture Cheat Sheet</h2>
+      <div class="packing-grid">
+        <label class="packing-item"><input type="checkbox"> <strong>Cà phê sữa đá</strong> — iced coffee with condensed milk (THE drink)</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Cà phê trứng</strong> — egg coffee (Hanoi specialty, try at Café Giang)</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Cà phê đen</strong> — black drip coffee (strong, sweetened or unsweetened)</label>
+        <label class="packing-item"><input type="checkbox"> <strong>Matcha latte</strong> — increasingly popular in specialty cafes</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sources -->
+  <div class="card">
+    <h2>🔍 Research Sources</h2>
+    <div class="sources">
+      KAYAK flight data: za.kayak.com ·
+      Cheapflights: cheapflights.co.za ·
+      Vietnam weather: selectiveasia.com ·
+      Vietnam Airlines monsoon guide: vietnamairlines.com ·
+      Sleeper trains: bestpricetravel.com ·
+      Halong cruises: abackpackersworld.com ·
+      Reddit r/VietNam community advice
+    </div>
+  </div>
+
+  <div class="edit-hint">
+    Last updated: Jun 7, 2026 · All 5 Booking.com stays confirmed and added to the itinerary.
+  </div>
+</div>
+
+<script>
+// Countdown
+function updateCountdown() {
+  const target = new Date('2026-06-21T13:55:00');
+  const now = new Date();
+  const diff = target - now;
+  
+  if (diff <= 0) {
+    document.getElementById('countdown').innerHTML = '<div style="font-weight:700">🎉 Trip time!</div>';
+    return;
+  }
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+  
+  document.getElementById('countdown').innerHTML = `
+    <div class="cd-unit"><div class="cd-num">${days}</div><div class="cd-label">Days</div></div>
+    <div class="cd-unit"><div class="cd-num">${hours}</div><div class="cd-label">Hours</div></div>
+    <div class="cd-unit"><div class="cd-num">${String(mins).padStart(2,'0')}</div><div class="cd-label">Mins</div></div>
+    <div class="cd-unit"><div class="cd-num">${String(secs).padStart(2,'0')}</div><div class="cd-label">Secs</div></div>
+  `;
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Itinerary accordion
+function toggleItin(option) {
+  const card = document.getElementById(option + '-card');
+  card.classList.toggle('open');
+}
+
+// ═══ Interactive Itinerary v2 — day card toggles + filter chips ═══
+
+// 1. Day card head click → expand/collapse
+document.querySelectorAll('.day-card-head').forEach(head => {
+  head.addEventListener('click', () => {
+    head.closest('.day-card').classList.toggle('open');
+  });
+});
+
+// 2. Chip click → toggle within its filter group
+let mustdoOnly = false;
+function applyFilters() {
+  const cityChip = document.querySelector('.chip[data-filter="city"].active');
+  const vibeChip = document.querySelector('.chip[data-filter="vibe"].active');
+  const activeCity = cityChip ? cityChip.dataset.value : 'all';
+  const activeVibe = vibeChip ? vibeChip.dataset.value : 'all';
+  let visible = 0;
+  document.querySelectorAll('.day-card').forEach(card => {
+    const cardCity = card.dataset.city;
+    const cardVibes = (card.dataset.vibe || '').split(' ');
+    const hasMustdo = card.querySelectorAll('.time-block li.mustdo').length > 0;
+    const matchCity = activeCity === 'all' || cardCity === activeCity;
+    const matchVibe = activeVibe === 'all' || cardVibes.includes(activeVibe);
+    const matchMustdo = !mustdoOnly || hasMustdo;
+    if (matchCity && matchVibe && matchMustdo) {
+      card.style.display = '';
+      visible++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  const empty = document.getElementById('emptyDays');
+  const counter = document.getElementById('visibleCount');
+  if (empty) empty.classList.toggle('show', visible === 0);
+  if (counter) counter.textContent = visible;
+}
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const group = chip.dataset.filter;
+    if (group === 'mustdo') {
+      // Toggle mustdo filter
+      mustdoOnly = !mustdoOnly;
+      chip.classList.toggle('active', mustdoOnly);
+    } else {
+      // City / vibe: mutually exclusive within group
+      document.querySelectorAll(`.chip[data-filter="${group}"]`).forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    }
+    applyFilters();
+  });
+});
+
+// 3. Route map stops → also act as city filter
+document.querySelectorAll('.route-stop[data-city]').forEach(stop => {
+  stop.addEventListener('click', () => {
+    const city = stop.dataset.city;
+    const targetChip = document.querySelector(`.chip[data-filter="city"][data-value="${city}"]`);
+    if (targetChip) targetChip.click();
+  });
+});
+
+// 4. Expand all / collapse all helper (handy on mobile)
+function setAllDayCards(open) {
+  document.querySelectorAll('.day-card').forEach(card => {
+    if (open) card.classList.add('open');
+    else card.classList.remove('open');
+  });
+}
+
+// Budget
+let currentItin = 'B2';
+let currentStyle = 'budget';
+
+const budgetData = {
+  B2: {
+    budget: [
+      ['✈️ Flights (Qatar Airways open-jaw)', 'R16,462'],
+      ['🛂 Visa (e-visa 90 days multiple entry)', 'R940'],
+      ['📱 SIM Card (30 day data)', 'R150'],
+      ['🏨 Accommodation (11 nights · boutique)', 'R14,500 (R1,320/night avg)'],
+      ['✈️ Internal flight HAN→DAD', 'R800'],
+      ['✈️ Internal flight DAD→SGN', 'R800'],
+      ['🏍️ Hue day trip private driver', 'R1,500'],
+      ['🚢 Ha Long Bay overnight cruise', 'R5,000'],
+      ['🚌 Local transport (Grab, taxis)', 'R1,500'],
+      ['🍜 Food (12 days · mix of local + restaurants)', 'R3,500 (R290/day)'],
+      ['🎯 Activities & entrance fees', 'R2,500'],
+      ['🛡️ Travel insurance', 'R1,200'],
+      ['💼 Misc / buffer', 'R2,000'],
+    ],
+    midrange: [
+      ['✈️ Flights (Qatar Airways open-jaw)', 'R16,462'],
+      ['🛂 Visa (e-visa 90 days multiple entry)', 'R940'],
+      ['📱 SIM Card (30 day data)', 'R150'],
+      ['🏨 Accommodation (11 nights · boutique)', 'R22,000 (R2,000/night avg)'],
+      ['✈️ Internal flight HAN→DAD', 'R1,200'],
+      ['✈️ Internal flight DAD→SGN', 'R1,200'],
+      ['🏍️ Hue day trip private driver', 'R1,800'],
+      ['🚢 Ha Long Bay overnight cruise (premium)', 'R7,500'],
+      ['🚌 Local transport (Grab, taxis)', 'R2,000'],
+      ['🍜 Food (12 days · mid-range restaurants)', 'R5,500 (R460/day)'],
+      ['🎯 Activities & entrance fees', 'R4,000'],
+      ['🛡️ Travel insurance', 'R1,500'],
+      ['💼 Misc / buffer', 'R3,000'],
+    ]
+  }
+};
+
+function showBudget(itin, style) {
+  currentItin = itin;
+  document.querySelectorAll('.option-toggle:first-of-type .option-btn').forEach(b => b.classList.remove('active'));
+  if (event && event.target) event.target.classList.add('active');
+  renderBudget();
+}
+
+function toggleBudgetStyle(style) {
+  currentStyle = style;
+  const b = document.getElementById('budgetStyleBtn');
+  const m = document.getElementById('midrangeStyleBtn');
+  if (b) b.classList.toggle('active', style === 'budget');
+  if (m) m.classList.toggle('active', style === 'midrange');
+  renderBudget();
+}
+
+function renderBudget() {
+  const body = document.getElementById('budgetBody');
+  const totalEl = document.getElementById('totalValue');
+  if (!body) return;
+  body.innerHTML = '';
+  let perPerson = 0;
+  const rows = (budgetData[currentItin] && budgetData[currentItin][currentStyle]) || [];
+  rows.forEach(([label, cost]) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${label}</td><td>${cost}</td>`;
+    body.appendChild(tr);
+    const num = parseInt(cost.replace(/[^0-9]/g, ''));
+    perPerson += num;
+  });
+  const totalTr = document.createElement('tr');
+  totalTr.className = 'budget-total';
+  totalTr.innerHTML = `<td>TOTAL per person</td><td>R${perPerson.toLocaleString()}</td>`;
+  body.appendChild(totalTr);
+  if (totalEl) totalEl.textContent = `R${(perPerson * 2).toLocaleString()}`;
+}
+
+// Skip auto-render — the new budget table is static HTML, not JS-rendered
+// renderBudget(); // disabled — see static table in <div id="budget">
+
+// Packing list
+const packingItems = [
+  'Rain jacket / poncho', 'Quick-dry clothing (x3)', 'Sunscreen (SPF 50+)', 
+  'Insect repellent (DEET)', 'Walking sandals', 'Water-resistant shoes',
+  'Universal power adapter', 'Vietnamese Dong (VND) or ATM card', 'Travel insurance docs',
+  'Passport + visa copies', 'Light backpack', 'Microfiber towel',
+  'Reusable water bottle', 'Portable charger (10,000mAh)', 'Zip-lock bags (for wet stuff)',
+  'Light scarf (temple visits)', 'Motion sickness tablets', 'Earplugs + eye mask',
+  'Waterproof phone pouch ⭐', 'Dry bag for boat trips',
+  'Hat + sunglasses', 'Swimmers (My Khe, An Bang, Ha Long cruise)', 'Basic first-aid kit',
+  'Hand sanitiser',
+  'Tailoring measurements + reference photos (Hoi An Day 5)',
+  'Reef-safe sunscreen',
+  'Lightweight rain jacket',
+  'Modest temple outfit (cover shoulders + knees)'
+];
+
+const packingList = document.getElementById('packingList');
+const savedPacking = JSON.parse(localStorage.getItem('vietnamPacking') || '{}');
+
+packingItems.forEach((item, i) => {
+  const label = document.createElement('label');
+  label.className = 'packing-item' + (savedPacking[i] ? ' checked' : '');
+  label.innerHTML = `<input type="checkbox" ${savedPacking[i] ? 'checked' : ''}> ${item}`;
+  const input = label.querySelector('input');
+  input.addEventListener('change', () => {
+    savedPacking[i] = input.checked;
+    localStorage.setItem('vietnamPacking', JSON.stringify(savedPacking));
+    label.classList.toggle('checked', input.checked);
+    updatePackingProgress();
+  });
+  packingList.appendChild(label);
+});
+
+function updatePackingProgress() {
+  const checked = Object.values(savedPacking).filter(Boolean).length;
+  document.getElementById('packingProgress').textContent = `${checked}/${packingItems.length} items packed`;
+}
+updatePackingProgress();
+
+// Open B1 by default, close B2 on load
+setTimeout(() => {
+  toggleItin('optionB2');
+}, 100);
+
+// Places checklist
+const savedPlaces = JSON.parse(localStorage.getItem('vietnamPlaces') || '{}');
+Object.keys(savedPlaces).forEach(id => {
+  const card = document.getElementById(id);
+  if (card && savedPlaces[id]) {
+    card.classList.add('visited');
+    card.querySelector('input[type="checkbox"]').checked = true;
+  }
+});
+
+function togglePlace(id) {
+  const card = document.getElementById(id);
+  const input = card.querySelector('input[type="checkbox"]');
+  savedPlaces[id] = input.checked;
+  card.classList.toggle('visited', input.checked);
+  localStorage.setItem('vietnamPlaces', JSON.stringify(savedPlaces));
+  updatePlacesProgress();
+}
+
+function updatePlacesProgress() {
+  const total = Object.keys(savedPlaces).length || 10;
+  const visited = Object.values(savedPlaces).filter(Boolean).length;
+  // Could add a progress counter like packing list
+}
+</script>
+</body>
+</html>

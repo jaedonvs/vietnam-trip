@@ -13,11 +13,11 @@
     --paper-2:  #ECE6D2;
     --ink:      #2A241B;
     --ink-soft: #5C5345;
-    --pink:     #E1A4C2;
-    --lemon:    #D6DD63;
+    --pink:     #D4655F;
+    --lemon:    #E0B850;
     --blush:    #E8C9B6;
     --sage:     #B7C7A8;
-    --lilac:    #C9BEDC;
+    --lilac:    #C4775A;
     --card-fill: rgba(255,255,255,0.55);
     --rule: rgba(42,36,27,0.18);
     --radius: 28px;
@@ -36,6 +36,10 @@
     font-size: 16px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    padding-bottom: 0;
+  }
+  @media (max-width: 768px) {
+    body { padding-bottom: 3.5rem; }
   }
 
   h1, h2, h3, h4 {
@@ -210,11 +214,11 @@
     line-height: 1;
     margin-bottom: 0.25rem;
   }
-  .stat-card .num.pink   { color: #c77aa0; }
-  .stat-card .num.lemon  { color: #9ba844; }
+  .stat-card .num.pink   { color: #c0554d; }
+  .stat-card .num.lemon  { color: #b89630; }
   .stat-card .num.blush  { color: #c49a83; }
   .stat-card .num.sage   { color: #7f9a74; }
-  .stat-card .num.lilac  { color: #9788b8; }
+  .stat-card .num.lilac  { color: #a56a48; }
   .stat-card .label {
     font-family: "Work Sans", sans-serif;
     font-size: 0.7rem;
@@ -230,19 +234,7 @@
     padding: 1.75rem;
     margin-bottom: 1.25rem;
     backdrop-filter: blur(2px);
-    border-left: 4px solid var(--pink);
   }
-  .day-card.day-1 { border-left-color: var(--pink); }
-  .day-card.day-2 { border-left-color: var(--lemon); }
-  .day-card.day-3 { border-left-color: var(--blush); }
-  .day-card.day-4 { border-left-color: var(--sage); }
-  .day-card.day-5 { border-left-color: var(--lilac); }
-  .day-card.day-6 { border-left-color: var(--pink); }
-  .day-card.day-7 { border-left-color: var(--lemon); }
-  .day-card.day-8 { border-left-color: var(--blush); }
-  .day-card.day-9 { border-left-color: var(--sage); }
-  .day-card.day-10 { border-left-color: var(--lilac); }
-  .day-card.day-11 { border-left-color: var(--pink); }
 
   .day-card .day-head {
     display: flex;
@@ -436,6 +428,15 @@
   .place-city.sage   { background: var(--sage); }
   .place-city.lilac  { background: var(--lilac); }
 
+  .places-subhead {
+    font-family: "Cormorant Garamond", "Garamond", serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin: 1.5rem 0 0.75rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
   /* ─── PACKING CHECKLIST ─── */
   .packing-grid {
     display: grid;
@@ -486,6 +487,71 @@
   .site-footer .small {
     font-size: 0.8rem;
     opacity: 0.7;
+  }
+
+  /* ─── JUMP NAV ─── */
+  .jump-nav {
+    position: fixed;
+    top: 50%;
+    right: 1.25rem;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    z-index: 100;
+  }
+  .jump-nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    background: var(--card-fill);
+    backdrop-filter: blur(4px);
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .jump-nav a:hover {
+    color: var(--ink);
+    border-color: var(--pink);
+  }
+  .jump-nav a .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .jump-nav a .nav-dot.pink   { background: var(--pink); }
+  .jump-nav a .nav-dot.lemon  { background: var(--lemon); }
+  .jump-nav a .nav-dot.blush  { background: var(--blush); }
+  .jump-nav a .nav-dot.sage   { background: var(--sage); }
+  .jump-nav a .nav-dot.lilac  { background: var(--lilac); }
+
+  @media (max-width: 768px) {
+    .jump-nav {
+      flex-direction: row;
+      top: auto;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      transform: none;
+      justify-content: center;
+      padding: 0.5rem;
+      gap: 0.25rem;
+      background: rgba(242,238,223,0.92);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid var(--rule);
+    }
+    .jump-nav a {
+      font-size: 0.6rem;
+      padding: 0.3rem 0.5rem;
+    }
   }
 
   /* ─── FLIGHT CARD ─── */
@@ -615,10 +681,20 @@
 </head>
 <body>
 
+<!-- ═══════ JUMP NAV ═══════ -->
+<nav class="jump-nav" id="jumpNav">
+  <a href="#glance"><span class="nav-dot pink"></span> Overview</a>
+  <a href="#route"><span class="nav-dot blush"></span> Route</a>
+  <a href="#itinerary"><span class="nav-dot lemon"></span> Days</a>
+  <a href="#stays"><span class="nav-dot sage"></span> Stays</a>
+  <a href="#places"><span class="nav-dot lilac"></span> Places</a>
+  <a href="#packing"><span class="nav-dot pink"></span> Pack</a>
+</nav>
+
 <!-- ═══════ COVER ═══════ -->
-<section class="cover">
+<section class="cover" id="cover">
   <div class="marker">June · July 2026</div>
-  <h1>Vietnam <em>—</em></h1>
+  <h1>🇻🇳 Vietnam <em>—</em></h1>
   <p class="tagline">Eleven days across five cities. Hanoi to Ho Chi Minh, with Ha Long Bay, Hoi An, and Da Nang in between.</p>
   <div class="route-dots">
     <span class="dot pink">🇻🇳 Hanoi</span>
@@ -1229,116 +1305,129 @@
   <div class="section-header">
     <div class="kicker">Wishlist</div>
     <h2>Cafes, food & finds</h2>
-    <p>Cafes, matcha spots, restaurants, and things to eat across every city.</p>
+    <p>Cafes, restaurants, shopping, and things to do across every city.</p>
   </div>
 
+  <div class="places-subhead">☕ Cafes & Matcha</div>
   <div class="places-grid">
     <div class="place-card">
-      <div class="place-cat">Cafe · Hanoi</div>
+      <div class="place-cat">Hanoi — Old Quarter</div>
       <h4>Cafe Giang</h4>
       <p>The original egg coffee since 1946. Must-visit.</p>
       <span class="place-city pink">Hanoi</span>
     </div>
     <div class="place-card">
-      <div class="place-cat">Matcha · Hanoi</div>
+      <div class="place-cat">Hanoi — Old Quarter</div>
       <h4>Note Cafe & Nagocha Matcha</h4>
-      <p>Two spots in the Old Quarter for matcha and creative drinks.</p>
+      <p>Two spots for matcha and creative drinks near the lake.</p>
       <span class="place-city pink">Hanoi</span>
     </div>
     <div class="place-card">
-      <div class="place-cat">Street Food · Hanoi</div>
-      <h4>Ta Hien & Nguyen Trung Truc</h4>
-      <p>Bun cha, banh cuon, grilled corn — eat everything you see.</p>
-      <span class="place-city pink">Hanoi</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Beer · Hanoi</div>
-      <h4>Bia Hoi Corner</h4>
-      <p>25c draught beer on plastic stools. Local institution.</p>
-      <span class="place-city pink">Hanoi</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Market · Hanoi</div>
-      <h4>Old Quarter Night Market</h4>
-      <p>Friday & Saturday nights. Shoes, clothes, streetwear, souvenirs.</p>
-      <span class="place-city pink">Hanoi</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Dumplings · Hoi An</div>
-      <h4>Quan Cao Iau Ba Le</h4>
-      <p>White rose dumplings — can only be made authentically in Hoi An.</p>
-      <span class="place-city sage">Hoi An</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Noodles · Hoi An</div>
-      <h4>Morning Glory Restaurant</h4>
-      <p>Cao Lau noodles — the noodle only properly made in Hoi An.</p>
-      <span class="place-city sage">Hoi An</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Market · Hoi An</div>
-      <h4>Hoi An Night Market</h4>
-      <p>Every night. Lanterns, street food, souvenirs, best atmosphere.</p>
-      <span class="place-city sage">Hoi An</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Tailoring · Hoi An</div>
-      <h4>Izi Tailor & I Love Fashion</h4>
-      <p>Get measured on day 1, collect on day 3. Custom suits, dresses, leather.</p>
-      <span class="place-city sage">Hoi An</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Matcha · Hoi An</div>
+      <div class="place-cat">Hoi An — Ancient Town</div>
       <h4>Magicha Zenbar</h4>
-      <p>Matcha spot — your note, last Hoi An coffee.</p>
+      <p>Matcha spot — a calm last coffee in Hoi An.</p>
+      <span class="place-city sage">Hoi An</span>
+    </div>
+  </div>
+
+  <div class="places-subhead">🍜 Food & Drink</div>
+  <div class="places-grid">
+    <div class="place-card">
+      <div class="place-cat">Hanoi — Old Quarter</div>
+      <h4>Ta Hien & Nguyen Trung Truc Streets</h4>
+      <p>Bun cha, banh cuon, grilled corn — eat everything you see on these food streets.</p>
+      <span class="place-city pink">Hanoi</span>
+    </div>
+    <div class="place-card">
+      <div class="place-cat">Hanoi — Old Quarter</div>
+      <h4>Bia Hoi Corner</h4>
+      <p>25c draught beer on plastic stools. Local institution at Luong Ngoc Quyen.</p>
+      <span class="place-city pink">Hanoi</span>
+    </div>
+    <div class="place-card">
+      <div class="place-cat">Hoi An — Ancient Town</div>
+      <h4>Quan Cao Iau Ba Le</h4>
+      <p>White rose dumplings — can only be made authentically in Hoi An's water.</p>
       <span class="place-city sage">Hoi An</span>
     </div>
     <div class="place-card">
-      <div class="place-cat">Attraction · Da Nang</div>
+      <div class="place-cat">Hoi An — Ancient Town</div>
+      <h4>Morning Glory Restaurant</h4>
+      <p>Cao Lau noodles — the signature Hoi An noodle, only properly made here.</p>
+      <span class="place-city sage">Hoi An</span>
+    </div>
+  </div>
+
+  <div class="places-subhead">🛍️ Shopping</div>
+  <div class="places-grid">
+    <div class="place-card">
+      <div class="place-cat">Hanoi — Old Quarter</div>
+      <h4>Old Quarter Night Market</h4>
+      <p>Friday & Saturday nights. Shoes, clothes, streetwear, souvenirs, food stalls.</p>
+      <span class="place-city pink">Hanoi</span>
+    </div>
+    <div class="place-card">
+      <div class="place-cat">Hoi An — Ancient Town</div>
+      <h4>Hoi An Night Market</h4>
+      <p>Every night. Lanterns, street food, souvenirs, best atmosphere in town.</p>
+      <span class="place-city sage">Hoi An</span>
+    </div>
+    <div class="place-card">
+      <div class="place-cat">Hoi An — Ancient Town</div>
+      <h4>Izi Tailor & I Love Fashion</h4>
+      <p>Get measured on day 1, collect on day 3. Custom suits, dresses, leather goods.</p>
+      <span class="place-city sage">Hoi An</span>
+    </div>
+    <div class="place-card">
+      <div class="place-cat">HCMC — District 1</div>
+      <h4>Ben Thanh Market</h4>
+      <p>Knock-offs, souvenirs, produce, local snacks. The classic HCMC market.</p>
+      <span class="place-city lilac">HCMC</span>
+    </div>
+  </div>
+
+  <div class="places-subhead">🎯 Things to Do</div>
+  <div class="places-grid">
+    <div class="place-card">
+      <div class="place-cat">Da Nang — Ba Na Hills</div>
       <h4>Ba Na Hills + Golden Bridge</h4>
-      <p>World's longest cable car, giant stone hands, French Village.</p>
+      <p>World's longest cable car, giant stone hands, French Village. Book online (~500k VND pp).</p>
       <span class="place-city lemon">Da Nang</span>
     </div>
     <div class="place-card">
-      <div class="place-cat">Beach · Da Nang</div>
+      <div class="place-cat">Da Nang — My Khe</div>
       <h4>My Khe Beach</h4>
       <p>Steps from Chicland. Sunrise swim, seafood on the sand.</p>
       <span class="place-city lemon">Da Nang</span>
     </div>
     <div class="place-card">
-      <div class="place-cat">Show · Da Nang</div>
+      <div class="place-cat">Da Nang — Riverfront</div>
       <h4>Dragon Bridge 🐉</h4>
-      <p>Fire & water show Friday & Saturday at 21:00. You're there for both.</p>
+      <p>Fire & water show Friday & Saturday at 21:00. You're there for both!</p>
       <span class="place-city lemon">Da Nang</span>
     </div>
     <div class="place-card">
-      <div class="place-cat">Museum · HCMC</div>
+      <div class="place-cat">HCMC — District 3</div>
       <h4>War Remnants Museum</h4>
       <p>Essential and powerful. Go straight from hotel — closes 17:00.</p>
       <span class="place-city lilac">HCMC</span>
     </div>
     <div class="place-card">
-      <div class="place-cat">Tunnels · HCMC</div>
+      <div class="place-cat">HCMC — Day Trip</div>
       <h4>Chu Chi Tunnels</h4>
-      <p>Half-day tour. Crawl the tunnel network, shooting range optional.</p>
+      <p>Half-day tour. Crawl the tunnel network, shooting range optional (~60k VND).</p>
       <span class="place-city lilac">HCMC</span>
     </div>
     <div class="place-card">
-      <div class="place-cat">Market · HCMC</div>
-      <h4>Ben Thanh Market</h4>
-      <p>Knock-offs, souvenirs, produce. The classic HCMC market.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Street · HCMC</div>
+      <div class="place-cat">HCMC — District 1</div>
       <h4>Bui Vien Walking Street</h4>
       <p>Food, drinks, backpacker energy. Nightlife central.</p>
       <span class="place-city lilac">HCMC</span>
     </div>
     <div class="place-card">
-      <div class="place-cat">Views · HCMC</div>
+      <div class="place-cat">HCMC — Riverfront</div>
       <h4>Saigon River Rooftop Bars</h4>
-      <p>Skyline views over the river. Perfect for last night.</p>
+      <p>Skyline views over the river. Perfect for the last night.</p>
       <span class="place-city lilac">HCMC</span>
     </div>
   </div>
@@ -1397,6 +1486,23 @@
       localStorage.setItem('vietnam-packing-' + i, cb.checked);
     });
   });
+
+  // Active section highlight in jump nav
+  const sections = document.querySelectorAll('section.section, section.cover');
+  const navLinks = document.querySelectorAll('.jump-nav a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id') || 'cover';
+        navLinks.forEach(link => {
+          const href = link.getAttribute('href').replace('#', '');
+          link.style.borderColor = href === id ? 'var(--pink)' : 'var(--rule)';
+          link.style.color = href === id ? 'var(--ink)' : '';
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
 </script>
 
 </body>
