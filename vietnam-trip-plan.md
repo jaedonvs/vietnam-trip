@@ -47,11 +47,11 @@
 - **Bia Hoi Corner (Ta Hien & Luong Ngoc Quyen)** — 25c draught beer on plastic stools with locals
 
 #### Shopping
-- 🌟 **Old Quarter Night Market — Hang Dao Street** — **FRIDAY & SATURDAY NIGHTS ONLY. You arrive on a Saturday — perfect timing.** Shoes, clothes, streetwear, souvenirs. Goes until midnight.
+- 🌟 **Old Quarter Night Market — Hang Dao Street** — **FRIDAY & SATURDAY NIGHTS ONLY. You arrive Sunday — market closed tonight.** Shoes, clothes, streetwear, souvenirs. Goes until midnight.
 
 **If it rains:** Cafe Giang for egg coffee → foot massage (150,000 VND, 1 hr) → covered Old Quarter market streets. Night market still runs in light rain.
 
-> **Tip:** Stay up until 10pm to beat jet lag. Saturday night market is one of Hanoi's best experiences — use the energy.
+> **Tip:** Stay up until 10pm to beat jet lag. Bia Hoi Corner and the Old Quarter street food run every night — still plenty of energy.
 
 ---
 
@@ -254,7 +254,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 - **Mi Quang — Da Nang's signature noodle** — turmeric broth, pork, prawn, peanuts, herbs, only properly made here
 
 #### Evening — Dragon Bridge Again
-- 🌟 **Dragon Bridge fire & water show — 21:00 SATURDAY** — second chance. Both nights are worth it.
+- 🌟 **Dragon Bridge fire & water show — 21:00 SUNDAY** — second chance. Both nights are worth it.
 
 **If it rains:** Linh Ung Pagoda is atmospheric in light rain. Marble Mountains are indoor caves. Shopping is all indoor.
 
