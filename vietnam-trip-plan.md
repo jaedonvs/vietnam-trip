@@ -60,7 +60,7 @@
 *Tags: history · shopping · food*
 
 #### Morning — Imperial History
-- ✅ **Ho Chi Minh Mausoleum + One Pillar Pagoda** — go at 8am sharp, both on the same complex, done by 9:30am
+- ✅ **Ho Chi Minh Museum + One Pillar Pagoda** — Mausoleum closed Mon, Museum next door covers same history, done by 9:30am
 - ✅ **Temple of Literature** — Vietnam's oldest university (1070 AD), stunning courtyards, before 11am
 
 #### Food
@@ -77,7 +77,7 @@
 - ✅ **Water puppet show — Thang Long Theatre** — uniquely Vietnamese art form, 1 hour, book ahead, runs rain or shine
 - **Rooftop drinks — Nola or Skylight bar** — check weather first, street-level backup: any bar on Ta Hien
 
-**If it rains:** All shopping is covered or indoor. Mausoleum is morning so you're clear. Train Street attempt works rain or shine — you're getting coffee regardless.
+**If it rains:** All shopping is covered or indoor. Museum is morning so you're clear. Train Street attempt works rain or shine — you're getting coffee regardless.
 
 > **Tip:** Don't skip the foot massage. It will be the best 150,000 VND you spend in Vietnam. Book it for late afternoon.
 
