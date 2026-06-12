@@ -49,7 +49,7 @@
 #### Shopping
 - 🌟 **Old Quarter Night Market — Hang Dao Street** — **FRIDAY & SATURDAY NIGHTS ONLY. You arrive Sunday — market closed tonight.** Shoes, clothes, streetwear, souvenirs. Goes until midnight.
 
-**If it rains:** Cafe Giang for egg coffee → foot massage (150,000 VND, 1 hr) → covered Old Quarter market streets. Night market still runs in light rain.
+**If it rains:** Cafe Giang for egg coffee → foot massage (150,000 VND, 1 hr) → covered Old Quarter market streets for browsing.
 
 > **Tip:** Stay up until 10pm to beat jet lag. Bia Hoi Corner and the Old Quarter street food run every night — still plenty of energy.
 
