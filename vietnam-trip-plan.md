@@ -9,7 +9,7 @@
 - **Budget:** Comfortable (boutique hotels, mix of dining)
 - **Vibe:** Big shoppers & foodies · Imperial & temple history · Beach · Adventure · Nightlife
 - **History focus:** Imperial/temple primary · Key Vietnam War sites only
-- **Key alert:** Dragon Bridge fire & water show — Friday & Saturday nights only at 21:00. You are in Da Nang on **Friday 27 June AND Saturday 28 June**. Do not miss this.
+- **Key alert:** Dragon Bridge fire & water show — Friday & Saturday nights only at 21:00. You are in Da Nang on **Saturday 27 June** (one chance). Do not miss this.
 
 ---
 
@@ -30,7 +30,7 @@
 
 ---
 
-### Day 1 — Saturday 21 June
+### Day 1 — Sunday 21 June
 **Arrive Hanoi · First afternoon**
 *Tags: half day · shopping · food*
 
@@ -55,7 +55,7 @@
 
 ---
 
-### Day 2 — Sunday 22 June
+### Day 2 — Monday 22 June
 **Hanoi — temples, train street & shopping**
 *Tags: history · shopping · food*
 
@@ -83,7 +83,7 @@
 
 ---
 
-### Day 3 — Monday 23 June
+### Day 3 — Tuesday 23 June
 **Ha Long Bay — Mon Cheri Cruises (Overnight Cruise)**
 *Tags: adventure*
 
@@ -125,7 +125,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 
 ---
 
-### Day 4 — Tuesday 24 June
+### Day 4 — Wednesday 24 June
 **Ha Long Bay → Hoi An (Travel Day)**
 *Tags: travel*
 
@@ -148,7 +148,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 
 ---
 
-### Day 5 — Wednesday 25 June
+### Day 5 — Thursday 25 June
 **Hoi An — Temples, Tailoring, Leather & Food**
 *Tags: history · shopping · food*
 
@@ -184,7 +184,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 
 ---
 
-### Day 6 — Thursday 26 June
+### Day 6 — Friday 26 June
 **Hue — Imperial Day Trip**
 *Tags: history*
 
@@ -208,7 +208,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 
 ---
 
-### Day 7 — Friday 27 June
+### Day 7 — Saturday 27 June
 **Hoi An → Da Nang + Dragon Bridge Tonight 🐉**
 *Tags: shopping · travel · nightlife*
 
@@ -227,7 +227,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 - **My Khe beachfront seafood** — grill restaurants on the sand, order by weight, cold beer
 
 #### Evening — Dragon Bridge
-- 🌟 **Dragon Bridge fire & water show — 21:00 FRIDAY** — the bridge breathes fire and shoots water. Free to watch from the Han River bank. Position yourself by 20:45. You are in Da Nang **both Friday AND Saturday** — two chances.
+- 🌟 **Dragon Bridge fire & water show — 21:00 SATURDAY** — the bridge breathes fire and shoots water. Free to watch from the Han River bank. Position yourself by 20:45. You are in Da Nang on **Saturday** (one chance).
 
 **If it rains:** Ba Na Hills sits in the clouds — mist makes it more dramatic not less. Dragon Bridge show runs rain or shine.
 
@@ -235,7 +235,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 
 ---
 
-### Day 8 — Saturday 28 June
+### Day 8 — Sunday 28 June
 **Da Nang — Temples, Vintage & Beach**
 *Tags: history · shopping · beach · nightlife*
 
@@ -262,7 +262,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 
 ---
 
-### Day 9 — Sunday 29 June
+### Day 9 — Monday 29 June
 **Da Nang → Ho Chi Minh City**
 *Tags: travel · history · food*
 
@@ -287,7 +287,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 
 ---
 
-### Day 10 — Monday 30 June
+### Day 10 — Tuesday 30 June
 **HCMC — Cu Chi Tunnels + Streetwear Shopping**
 *Tags: adventure · shopping · food*
 
@@ -316,7 +316,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 
 ---
 
-### Day 11 — Tuesday 1 July
+### Day 11 — Wednesday 1 July
 **HCMC — Free Day, Food Crawl & Final Beer**
 *Tags: food · shopping · nightlife*
 
@@ -345,7 +345,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 
 ---
 
-### Day 12 — Wednesday 2 July
+### Day 12 — Thursday 2 July
 **HCMC — Last Morning · Depart 20:00**
 *Tags: food · half day*
 
@@ -458,7 +458,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 #### Temples & Landmarks
 - **Linh Ung Pagoda** — Son Tra Peninsula, giant Lady Buddha ⭐
 - **Marble Mountains** — Buddhist cave temples ⭐
-- **Dragon Bridge** — fire & water show, Fri/Sat/Sun at 21:00 ⭐
+- **Dragon Bridge** — fire & water show, Fri/Sat at 21:00 ⭐
 - Ba Na Hills + Golden Bridge + French Village ⭐
 - Son Tra Peninsula drive
 - Han River Cruise
