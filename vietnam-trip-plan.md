@@ -9,7 +9,7 @@
 - **Budget:** Comfortable (boutique hotels, mix of dining)
 - **Vibe:** Big shoppers & foodies · Imperial & temple history · Beach · Adventure · Nightlife
 - **History focus:** Imperial/temple primary · Key Vietnam War sites only
-- **Key alert:** Dragon Bridge fire & water show — Friday & Saturday nights only at 21:00. You are in Da Nang on **Saturday 27 June** (one chance). Do not miss this.
+- **Key alert:** Dragon Bridge fire & water show — Friday, Saturday & Sunday nights at 21:00. You are in Da Nang on **Saturday 27 AND Sunday 28 June** (both nights!). Do not miss this.
 
 ---
 
@@ -227,7 +227,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 - **My Khe beachfront seafood** — grill restaurants on the sand, order by weight, cold beer
 
 #### Evening — Dragon Bridge
-- 🌟 **Dragon Bridge fire & water show — 21:00 SATURDAY** — the bridge breathes fire and shoots water. Free to watch from the Han River bank. Position yourself by 20:45. You are in Da Nang on **Saturday** (one chance).
+- 🌟 **Dragon Bridge fire & water show — 21:00 SATURDAY** — the bridge breathes fire and shoots water. Free to watch from the Han River bank. Position yourself by 20:45. You are in Da Nang **Saturday AND Sunday** (both nights!).
 
 **If it rains:** Ba Na Hills sits in the clouds — mist makes it more dramatic not less. Dragon Bridge show runs rain or shine.
 
@@ -458,7 +458,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 #### Temples & Landmarks
 - **Linh Ung Pagoda** — Son Tra Peninsula, giant Lady Buddha ⭐
 - **Marble Mountains** — Buddhist cave temples ⭐
-- **Dragon Bridge** — fire & water show, Fri/Sat at 21:00 ⭐
+- **Dragon Bridge** — fire & water show, Fri/Sat/Sun at 21:00 ⭐
 - Ba Na Hills + Golden Bridge + French Village ⭐
 - Son Tra Peninsula drive
 - Han River Cruise
