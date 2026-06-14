@@ -2,11 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Vietnam — Don & Katelyn · June 2026</title>
+<meta name="theme-color" content="#F2EEDF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Vietnam">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
   :root {
     --paper:    #F2EEDF;
@@ -22,12 +30,12 @@
     --rule: rgba(42,36,27,0.18);
     --radius: 28px;
     --radius-sm: 18px;
+    --tabbar-h: 64px;
+    --safe-b: env(safe-area-inset-bottom, 0px);
   }
 
-  * { margin:0; padding:0; box-sizing:border-box; }
-
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
   html { scroll-behavior: smooth; }
-
   body {
     background: var(--paper);
     color: var(--ink);
@@ -36,1544 +44,330 @@
     font-size: 16px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    padding-bottom: 0;
+    overflow-x: hidden;
   }
-  @media (max-width: 768px) {
-    body { padding-bottom: 3.5rem; }
-  }
+  h1, h2, h3, h4 { font-family: "Cormorant Garamond", "Garamond", serif; font-weight: 500; letter-spacing: -0.01em; }
+  .serif    { font-family: "Cormorant Garamond", "Garamond", serif; font-weight: 500; }
+  .serif-it { font-family: "Cormorant Garamond", "Garamond", serif; font-weight: 500; font-style: italic; }
+  a { color: inherit; }
 
-  h1, h2, h3, h4 {
-    font-family: "Cormorant Garamond", "Garamond", serif;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-  }
+  /* ─── APP SHELL / VIEWS ─── */
+  .view { display: none; }
+  .view.active { display: block; animation: fade 0.35s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-  .serif      { font-family: "Cormorant Garamond", "Garamond", serif; font-weight: 500; }
-  .serif-it   { font-family: "Cormorant Garamond", "Garamond", serif; font-weight: 500; font-style: italic; }
+  .section { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.25rem calc(2.5rem + var(--tabbar-h) + var(--safe-b)); }
+  .section-header { margin-bottom: 1.75rem; }
+  .section-header .kicker { font-family: "Cormorant Garamond", "Garamond", serif; font-style: italic; font-size: 1.1rem; color: var(--ink-soft); margin-bottom: 0.25rem; }
+  .section-header h2 { font-size: clamp(2rem, 6vw, 3.2rem); line-height: 0.98; }
+  .section-header p { font-size: 0.98rem; color: var(--ink-soft); margin-top: 0.6rem; max-width: 600px; }
 
-  /* ─── COVER ─── */
+  /* ─── COVER (inside Overview) ─── */
   .cover {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
+    min-height: calc(78vh - var(--tabbar-h));
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 2rem 1.25rem 1rem; position: relative; overflow: hidden;
   }
-  .cover::before {
-    content: '';
-    position: absolute;
-    width: 600px; height: 600px;
-    border-radius: 50%;
-    background: var(--blush);
-    opacity: 0.3;
-    top: -200px; right: -200px;
-    pointer-events: none;
-  }
-  .cover::after {
-    content: '';
-    position: absolute;
-    width: 400px; height: 400px;
-    border-radius: 50%;
-    background: var(--lilac);
-    opacity: 0.2;
-    bottom: -150px; left: -150px;
-    pointer-events: none;
-  }
-  .cover .marker {
-    font-family: "Cormorant Garamond", "Garamond", serif;
-    font-style: italic;
-    font-size: 1.25rem;
-    color: var(--ink-soft);
-    margin-bottom: 1rem;
-    letter-spacing: 0.04em;
-  }
-  .cover h1 {
-    font-size: clamp(3.2rem, 12vw, 7rem);
-    line-height: 0.92;
-    letter-spacing: -0.02em;
-    margin-bottom: 1rem;
-  }
-  .cover h1 em {
-    font-style: italic;
-    color: var(--ink-soft);
-  }
-  .cover .tagline {
-    font-family: "Work Sans", sans-serif;
-    font-size: clamp(1rem, 2.5vw, 1.35rem);
-    color: var(--ink-soft);
-    max-width: 520px;
-    line-height: 1.5;
-    margin-bottom: 2.5rem;
-  }
-  .cover .route-dots {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-  .cover .dot {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 1rem;
-    border-radius: 999px;
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--ink);
-  }
-  .cover .dot.pink   { background: var(--pink); }
-  .cover .dot.lemon  { background: var(--lemon); }
-  .cover .dot.blush  { background: var(--blush); }
-  .cover .dot.sage   { background: var(--sage); }
-  .cover .dot.lilac  { background: var(--lilac); }
-  .cover .dot-arrow  { color: var(--ink-soft); font-size: 1.1rem; }
-  .cover .scroll-hint {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: "Cormorant Garamond", "Garamond", serif;
-    font-style: italic;
-    font-size: 0.95rem;
-    color: var(--ink-soft);
-    opacity: 0.6;
-    animation: bob 2s ease-in-out infinite;
-  }
-  @keyframes bob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+  .cover::before { content:''; position:absolute; width:600px; height:600px; border-radius:50%; background:var(--blush); opacity:0.3; top:-220px; right:-200px; pointer-events:none; }
+  .cover::after  { content:''; position:absolute; width:400px; height:400px; border-radius:50%; background:var(--lilac); opacity:0.2; bottom:-160px; left:-150px; pointer-events:none; }
+  .cover .marker { font-family:"Cormorant Garamond",serif; font-style:italic; font-size:1.2rem; color:var(--ink-soft); margin-bottom:0.75rem; letter-spacing:0.04em; }
+  .cover h1 { font-size: clamp(3rem, 13vw, 6.5rem); line-height:0.92; margin-bottom:1rem; }
+  .cover .tagline { font-size: clamp(1rem, 2.5vw, 1.3rem); color:var(--ink-soft); max-width:520px; line-height:1.5; margin-bottom:1.75rem; }
+  .cover .route-dots { display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap; justify-content:center; margin-bottom:1.5rem; }
+  .cover .dot { display:inline-flex; align-items:center; gap:0.4rem; padding:0.4rem 0.9rem; border-radius:999px; font-size:0.82rem; font-weight:500; color:var(--ink); }
+  .cover .dot.pink{background:var(--pink);} .cover .dot.lemon{background:var(--lemon);} .cover .dot.blush{background:var(--blush);} .cover .dot.sage{background:var(--sage);} .cover .dot.lilac{background:var(--lilac);}
+  .cover .dot-arrow { color:var(--ink-soft); font-size:1rem; }
 
-  /* ─── SECTION HEADERS ─── */
-  .section {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 4rem 1.5rem;
-  }
-  .section-header {
-    margin-bottom: 2.5rem;
-  }
-  .section-header .kicker {
-    font-family: "Cormorant Garamond", "Garamond", serif;
-    font-style: italic;
-    font-size: 1.1rem;
-    color: var(--ink-soft);
-    margin-bottom: 0.25rem;
-  }
-  .section-header h2 {
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
-    line-height: 0.98;
-    letter-spacing: -0.01em;
-  }
-  .section-header p {
-    font-size: 1rem;
-    color: var(--ink-soft);
-    margin-top: 0.75rem;
-    max-width: 600px;
-  }
+  /* countdown / today banner */
+  .trip-status { display:inline-flex; align-items:center; gap:0.6rem; background:var(--ink); color:var(--paper); padding:0.55rem 1.1rem; border-radius:999px; font-size:0.85rem; font-weight:500; }
+  .trip-status .big { font-family:"Cormorant Garamond",serif; font-size:1.35rem; line-height:1; }
 
-  /* ─── CARD ─── */
-  .card {
-    background: var(--card-fill);
-    border-radius: var(--radius);
-    padding: 1.75rem;
-    margin-bottom: 1.25rem;
-    backdrop-filter: blur(2px);
-  }
-  .card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-  .card p {
-    font-size: 0.95rem;
-    color: var(--ink-soft);
-    line-height: 1.6;
-  }
+  /* ─── CARDS ─── */
+  .card { background:var(--card-fill); border-radius:var(--radius); padding:1.6rem; margin-bottom:1.1rem; backdrop-filter: blur(2px); }
+  .card h3 { font-size:1.45rem; margin-bottom:0.5rem; }
+  .card p { font-size:0.95rem; color:var(--ink-soft); line-height:1.6; }
 
-  /* ─── STATS GRID ─── */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-  }
-  .stat-card {
-    background: var(--card-fill);
-    border-radius: var(--radius-sm);
-    padding: 1.25rem 1rem;
-    text-align: center;
-    backdrop-filter: blur(2px);
-  }
-  .stat-card .num {
-    font-family: "Cormorant Garamond", "Garamond", serif;
-    font-size: 2rem;
-    font-weight: 500;
-    line-height: 1;
-    margin-bottom: 0.25rem;
-  }
-  .stat-card .num.pink   { color: #c0554d; }
-  .stat-card .num.lemon  { color: #b89630; }
-  .stat-card .num.blush  { color: #c49a83; }
-  .stat-card .num.sage   { color: #7f9a74; }
-  .stat-card .num.lilac  { color: #a56a48; }
-  .stat-card .label {
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink-soft);
-  }
+  /* ─── STATS ─── */
+  .stats-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap:0.85rem; }
+  .stat-card { background:var(--card-fill); border-radius:var(--radius-sm); padding:1.15rem 0.75rem; text-align:center; backdrop-filter: blur(2px); }
+  .stat-card .num { font-family:"Cormorant Garamond",serif; font-size:2rem; font-weight:500; line-height:1; margin-bottom:0.2rem; }
+  .stat-card .num.pink{color:#c0554d;} .stat-card .num.lemon{color:#b89630;} .stat-card .num.blush{color:#c49a83;} .stat-card .num.sage{color:#7f9a74;} .stat-card .num.lilac{color:#a56a48;}
+  .stat-card .label { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); }
 
-  /* ─── DAY CARDS ─── */
-  .day-card {
-    background: var(--card-fill);
-    border-radius: var(--radius);
-    padding: 1.75rem;
-    margin-bottom: 1.25rem;
-    backdrop-filter: blur(2px);
-  }
+  /* ─── FLIGHTS ─── */
+  .flight-details { display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
+  @media (max-width:600px){ .flight-details{grid-template-columns:1fr;} }
+  .flight-leg { background:var(--card-fill); border-radius:var(--radius-sm); padding:1.15rem; }
+  .flight-leg h4 { font-size:1.05rem; margin-bottom:0.2rem; }
+  .flight-leg .airline { font-size:0.83rem; color:var(--ink-soft); }
+  .flight-leg .route { font-family:"Cormorant Garamond",serif; font-size:1.45rem; margin:0.35rem 0; }
+  .flight-leg .time { font-size:0.88rem; color:var(--ink-soft); }
+  .label-group { display:flex; gap:0.5rem; flex-wrap:wrap; margin:0.25rem 0 0.6rem; }
+  .label-group span { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; padding:0.15rem 0.6rem; border-radius:999px; font-weight:500; }
+  .label-group span.pink{background:var(--pink);} .label-group span.blush{background:var(--blush);}
 
-  .day-card .day-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-  .day-card .day-head h3 {
-    font-size: 1.5rem;
-  }
-  .day-card .day-head .day-date {
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.8rem;
-    color: var(--ink-soft);
-    letter-spacing: 0.02em;
-  }
-  .day-card .day-tags {
-    display: flex;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.75rem;
-  }
-  .day-card .day-tag {
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 0.15rem 0.6rem;
-    border-radius: 999px;
-    font-weight: 500;
-  }
-  .day-tag.pink   { background: var(--pink); }
-  .day-tag.lemon  { background: var(--lemon); }
-  .day-tag.blush  { background: var(--blush); }
-  .day-tag.sage   { background: var(--sage); }
-  .day-tag.lilac  { background: var(--lilac); }
-
-  .day-card .day-body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-  }
-  @media (max-width: 600px) {
-    .day-card .day-body { grid-template-columns: 1fr; }
-  }
-  .day-card .day-col h4 {
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--ink-soft);
-    margin-bottom: 0.5rem;
-  }
-  .day-card .day-col ul {
-    list-style: none;
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-  .day-card .day-col ul li::before {
-    content: '· ';
-    color: var(--ink-soft);
-  }
-  .day-card .day-foot {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--rule);
-    font-size: 0.82rem;
-    color: var(--ink-soft);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-  .day-card .day-foot-item {
-    font-weight: 500;
-  }
+  /* ─── ROUTE TIMELINE ─── */
+  .route-timeline { display:flex; align-items:flex-start; overflow-x:auto; padding:1.25rem 0; -webkit-overflow-scrolling:touch; }
+  .route-stop { display:flex; flex-direction:column; align-items:center; min-width:96px; flex-shrink:0; position:relative; }
+  .route-stop .rdot { width:16px; height:16px; border-radius:50%; margin-bottom:0.5rem; z-index:1; }
+  .route-stop .rdot.pink{background:var(--pink);} .route-stop .rdot.blush{background:var(--blush);} .route-stop .rdot.sage{background:var(--sage);} .route-stop .rdot.lemon{background:var(--lemon);} .route-stop .rdot.lilac{background:var(--lilac);}
+  .route-stop .name { font-family:"Cormorant Garamond",serif; font-size:1.02rem; font-weight:500; text-align:center; }
+  .route-stop .sub { font-size:0.68rem; color:var(--ink-soft); text-align:center; text-transform:uppercase; letter-spacing:0.04em; }
+  .route-stop .connector { position:absolute; top:7px; left:50%; width:100%; height:2px; background:var(--rule); z-index:0; }
 
   /* ─── STAYS ─── */
-  .booking-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  .booking-card {
-    background: var(--card-fill);
-    border-radius: var(--radius-sm);
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    backdrop-filter: blur(2px);
-  }
-  .booking-name {
-    font-family: "Cormorant Garamond", "Garamond", serif;
-    font-size: 1.2rem;
-    font-weight: 500;
-  }
-  .booking-loc {
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-  }
-  .booking-dates, .booking-confirm {
-    font-size: 0.8rem;
-    color: var(--ink-soft);
-  }
-  .booking-status {
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.3rem 0.8rem;
-    border-radius: 999px;
-    background: var(--sage);
-    white-space: nowrap;
-  }
+  .booking-cards { display:flex; flex-direction:column; gap:0.7rem; }
+  .booking-card { background:var(--card-fill); border-radius:var(--radius-sm); padding:1.1rem 1.25rem; display:flex; justify-content:space-between; align-items:center; gap:1rem; backdrop-filter:blur(2px); cursor:pointer; transition:transform .12s; }
+  .booking-card:active { transform: scale(0.99); }
+  .booking-name { font-family:"Cormorant Garamond",serif; font-size:1.18rem; font-weight:500; }
+  .booking-loc, .booking-dates, .booking-confirm { font-size:0.82rem; color:var(--ink-soft); }
+  .booking-status { font-size:0.72rem; font-weight:600; padding:0.3rem 0.75rem; border-radius:999px; background:var(--sage); white-space:nowrap; }
 
   /* ─── BUDGET TABLE ─── */
-  .table-wrap {
-    overflow-x: auto;
-    margin: 1rem 0;
-  }
-  .compare-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-  }
-  .compare-table th {
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink-soft);
-    text-align: left;
-    padding: 0.6rem 0.75rem;
-    border-bottom: 1px solid var(--rule);
-  }
-  .compare-table td {
-    padding: 0.6rem 0.75rem;
-    border-bottom: 1px solid var(--rule);
-  }
-  .compare-table tr:last-child td {
-    border-bottom: none;
-  }
-  .compare-table tr.total td {
-    font-weight: 600;
-    border-top: 2px solid var(--rule);
-  }
+  .table-wrap { overflow-x:auto; margin:0.75rem 0; }
+  .compare-table { width:100%; border-collapse:collapse; font-size:0.88rem; }
+  .compare-table th { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); text-align:left; padding:0.55rem 0.7rem; border-bottom:1px solid var(--rule); }
+  .compare-table td { padding:0.55rem 0.7rem; border-bottom:1px solid var(--rule); }
+  .compare-table tr:last-child td { border-bottom:none; }
+  .compare-table tr.total td { font-weight:600; border-top:2px solid var(--rule); }
 
-  /* ─── PLACES GRID ─── */
-  .places-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
-  }
-  .place-card {
-    background: var(--card-fill);
-    border-radius: var(--radius-sm);
-    padding: 1.25rem;
-    backdrop-filter: blur(2px);
-  }
-  .place-card h4 {
-    font-size: 1.15rem;
-    margin-bottom: 0.25rem;
-  }
-  .place-card .place-cat {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink-soft);
-    margin-bottom: 0.4rem;
-  }
-  .place-card p {
-    font-size: 0.88rem;
-    color: var(--ink-soft);
-    line-height: 1.5;
-  }
-  .place-card .place-city {
-    display: inline-block;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
-    margin-top: 0.5rem;
-    font-weight: 500;
-  }
-  .place-city.pink   { background: var(--pink); }
-  .place-city.lemon  { background: var(--lemon); }
-  .place-city.blush  { background: var(--blush); }
-  .place-city.sage   { background: var(--sage); }
-  .place-city.lilac  { background: var(--lilac); }
+  /* ─── DAYS (swipe deck) ─── */
+  .date-strip { display:flex; gap:0.4rem; overflow-x:auto; padding:0.25rem 0 1rem; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  .date-strip::-webkit-scrollbar { display:none; }
+  .date-chip { flex-shrink:0; border:1px solid var(--rule); background:var(--card-fill); border-radius:999px; padding:0.4rem 0.8rem; font-size:0.72rem; cursor:pointer; text-align:center; line-height:1.2; transition:all .15s; }
+  .date-chip .d-day { font-weight:600; display:block; }
+  .date-chip .d-date { font-size:0.62rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.04em; }
+  .date-chip.active { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .date-chip.active .d-date { color:rgba(242,238,223,0.75); }
+  .date-chip.today-chip { border-color: var(--pink); }
 
-  .places-subhead {
-    font-family: "Cormorant Garamond", "Garamond", serif;
-    font-size: 1.6rem;
-    font-weight: 500;
-    margin: 1.5rem 0 0.75rem;
-    padding-bottom: 0.3rem;
-    border-bottom: 1px solid var(--rule);
-  }
+  .day-deck { display:flex; gap:1rem; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-bottom:0.5rem; margin:0 -1.25rem; padding-left:1.25rem; padding-right:1.25rem; }
+  .day-deck::-webkit-scrollbar { display:none; }
+  .day-card { background:var(--card-fill); border-radius:var(--radius); padding:1.5rem; backdrop-filter:blur(2px); scroll-snap-align:center; flex-shrink:0; width:min(640px, 86vw); }
+  .day-card.is-today { box-shadow: 0 0 0 2px var(--pink); }
+  .day-head { display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.6rem; }
+  .day-head h3 { font-size:1.4rem; }
+  .day-head .day-date { font-size:0.78rem; color:var(--ink-soft); letter-spacing:0.02em; }
+  .today-badge { font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; background:var(--pink); color:var(--paper); padding:0.15rem 0.5rem; border-radius:999px; }
+  .day-tags { display:flex; gap:0.4rem; flex-wrap:wrap; margin-bottom:0.75rem; }
+  .day-tag, .place-cat-pill { font-size:0.62rem; text-transform:uppercase; letter-spacing:0.06em; padding:0.15rem 0.6rem; border-radius:999px; font-weight:500; }
+  .day-tag.pink{background:var(--pink);} .day-tag.lemon{background:var(--lemon);} .day-tag.blush{background:var(--blush);} .day-tag.sage{background:var(--sage);} .day-tag.lilac{background:var(--lilac);}
+  .day-body { display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
+  @media (max-width:600px){ .day-body{grid-template-columns:1fr;} }
+  .day-col h4 { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:0.4rem; margin-top:0.75rem; }
+  .day-col h4:first-child { margin-top:0; }
+  .day-col ul { list-style:none; font-size:0.9rem; line-height:1.55; }
+  .day-col ul li { padding:0.1rem 0; }
+  .day-col ul li::before { content:'· '; color:var(--ink-soft); }
+  .day-foot { margin-top:0.9rem; padding-top:0.75rem; border-top:1px solid var(--rule); font-size:0.8rem; color:var(--ink-soft); display:flex; flex-wrap:wrap; gap:0.6rem; align-items:center; }
+  .day-foot .stay-link { font-weight:500; cursor:pointer; text-decoration:underline; text-decoration-color:var(--rule); text-underline-offset:2px; }
+  .deck-hint { font-size:0.75rem; color:var(--ink-soft); text-align:center; font-style:italic; font-family:"Cormorant Garamond",serif; margin-top:0.5rem; }
 
-  /* ─── PACKING CHECKLIST ─── */
-  .packing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.5rem;
-  }
-  .packing-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    padding: 0.4rem 0;
-  }
-  .packing-item input[type="checkbox"] {
-    appearance: none;
-    width: 18px; height: 18px;
-    border: 2px solid var(--ink-soft);
-    border-radius: 4px;
-    flex-shrink: 0;
-    cursor: pointer;
-    position: relative;
-  }
-  .packing-item input[type="checkbox"]:checked {
-    background: var(--ink);
-    border-color: var(--ink);
-  }
-  .packing-item input[type="checkbox"]:checked::after {
-    content: '✓';
-    position: absolute;
-    top: -2px; left: 2px;
-    font-size: 14px;
-    color: var(--paper);
-  }
+  /* ─── MAP ─── */
+  #mapView .section { padding-bottom:0; }
+  .map-wrap { position: relative; }
+  #map { width:100%; height: calc(100vh - var(--tabbar-h) - var(--safe-b) - 56px); min-height: 360px; border-radius: var(--radius); overflow:hidden; z-index:1; }
+  .map-filters { display:flex; gap:0.4rem; overflow-x:auto; padding:0.5rem 1.25rem; scrollbar-width:none; }
+  .map-filters::-webkit-scrollbar { display:none; }
+  .filter-chip { flex-shrink:0; border:1px solid var(--rule); background:var(--card-fill); border-radius:999px; padding:0.35rem 0.85rem; font-size:0.75rem; cursor:pointer; display:inline-flex; align-items:center; gap:0.35rem; transition:all .15s; }
+  .filter-chip.active { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .filter-chip .swatch { width:9px; height:9px; border-radius:50%; }
+  .locate-btn { position:absolute; right:14px; bottom:14px; z-index:600; background:var(--paper); border:1px solid var(--rule); border-radius:50%; width:46px; height:46px; font-size:1.2rem; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.15); display:flex; align-items:center; justify-content:center; }
 
-  /* ─── FOOTER ─── */
-  .site-footer {
-    text-align: center;
-    padding: 3rem 1.5rem;
-    font-family: "Cormorant Garamond", "Garamond", serif;
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--ink-soft);
-    border-top: 1px solid var(--rule);
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .site-footer .small {
-    font-size: 0.8rem;
-    opacity: 0.7;
-  }
+  /* Leaflet pin */
+  .pin { width:26px; height:26px; border-radius:50% 50% 50% 0; transform:rotate(-45deg); border:2px solid rgba(255,255,255,0.85); box-shadow:0 2px 5px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; }
+  .pin span { transform:rotate(45deg); font-size:12px; }
+  .pin.pink{background:var(--pink);} .pin.lemon{background:var(--lemon);} .pin.blush{background:var(--blush);} .pin.sage{background:var(--sage);} .pin.lilac{background:var(--lilac);} .pin.ink{background:var(--ink-soft);}
+  .leaflet-container { font-family:"Work Sans",sans-serif; background:var(--paper-2); }
 
-  /* ─── JUMP NAV ─── */
-  .jump-nav {
-    position: fixed;
-    top: 50%;
-    right: 1.25rem;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    z-index: 100;
-  }
-  .jump-nav a {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--ink-soft);
-    background: var(--card-fill);
-    backdrop-filter: blur(4px);
-    padding: 0.4rem 0.75rem;
-    border-radius: 999px;
-    border: 1px solid var(--rule);
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .jump-nav a:hover {
-    color: var(--ink);
-    border-color: var(--pink);
-  }
-  .jump-nav a .nav-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .jump-nav a .nav-dot.pink   { background: var(--pink); }
-  .jump-nav a .nav-dot.lemon  { background: var(--lemon); }
-  .jump-nav a .nav-dot.blush  { background: var(--blush); }
-  .jump-nav a .nav-dot.sage   { background: var(--sage); }
-  .jump-nav a .nav-dot.lilac  { background: var(--lilac); }
+  /* ─── PLACES ─── */
+  .places-subhead { font-family:"Cormorant Garamond",serif; font-size:1.55rem; font-weight:500; margin:1.5rem 0 0.75rem; padding-bottom:0.3rem; border-bottom:1px solid var(--rule); }
+  .places-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap:0.9rem; }
+  .place-card { background:var(--card-fill); border-radius:var(--radius-sm); padding:1.15rem; backdrop-filter:blur(2px); cursor:pointer; transition:transform .12s; }
+  .place-card:active { transform: scale(0.99); }
+  .place-card h4 { font-size:1.12rem; margin-bottom:0.2rem; }
+  .place-card .place-cat { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:0.35rem; }
+  .place-card p { font-size:0.86rem; color:var(--ink-soft); line-height:1.5; }
+  .place-card .place-city { display:inline-block; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.06em; padding:0.15rem 0.5rem; border-radius:999px; margin-top:0.5rem; font-weight:500; }
+  .place-city.pink{background:var(--pink);} .place-city.lemon{background:var(--lemon);} .place-city.blush{background:var(--blush);} .place-city.sage{background:var(--sage);} .place-city.lilac{background:var(--lilac);}
 
-  @media (max-width: 768px) {
-    .jump-nav {
-      flex-direction: row;
-      top: auto;
-      bottom: 0;
-      right: 0;
-      left: 0;
-      transform: none;
-      justify-content: center;
-      padding: 0.5rem;
-      gap: 0.25rem;
-      background: rgba(242,238,223,0.92);
-      backdrop-filter: blur(8px);
-      border-top: 1px solid var(--rule);
-    }
-    .jump-nav a {
-      font-size: 0.6rem;
-      padding: 0.3rem 0.5rem;
-    }
-  }
+  /* ─── PACKING ─── */
+  .packing-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap:0.4rem; }
+  .packing-item { display:flex; align-items:center; gap:0.6rem; font-size:0.92rem; cursor:pointer; padding:0.5rem 0; }
+  .packing-item input[type="checkbox"] { appearance:none; width:20px; height:20px; border:2px solid var(--ink-soft); border-radius:5px; flex-shrink:0; cursor:pointer; position:relative; }
+  .packing-item input[type="checkbox"]:checked { background:var(--ink); border-color:var(--ink); }
+  .packing-item input[type="checkbox"]:checked::after { content:'✓'; position:absolute; top:-2px; left:3px; font-size:15px; color:var(--paper); }
+  .pack-progress { font-size:0.8rem; color:var(--ink-soft); margin-bottom:1rem; }
 
-  /* ─── FLIGHT CARD ─── */
-  .flight-details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
+  /* ─── BOTTOM TAB BAR ─── */
+  .tabbar {
+    position:fixed; left:50%; bottom:0; transform:translateX(-50%);
+    width:100%; max-width:560px; z-index:1000;
+    display:flex; justify-content:space-around; align-items:stretch;
+    height: calc(var(--tabbar-h) + var(--safe-b)); padding-bottom: var(--safe-b);
+    background: rgba(242,238,223,0.92); backdrop-filter: blur(12px);
+    border-top:1px solid var(--rule);
   }
-  @media (max-width: 600px) {
-    .flight-details { grid-template-columns: 1fr; }
-  }
-  .flight-leg {
-    background: var(--card-fill);
-    border-radius: var(--radius-sm);
-    padding: 1.25rem;
-    backdrop-filter: blur(2px);
-  }
-  .flight-leg h4 {
-    font-size: 1.1rem;
-    margin-bottom: 0.25rem;
-  }
-  .flight-leg .airline {
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-  }
-  .flight-leg .route {
-    font-family: "Cormorant Garamond", "Garamond", serif;
-    font-size: 1.5rem;
-    margin: 0.4rem 0;
-  }
-  .flight-leg .time {
-    font-size: 0.9rem;
-    color: var(--ink-soft);
-  }
+  @media (min-width:561px){ .tabbar { border-left:1px solid var(--rule); border-right:1px solid var(--rule); border-top-left-radius:20px; border-top-right-radius:20px; } }
+  .tab { flex:1; border:none; background:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; color:var(--ink-soft); font-family:"Work Sans",sans-serif; padding:0; }
+  .tab .tab-ico { font-size:1.25rem; line-height:1; }
+  .tab .tab-lbl { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.06em; }
+  .tab.active { color:var(--ink); }
+  .tab.active .tab-ico { transform: translateY(-1px); }
+  .tab.active .tab-lbl { font-weight:600; }
+  .tab .tab-dot { width:5px; height:5px; border-radius:50%; background:var(--pink); margin-top:1px; opacity:0; }
+  .tab.active .tab-dot { opacity:1; }
 
-  /* ─── ROUTE MAP (stylised) ─── */
-  .route-timeline {
-    display: flex;
-    align-items: flex-start;
-    gap: 0;
-    overflow-x: auto;
-    padding: 1.5rem 0;
+  /* ─── DETAIL SHEET ─── */
+  .sheet-scrim { position:fixed; inset:0; background:rgba(42,36,27,0.4); z-index:1500; opacity:0; pointer-events:none; transition:opacity .25s; }
+  .sheet-scrim.open { opacity:1; pointer-events:auto; }
+  .sheet {
+    position:fixed; left:50%; bottom:0; transform:translateX(-50%) translateY(100%);
+    width:100%; max-width:560px; z-index:1600;
+    background:var(--paper); border-top-left-radius:24px; border-top-right-radius:24px;
+    padding:1.25rem 1.25rem calc(1.5rem + var(--safe-b)); transition:transform .3s cubic-bezier(.32,.72,0,1);
+    max-height:82vh; overflow-y:auto; box-shadow:0 -8px 30px rgba(0,0,0,0.18);
   }
-  .route-stop {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 110px;
-    flex-shrink: 0;
-    position: relative;
-  }
-  .route-stop .dot {
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    margin-bottom: 0.5rem;
-    z-index: 1;
-  }
-  .route-stop .dot.pink   { background: var(--pink); }
-  .route-stop .dot.lemon  { background: var(--lemon); }
-  .route-stop .dot.blush  { background: var(--blush); }
-  .route-stop .dot.sage   { background: var(--sage); }
-  .route-stop .dot.lilac  { background: var(--lilac); }
-  .route-stop .name {
-    font-family: "Cormorant Garamond", "Garamond", serif;
-    font-size: 1.05rem;
-    font-weight: 500;
-    text-align: center;
-  }
-  .route-stop .sub {
-    font-size: 0.7rem;
-    color: var(--ink-soft);
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .route-stop .connector {
-    position: absolute;
-    top: 8px;
-    left: 100%;
-    width: 100%;
-    height: 2px;
-    background: var(--rule);
-    z-index: 0;
-  }
+  .sheet.open { transform:translateX(-50%) translateY(0); }
+  .sheet .grab { width:40px; height:4px; border-radius:999px; background:var(--rule); margin:0 auto 1rem; }
+  .sheet .s-cat { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.07em; color:var(--ink-soft); margin-bottom:0.2rem; }
+  .sheet h3 { font-size:1.6rem; margin-bottom:0.4rem; }
+  .sheet .s-desc { font-size:0.92rem; color:var(--ink-soft); line-height:1.55; margin-bottom:1rem; }
+  .sheet .s-meta { font-size:0.85rem; color:var(--ink-soft); margin-bottom:0.4rem; }
+  .sheet .s-meta strong { color:var(--ink); }
+  .sheet-actions { display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:1rem; }
+  .s-btn { flex:1 1 auto; min-width:130px; text-align:center; text-decoration:none; border:1px solid var(--rule); border-radius:999px; padding:0.7rem 1rem; font-size:0.85rem; font-weight:500; cursor:pointer; background:var(--card-fill); color:var(--ink); display:inline-flex; align-items:center; justify-content:center; gap:0.4rem; }
+  .s-btn.primary { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .s-btn.copied { background:var(--sage); border-color:var(--sage); }
+  .s-approx { font-size:0.72rem; color:var(--ink-soft); font-style:italic; margin-top:0.75rem; }
 
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 768px) {
-    .section { padding: 2.5rem 1rem; }
-    .day-card { padding: 1.25rem; }
-    .booking-card { flex-direction: column; align-items: flex-start; }
-    .booking-status { align-self: flex-start; }
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  /* ─── CALLOUT ─── */
-  .callout {
-    background: var(--card-fill);
-    border-radius: var(--radius);
-    padding: 1.5rem 1.75rem;
-    margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    backdrop-filter: blur(2px);
-  }
-
-  /* ─── MISC ─── */
-  .label-group {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin: 0.25rem 0 0.5rem;
-  }
-  .label-group span {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 0.15rem 0.6rem;
-    border-radius: 999px;
-    font-weight: 500;
-  }
-  .label-group span.pink   { background: var(--pink); }
-  .label-group span.lemon  { background: var(--lemon); }
-  .label-group span.blush  { background: var(--blush); }
-  .label-group span.sage   { background: var(--sage); }
-  .label-group span.lilac  { background: var(--lilac); }
+  .site-footer { text-align:center; padding:2rem 1.25rem; font-family:"Cormorant Garamond",serif; font-style:italic; font-size:0.95rem; color:var(--ink-soft); border-top:1px solid var(--rule); }
+  .site-footer .small { font-size:0.78rem; opacity:0.7; }
 </style>
 </head>
 <body>
 
-<!-- ═══════ JUMP NAV ═══════ -->
-<nav class="jump-nav" id="jumpNav">
-  <a href="#glance"><span class="nav-dot pink"></span> Overview</a>
-  <a href="#route"><span class="nav-dot blush"></span> Route</a>
-  <a href="#itinerary"><span class="nav-dot lemon"></span> Days</a>
-  <a href="#stays"><span class="nav-dot sage"></span> Stays</a>
-  <a href="#places"><span class="nav-dot lilac"></span> Places</a>
-  <a href="#packing"><span class="nav-dot pink"></span> Pack</a>
+<!-- ═══════ VIEWS ═══════ -->
+<main id="app">
+
+  <!-- OVERVIEW -->
+  <section class="view active" id="overviewView">
+    <div class="cover">
+      <div class="marker" id="coverMarker">June · July 2026</div>
+      <h1>🇻🇳 Vietnam</h1>
+      <p class="tagline">Eleven days across five cities. Hanoi to Ho Chi Minh, with Ha Long Bay, Hoi An, and Da Nang in between.</p>
+      <div class="route-dots" id="routeDots"></div>
+      <div id="tripStatusWrap"></div>
+    </div>
+
+    <div class="section" style="padding-top:1rem;">
+      <div class="section-header">
+        <div class="kicker">At a glance</div>
+        <h2>The trip, in numbers</h2>
+      </div>
+      <div class="stats-grid" id="statsGrid"></div>
+
+      <div style="margin-top:1.25rem;" id="flightsWrap"></div>
+
+      <div class="section-header" style="margin-top:2.5rem;">
+        <div class="kicker">The journey</div>
+        <h2>North to South</h2>
+        <p>From Hanoi's Old Quarter to the Mekong Delta — 1,700 km over 11 days</p>
+      </div>
+      <div class="route-timeline" id="routeTimeline"></div>
+
+      <div class="section-header" style="margin-top:2rem;">
+        <div class="kicker">Where we're staying</div>
+        <h2>All 5 stays confirmed</h2>
+        <p>Tap a stay for directions, phone, and confirmation number.</p>
+      </div>
+      <div class="booking-cards" id="staysList"></div>
+      <div id="budgetWrap"></div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section class="view" id="mapView">
+    <div class="section" style="padding-bottom:0.5rem;">
+      <div class="section-header" style="margin-bottom:0.75rem;">
+        <div class="kicker">Find your way</div>
+        <h2>The map</h2>
+      </div>
+    </div>
+    <div class="map-filters" id="mapFilters"></div>
+    <div class="section" style="padding-top:0.5rem;">
+      <div class="map-wrap">
+        <div id="map"></div>
+        <button class="locate-btn" id="locateBtn" title="Find me">📍</button>
+      </div>
+      <p class="deck-hint" style="margin-top:0.75rem;">Tap any pin for details, directions & phone. Tap 📍 to find yourself.</p>
+    </div>
+  </section>
+
+  <!-- DAYS -->
+  <section class="view" id="daysView">
+    <div class="section">
+      <div class="section-header" style="margin-bottom:1rem;">
+        <div class="kicker">Day by day</div>
+        <h2>The itinerary</h2>
+      </div>
+      <div class="date-strip" id="dateStrip"></div>
+      <div class="day-deck" id="dayDeck"></div>
+      <p class="deck-hint">Swipe sideways to move between days →</p>
+    </div>
+  </section>
+
+  <!-- PLACES -->
+  <section class="view" id="placesView">
+    <div class="section">
+      <div class="section-header">
+        <div class="kicker">Wishlist</div>
+        <h2>Cafes, food & finds</h2>
+        <p>Tap any spot for directions and to see it on the map.</p>
+      </div>
+      <div id="placesWrap"></div>
+    </div>
+  </section>
+
+  <!-- PACK -->
+  <section class="view" id="packView">
+    <div class="section">
+      <div class="section-header">
+        <div class="kicker">Checklist</div>
+        <h2>Packing & prep</h2>
+        <p>Tap to check off. Saved on this device.</p>
+      </div>
+      <div class="card">
+        <div class="pack-progress" id="packProgress"></div>
+        <div class="packing-grid" id="packingList"></div>
+      </div>
+      <footer class="site-footer">
+        <p>Vietnam · June 2026</p>
+        <p class="small">Don &amp; Katelyn · 21 Jun – 2 Jul · 🇻🇳</p>
+      </footer>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════ DETAIL SHEET ═══════ -->
+<div class="sheet-scrim" id="sheetScrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <div class="grab"></div>
+  <div id="sheetBody"></div>
+</div>
+
+<!-- ═══════ TAB BAR ═══════ -->
+<nav class="tabbar" id="tabbar">
+  <button class="tab active" data-view="overviewView"><span class="tab-ico">✦</span><span class="tab-lbl">Overview</span><span class="tab-dot"></span></button>
+  <button class="tab" data-view="mapView"><span class="tab-ico">🗺️</span><span class="tab-lbl">Map</span><span class="tab-dot"></span></button>
+  <button class="tab" data-view="daysView"><span class="tab-ico">📅</span><span class="tab-lbl">Days</span><span class="tab-dot"></span></button>
+  <button class="tab" data-view="placesView"><span class="tab-ico">📍</span><span class="tab-lbl">Places</span><span class="tab-dot"></span></button>
+  <button class="tab" data-view="packView"><span class="tab-ico">🎒</span><span class="tab-lbl">Pack</span><span class="tab-dot"></span></button>
 </nav>
 
-<!-- ═══════ COVER ═══════ -->
-<section class="cover" id="cover">
-  <div class="marker">June · July 2026</div>
-  <h1>🇻🇳 Vietnam</h1>
-  <p class="tagline">Eleven days across five cities. Hanoi to Ho Chi Minh, with Ha Long Bay, Hoi An, and Da Nang in between.</p>
-  <div class="route-dots">
-    <span class="dot pink">🇻🇳 Hanoi</span>
-    <span class="dot-arrow">→</span>
-    <span class="dot blush">🚢 Ha Long</span>
-    <span class="dot-arrow">→</span>
-    <span class="dot sage">🏮 Hoi An</span>
-    <span class="dot-arrow">→</span>
-    <span class="dot lemon">🏖️ Da Nang</span>
-    <span class="dot-arrow">→</span>
-    <span class="dot lilac">🏙️ HCMC</span>
-  </div>
-  <p class="scroll-hint">Scroll to explore</p>
-</section>
-
-<!-- ═══════ AT A GLANCE ═══════ -->
-<section class="section" id="glance">
-  <div class="section-header">
-    <div class="kicker">At a glance</div>
-    <h2>The trip,<br>in numbers</h2>
-  </div>
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="num pink">11</div>
-      <div class="label">Days</div>
-    </div>
-    <div class="stat-card">
-      <div class="num lemon">5</div>
-      <div class="label">Cities</div>
-    </div>
-    <div class="stat-card">
-      <div class="num blush">5</div>
-      <div class="label">Stays</div>
-    </div>
-    <div class="stat-card">
-      <div class="num pink">Qatar</div>
-      <div class="label">Airline</div>
-    </div>
-  </div>
-
-  <!-- Flights -->
-  <div style="margin-top: 1.5rem;">
-    <div class="card">
-      <h3 style="font-size: 1.4rem;">✈️ Flights</h3>
-      <div class="label-group">
-        <span class="pink">Qatar Airways</span>
-        <span class="blush">Ref: 8MXDM6</span>
-      </div>
-      <div class="flight-details">
-        <div class="flight-leg">
-          <h4>Outbound</h4>
-          <div class="airline">20 Jun · JNB 12:40 → DOH</div>
-          <div class="route">Doha → Hanoi</div>
-          <div class="time">Arrive HAN 13:25 (21 Jun)</div>
-        </div>
-        <div class="flight-leg">
-          <h4>Return</h4>
-          <div class="airline">2 Jul · SGN 20:00 → DOH</div>
-          <div class="route">Doha → Johannesburg</div>
-          <div class="time">Arrive JNB 09:35 (3 Jul)</div>
-        </div>
-      </div>
-      <p style="font-size: 0.82rem; color: var(--ink-soft); margin-top: 0.75rem;">~R16,462 pp · Single booking, protected connections</p>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════ ROUTE ═══════ -->
-<section class="section" id="route">
-  <div class="section-header">
-    <div class="kicker">The journey</div>
-    <h2>North to South</h2>
-    <p>From Hanoi's Old Quarter to the Mekong Delta — 1,700 km over 11 days</p>
-  </div>
-  <div class="route-timeline">
-    <div class="route-stop">
-      <div class="dot pink"></div>
-      <div class="name">Hanoi</div>
-      <div class="sub">2 nights</div>
-      <div class="connector"></div>
-    </div>
-    <div class="route-stop">
-      <div class="dot blush"></div>
-      <div class="name">Ha Long Bay</div>
-      <div class="sub">1 night</div>
-      <div class="connector"></div>
-    </div>
-    <div class="route-stop">
-      <div class="dot sage"></div>
-      <div class="name">Hoi An</div>
-      <div class="sub">3 nights</div>
-      <div class="connector"></div>
-    </div>
-    <div class="route-stop">
-      <div class="dot lemon"></div>
-      <div class="name">Da Nang</div>
-      <div class="sub">2 nights</div>
-      <div class="connector"></div>
-    </div>
-    <div class="route-stop">
-      <div class="dot lilac"></div>
-      <div class="name">HCMC</div>
-      <div class="sub">3 nights</div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════ ITINERARY ═══════ -->
-<section class="section" id="itinerary">
-  <div class="section-header">
-    <div class="kicker">Day by day</div>
-    <h2>The itinerary</h2>
-  </div>
-
-  <!-- DAY 1 -->
-  <div class="day-card day-1">
-    <div class="day-head">
-      <h3>Day 1 · Arrival in Hanoi</h3>
-      <span class="day-date">Sun 21 Jun</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag pink">Half day</span>
-      <span class="day-tag blush">Food</span>
-      <span class="day-tag lemon">Shopping</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Afternoon</h4>
-        <ul>
-          <li>Check in — La Passion Premium Cau Go (conf: 5963820548)</li>
-          <li>Hoan Kiem Lake + Ngoc Son Temple</li>
-          <li>Cafe Giang — egg coffee, the original since 1946</li>
-          <li>Note Cafe or Nagocha Matcha</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Food & Evening</h4>
-        <ul>
-          <li>⭐ Street food crawl — Ta Hien & Nguyen Trung Truc</li>
-          <li>Bia Hoi Corner — 25c draught beer on plastic stools</li>
-          <li>🌟 Old Quarter Night Market — not running tonight (Fri & Sat only)</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span class="day-foot-item">🛏️ La Passion Premium Cau Go</span>
-      <span>🌧️ Backup: Cafe Giang → foot massage → covered market</span>
-    </div>
-  </div>
-
-  <!-- DAY 2 -->
-  <div class="day-card day-2">
-    <div class="day-head">
-      <h3>Day 2 · Hanoi — Temples & Train Street</h3>
-      <span class="day-date">Mon 22 Jun</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag pink">History</span>
-      <span class="day-tag lemon">Shopping</span>
-      <span class="day-tag blush">Food</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Morning</h4>
-        <ul>
-          <li>✅ Ho Chi Minh Museum + One Pillar Pagoda — Mausoleum closed Mon</li>
-          <li>✅ Temple of Literature — Vietnam's oldest university</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Afternoon & Evening</h4>
-        <ul>
-          <li>Train Street (check latest access rules)</li>
-          <li>The Raw Compound + Loading T'estation — concept spaces</li>
-          <li>Hang Gai Street — silk, lacquerware, art galleries</li>
-          <li>⭐ ★ Foot massage — 150k VND, 1 hour, book for 16:00</li>
-          <li>✅ Water puppet show — Thang Long Theatre, book ahead, 1 hr</li>
-          <li>Bun Cha for dinner + rooftop drinks (Nola or Skylight)</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span class="day-foot-item">🛏️ La Passion Premium Cau Go</span>
-    </div>
-  </div>
-
-  <!-- DAY 3 -->
-  <div class="day-card day-3">
-    <div class="day-head">
-      <h3>Day 3 · Ha Long Bay — Mon Cheri Cruises</h3>
-      <span class="day-date">Tue 23 Jun</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag blush">Adventure</span>
-      <span class="day-tag sage">Cruise</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Morning Transfer</h4>
-        <ul>
-          <li>Hotel pickup 07:30 — 3.5 hr shuttle</li>
-          <li>Board cruise ~11:30 — welcome drink, cabin check-in (Mon Cheri, conf: 6223585718)</li>
-        </ul>
-        <h4 style="margin-top:0.75rem">Afternoon on the Bay</h4>
-        <ul>
-          <li>✅ Kayaking through limestone karsts</li>
-          <li>✅ Sung Sot Cave — cathedral-sized chambers</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Evening</h4>
-        <ul>
-          <li>Cooking demonstration onboard</li>
-          <li>Squid fishing from the deck</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span class="day-foot-item">🚢 Mon Cheri Cruises (conf: 6223585718)</span>
-      <span>🌧️ Bay runs in all weather — covered decks</span>
-    </div>
-  </div>
-
-  <!-- DAY 4 -->
-  <div class="day-card day-4">
-    <div class="day-head">
-      <h3>Day 4 · Ha Long → Hoi An (Travel Day)</h3>
-      <span class="day-date">Wed 24 Jun</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag pink">Travel</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Morning</h4>
-        <ul>
-          <li>Tai Chi at sunrise on deck</li>
-          <li>Brunch buffet onboard</li>
-          <li>Disembark ~11:00</li>
-          <li>Transfer to Hanoi (3.5 hrs)</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Afternoon & Evening</h4>
-        <ul>
-          <li>Fly Hanoi → Da Nang (VietJet/Bamboo, ~R600–900 pp)</li>
-          <li>Grab Da Nang → Hoi An (30 min)</li>
-          <li>✅ Check in — Hotel Royal Hoi An (conf: 5760294192)</li>
-          <li>First wander through Ancient Town at night — lanterns ✨</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span class="day-foot-item">🛏️ Hotel Royal Hoi An (conf: 5760294192)</span>
-    </div>
-  </div>
-
-  <!-- DAY 5 -->
-  <div class="day-card day-5">
-    <div class="day-head">
-      <h3>Day 5 · Hoi An — Temples, Tailoring & Food</h3>
-      <span class="day-date">Thu 25 Jun</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag blush">Culture</span>
-      <span class="day-tag lemon">Shopping</span>
-      <span class="day-tag sage">Food</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Morning & Afternoon</h4>
-        <ul>
-          <li>✅ Banh Mi Phuong — best banh mi in Vietnam breakfast</li>
-          <li>🌟 Phuc Kien Assembly Hall — incense spirals</li>
-          <li>Japanese Covered Bridge</li>
-          <li>Izi Tailor & I Love Fashion — measurements today</li>
-          <li>✅ Hoan Leather Store — tabi shoes & bag making</li>
-          <li>✅ Cam Thanh Coconut Village — basket boat ride 🛶</li>
-          <li>✅ Quan Cao Iau Ba Le — white rose dumplings</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Evening</h4>
-        <ul>
-          <li>Hoi An Night Market — lanterns, street food, souvenirs</li>
-          <li>✅ Morning Glory Restaurant — Cao Lau noodles</li>
-          <li>Boat ride on the Thu Bon River</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span class="day-foot-item">🛏️ Hotel Royal Hoi An</span>
-    </div>
-  </div>
-
-  <!-- DAY 6 -->
-  <div class="day-card day-6">
-    <div class="day-head">
-      <h3>Day 6 · Hue Day Trip</h3>
-      <span class="day-date">Fri 26 Jun</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag pink">Day trip</span>
-      <span class="day-tag lilac">History</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Full Day</h4>
-        <ul>
-          <li>Depart Hoi An 07:00 — private car/driver (~R600–900)</li>
-          <li>✅ Hai Van Pass — panoramic summit stop</li>
-          <li>✅ Hue Imperial Citadel — 2–3 hours</li>
-          <li>✅ Thien Mu Pagoda — 7-storey pagoda on the Perfume River</li>
-          <li>✅ Khai Dinh Tomb or Tu Duc Tomb</li>
-          <li>Bun Bo Hue for lunch</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Evening</h4>
-        <ul>
-          <li>Return to Hoi An</li>
-          <li>Last evening lantern walk</li>
-          <li>🌧️ Backup: skip tombs if rain, replace with Hue Royal Antiquities Museum</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span class="day-foot-item">🛏️ Hotel Royal Hoi An</span>
-    </div>
-  </div>
-
-  <!-- DAY 7 -->
-  <div class="day-card day-7">
-    <div class="day-head">
-      <h3>Day 7 · Hoi An → Da Nang + Dragon Bridge</h3>
-      <span class="day-date">Sat 27 Jun</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag lemon">Shopping</span>
-      <span class="day-tag blush">Travel</span>
-      <span class="day-tag lilac">Nightlife</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Morning — Collect Tailoring</h4>
-        <ul>
-          <li>✅ Collect all tailored clothing — final fittings</li>
-          <li>Old Town last souvenir sweep</li>
-          <li>Grab to Da Nang (~30 min)</li>
-          <li>Check in — Chicland Boutique Danang Beach (conf: 6288175813)</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Afternoon & Evening 🐉</h4>
-        <ul>
-          <li>Ba Na Hills + Golden Bridge — book online (~500k VND pp)</li>
-          <li>My Khe beachfront seafood</li>
-          <li>🐉 Dragon Bridge fire & water show — 21:00 (SATURDAY!)</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span class="day-foot-item">🛏️ Chicland Boutique Danang Beach (conf: 6288175813)</span>
-    </div>
-  </div>
-
-  <!-- DAY 8 -->
-  <div class="day-card day-8">
-    <div class="day-head">
-      <h3>Day 8 · Da Nang — Beaches & Bridges</h3>
-      <span class="day-date">Sun 28 Jun</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag sage">Beach</span>
-      <span class="day-tag blush">Food</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Morning & Afternoon</h4>
-        <ul>
-          <li>My Khe Beach — sunrise swim 🏖️</li>
-          <li>Son Tra Peninsula — Lady Buddha statue, monkey sightings</li>
-          <li>✅ Marble Mountains — Buddhist cave temples, before 10am to beat heat</li>
-          <li>Lunch at a beachfront seafood spot</li>
-        </ul>
-        <h4 style="margin-top:0.75rem">Shopping — Vintage & Thrift</h4>
-        <ul>
-          <li>✅ An Thuong Street — full vintage strip, browse the whole street</li>
-          <li>✅ Mango Archive — vintage clothing, your bold pick</li>
-          <li>Rust Rack, Hana 34, ORI jewellery — all nearby</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Evening</h4>
-        <ul>
-          <li>🐉 Dragon Bridge fire & water show — 21:00 (SUNDAY!)</li>
-          <li>Night market near the bridge</li>
-          <li>Rooftop cocktails at Chicland</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span class="day-foot-item">🛏️ Chicland Boutique Danang Beach</span>
-    </div>
-  </div>
-
-  <!-- DAY 9 -->
-  <div class="day-card day-9">
-    <div class="day-head">
-      <h3>Day 9 · Da Nang → Ho Chi Minh City</h3>
-      <span class="day-date">Mon 29 Jun</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag pink">Travel</span>
-      <span class="day-tag lilac">History</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Morning</h4>
-        <ul>
-          <li>Last swim at My Khe before checkout</li>
-          <li>Fly to Ho Chi Minh City — land early afternoon</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Afternoon & Evening</h4>
-        <ul>
-          <li>✅ Check in — ANIMA Boutique Hotel (conf: 6083452364)</li>
-          <li>✅ War Remnants Museum — closes 17:00, go straight away</li>
-          <li>Bui Vien Walking Street — food, drinks, energy</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span class="day-foot-item">🛏️ ANIMA Boutique Hotel (conf: 6083452364)</span>
-    </div>
-  </div>
-
-  <!-- DAY 10 -->
-  <div class="day-card day-10">
-    <div class="day-head">
-      <h3>Day 10 · HCMC — Cu Chi Tunnels & Streetwear</h3>
-      <span class="day-date">Tue 30 Jun</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag lilac">History</span>
-      <span class="day-tag lemon">Shopping</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Morning — Cu Chi Tunnels</h4>
-        <ul>
-          <li>✅ Cu Chi Tunnels half-day tour — depart 07:30, back by 13:00, book through hotel</li>
-          <li>Crawl through the tunnel network — claustrophobia warning</li>
-          <li>Shooting range (optional, ~60k VND for 10 rounds)</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Afternoon & Evening</h4>
-        <ul>
-          <li>Streetwear walk — The New Playground, 11 Garmentory, Compound Garment</li>
-          <li>111 Concept Store — clothing, art, souvenirs</li>
-          <li>L'Usine or Mockingbird Cafe — coffee between shopping</li>
-          <li>Rooftop cocktails — EON Heli Bar or Chill Sky Bar</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span class="day-foot-item">🛏️ ANIMA Boutique Hotel</span>
-      <span>🌧️ Cu Chi is morning-only, streetwear is all indoor — fully rain-proof day</span>
-    </div>
-  </div>
-
-  <!-- DAY 11 -->
-  <div class="day-card day-11">
-    <div class="day-head">
-      <h3>Day 11 · HCMC — Food Crawl & Final Beer 🍺</h3>
-      <span class="day-date">Wed 1 Jul</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag blush">Food</span>
-      <span class="day-tag lemon">Shopping</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Morning</h4>
-        <ul>
-          <li>🌟 Bo Ne Ba Nui — $4 Vietnamese steak breakfast, go first thing</li>
-          <li>Notre-Dame Cathedral + Central Post Office — exterior only, under renovation until 2027, no indoor access</li>
-          <li>Dong Khoi Street + Nguyen Hue Boulevard — main promenade, cafés, browsing</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Afternoon & Evening</h4>
-        <ul>
-          <li>Last shopping — Lotte Mart for Vietnamese coffee, cashews, souvenirs</li>
-          <li>Ben Thanh Market — final souvenir sweep</li>
-          <li>🍺 ★ Pasteur Street Brewing Company — final beer, HCMC's best craft brewery</li>
-          <li>Pack for early departure</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span class="day-foot-item">🛏️ ANIMA Boutique Hotel</span>
-    </div>
-  </div>
-
-  <!-- DAY 12 — Departure -->
-  <div class="day-card" style="border-left-color: var(--pink);">
-    <div class="day-head">
-      <h3>Day 12 · Departure</h3>
-      <span class="day-date">Thu 2 Jul</span>
-    </div>
-    <div class="day-tags">
-      <span class="day-tag pink">Travel</span>
-    </div>
-    <div class="day-body">
-      <div class="day-col">
-        <h4>Last Morning</h4>
-        <ul>
-          <li>Check out of ANIMA</li>
-          <li>One last Vietnamese coffee</li>
-        </ul>
-      </div>
-      <div class="day-col">
-        <h4>Afternoon</h4>
-        <ul>
-          <li>Head to Tan Son Nhat Airport</li>
-          <li>SGN 20:00 → DOH → JNB 09:35+1 (3 Jul)</li>
-        </ul>
-      </div>
-    </div>
-    <div class="day-foot">
-      <span>✈️ Qatar Airways QR 3 · SGN 20:00 → JNB 09:35+1</span>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════ STAYS ═══════ -->
-<section class="section" id="stays">
-  <div class="section-header">
-    <div class="kicker">Where we're staying</div>
-    <h2>All 5 stays confirmed</h2>
-    <p>Everything booked on Booking.com. Summary table below with estimated costs.</p>
-  </div>
-  <div class="booking-cards">
-    <div class="booking-card">
-      <div>
-        <div class="booking-name">La Passion Premium Cau Go</div>
-        <div class="booking-loc">📍 Hanoi — Old Quarter</div>
-        <div class="booking-dates">📅 Sun 21 Jun – Tue 23 Jun · 2 nights</div>
-        <div class="booking-confirm">Confirmation: <strong>5963820548</strong> · 📞 +84 886 087 576</div>
-      </div>
-      <div class="booking-status">✅ BOOKED</div>
-    </div>
-    <div class="booking-card">
-      <div>
-        <div class="booking-name">Mon Cheri Cruises</div>
-        <div class="booking-loc">🚢 Ha Long Bay</div>
-        <div class="booking-dates">📅 Tue 23 Jun – Wed 24 Jun · 1 night</div>
-        <div class="booking-confirm">Confirmation: <strong>6223585718</strong> · 📞 +84 946 982 299</div>
-      </div>
-      <div class="booking-status">✅ BOOKED</div>
-    </div>
-    <div class="booking-card">
-      <div>
-        <div class="booking-name">Hotel Royal Hoi An, Danang</div>
-        <div class="booking-loc">📍 Hoi An</div>
-        <div class="booking-dates">📅 Wed 24 Jun – Sat 27 Jun · 3 nights</div>
-        <div class="booking-confirm">Confirmation: <strong>5760294192</strong> · 📞 +84 235 3950 777</div>
-      </div>
-      <div class="booking-status">✅ BOOKED</div>
-    </div>
-    <div class="booking-card">
-      <div>
-        <div class="booking-name">Chicland Boutique Danang Beach Hotel</div>
-        <div class="booking-loc">📍 Da Nang — My Khe Beach</div>
-        <div class="booking-dates">📅 Sat 27 Jun – Mon 29 Jun · 2 nights</div>
-        <div class="booking-confirm">Confirmation: <strong>6288175813</strong> · 📞 +84 236 2232 222</div>
-      </div>
-      <div class="booking-status">✅ BOOKED</div>
-    </div>
-    <div class="booking-card">
-      <div>
-        <div class="booking-name">ANIMA — Vietnamese Contemporary Art Boutique Hotel</div>
-        <div class="booking-loc">📍 HCMC — District 1</div>
-        <div class="booking-dates">📅 Mon 29 Jun – Thu 2 Jul · 3 nights</div>
-        <div class="booking-confirm">Confirmation: <strong>6083452364</strong> · 📞 +84 833 881 010</div>
-      </div>
-      <div class="booking-status">✅ BOOKED</div>
-    </div>
-  </div>
-
-  <!-- Budget Table -->
-  <div class="card" style="margin-top: 1.5rem;">
-    <h3 style="font-size: 1.4rem; margin-bottom: 0.75rem;">💰 Accommodation Cost Summary</h3>
-    <p style="font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 0.75rem;">All 5 stays confirmed on Booking.com. Estimates based on typical rates.</p>
-    <div class="table-wrap">
-      <table class="compare-table">
-        <thead>
-          <tr><th>Location</th><th>Nights</th><th>Booked</th><th>Est. Total</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>📍 Hanoi (Old Quarter)</td><td>2</td><td>La Passion Premium Cau Go ✅</td><td>R3,300</td></tr>
-          <tr><td>🚢 Ha Long Bay</td><td>1 (cruise)</td><td>Mon Cheri Cruises ✅</td><td>~R5,500</td></tr>
-          <tr><td>📍 Hoi An</td><td>3</td><td>Hotel Royal Hoi An ✅</td><td>~R6,000</td></tr>
-          <tr><td>📍 Da Nang (My Khe)</td><td>2</td><td>Chicland Boutique Danang Beach ✅</td><td>~R3,600</td></tr>
-          <tr><td>📍 HCMC (District 1)</td><td>3</td><td>ANIMA Boutique Hotel ✅</td><td>~R6,900</td></tr>
-          <tr class="total"><td><strong>Total (10 hotel + 1 cruise night)</strong></td><td>11</td><td></td><td><strong>~R25,300</strong></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════ PLACES ═══════ -->
-<section class="section" id="places">
-  <div class="section-header">
-    <div class="kicker">Wishlist</div>
-    <h2>Cafes, food & finds</h2>
-    <p>Cafes, restaurants, shopping, and things to do across every city.</p>
-  </div>
-
-  <div class="places-subhead">☕ Cafes & Matcha</div>
-  <div class="places-grid">
-    <div class="place-card">
-      <div class="place-cat">Hanoi — Old Quarter</div>
-      <h4>Cafe Giang</h4>
-      <p>The original egg coffee since 1946. Must-visit.</p>
-      <span class="place-city pink">Hanoi</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Hanoi — Old Quarter</div>
-      <h4>Note Cafe & Nagocha Matcha</h4>
-      <p>Two spots for matcha and creative drinks near the lake.</p>
-      <span class="place-city pink">Hanoi</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Hoi An — Ancient Town</div>
-      <h4>Magicha Zenbar</h4>
-      <p>Matcha spot — a calm last coffee in Hoi An.</p>
-      <span class="place-city sage">Hoi An</span>
-    </div>
-  </div>
-
-  <div class="places-subhead">🍜 Food & Drink</div>
-  <div class="places-grid">
-    <div class="place-card">
-      <div class="place-cat">Hanoi — Old Quarter</div>
-      <h4>Ta Hien & Nguyen Trung Truc Streets</h4>
-      <p>Bun cha, banh cuon, grilled corn — eat everything you see on these food streets.</p>
-      <span class="place-city pink">Hanoi</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Hanoi — Old Quarter</div>
-      <h4>Bia Hoi Corner</h4>
-      <p>25c draught beer on plastic stools. Local institution at Luong Ngoc Quyen.</p>
-      <span class="place-city pink">Hanoi</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Hoi An — Ancient Town</div>
-      <h4>Quan Cao Iau Ba Le</h4>
-      <p>White rose dumplings — can only be made authentically in Hoi An's water.</p>
-      <span class="place-city sage">Hoi An</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Hoi An — Ancient Town</div>
-      <h4>Morning Glory Restaurant</h4>
-      <p>Cao Lau noodles — the signature Hoi An noodle, only properly made here.</p>
-      <span class="place-city sage">Hoi An</span>
-    </div>
-  </div>
-
-  <div class="places-subhead">🛍️ Shopping</div>
-  <div class="places-grid">
-    <div class="place-card">
-      <div class="place-cat">Hanoi — Old Quarter</div>
-      <h4>Old Quarter Night Market</h4>
-      <p>Friday & Saturday nights. Shoes, clothes, streetwear, souvenirs, food stalls.</p>
-      <span class="place-city pink">Hanoi</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Hoi An — Ancient Town</div>
-      <h4>Hoi An Night Market</h4>
-      <p>Every night. Lanterns, street food, souvenirs, best atmosphere in town.</p>
-      <span class="place-city sage">Hoi An</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Hoi An — Ancient Town</div>
-      <h4>Izi Tailor & I Love Fashion</h4>
-      <p>Get measured on day 1, collect on day 3. Custom suits, dresses, leather goods.</p>
-      <span class="place-city sage">Hoi An</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — District 1</div>
-      <h4>Ben Thanh Market</h4>
-      <p>Knock-offs, souvenirs, produce, local snacks. The classic HCMC market.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — District 1</div>
-      <h4>The New Playground</h4>
-      <p>Underground streetwear hub at 26 Lý Tự Trọng — 20+ local brands under one roof. Open 10:00–21:30.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — District 1</div>
-      <h4>Rue Miche</h4>
-      <p>Multi-brand fashion boutique in a restored 1952 French colonial villa. 25+ curated local brands. 9B Phùng Khắc Khoan.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — District 1</div>
-      <h4>Das Studios</h4>
-      <p>Leading Vietnamese menswear brand — clean contemporary cuts with a sharp eye on tailoring.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — District 1</div>
-      <h4>Lider</h4>
-      <p>Trendy unisex fashion at 7 Tôn Thất Thiệp. Clean cuts, flare jeans, streetwear. Also at The New Playground B2.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — District 3</div>
-      <h4>AASTU (AA Flagship Store)</h4>
-      <p>American-style Vietnamese menswear at 118/12 Trần Quang Diệu. Clean lines, contemporary cuts, friendly staff.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — District 3</div>
-      <h4>Wardrobe Arc</h4>
-      <p>Retail complex with 20+ local streetwear brands at 351/44 Lê Văn Sỹ. Dark palettes, bold young streetwear. Open 9:30–21:30.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — Thảo Điền</div>
-      <h4>Aesir Studios</h4>
-      <p>German-Vietnamese designer streetwear. AE Space at 20 Duong 46, Thao Dien + flagship at 128G Nguyễn Đình Chính.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — District 1</div>
-      <h4>Lumla Glasses</h4>
-      <p>Vietnam's most viral sunglasses store — huge selection of trendy frames at great prices. 51 Lê Thị Riêng, D1 (also at 29A Trần Quốc Toản, D3).</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — District 1</div>
-      <h4>Seeson</h4>
-      <p>Contemporary Vietnamese eyewear brand — handcrafted cellulose acetate frames with an optometry clinic and cafe in-store. Flagship on Nam Kỳ Khởi Nghĩa, D1.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-  </div>
-
-  <div class="places-subhead">🎯 Things to Do</div>
-  <div class="places-grid">
-    <div class="place-card">
-      <div class="place-cat">Da Nang — Ba Na Hills</div>
-      <h4>Ba Na Hills + Golden Bridge</h4>
-      <p>World's longest cable car, giant stone hands, French Village. Book online (~500k VND pp).</p>
-      <span class="place-city lemon">Da Nang</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Da Nang — My Khe</div>
-      <h4>My Khe Beach</h4>
-      <p>Steps from Chicland. Sunrise swim, seafood on the sand.</p>
-      <span class="place-city lemon">Da Nang</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Da Nang — Riverfront</div>
-      <h4>Dragon Bridge 🐉</h4>
-      <p>Fire & water show Friday, Saturday & Sunday at 21:00. You're there for both weekend nights!</p>
-      <span class="place-city lemon">Da Nang</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">Da Nang — An Thuong</div>
-      <h4>An Thuong Street + Mango Archive</h4>
-      <p>Full vintage strip with Mango Archive (your pick), Rust Rack, Hana 34, ORI jewellery. Afternoon stroll between My Khe and the beachfront.</p>
-      <span class="place-city lemon">Da Nang</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — District 3</div>
-      <h4>War Remnants Museum</h4>
-      <p>Essential and powerful. Go straight from hotel — closes 17:00.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — Day Trip</div>
-      <h4>Chu Chi Tunnels</h4>
-      <p>Half-day tour. Crawl the tunnel network, shooting range optional (~60k VND).</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — District 1</div>
-      <h4>Bui Vien Walking Street</h4>
-      <p>Food, drinks, backpacker energy. Nightlife central.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-    <div class="place-card">
-      <div class="place-cat">HCMC — Riverfront</div>
-      <h4>Saigon River Rooftop Bars</h4>
-      <p>Skyline views over the river. Perfect for the last night.</p>
-      <span class="place-city lilac">HCMC</span>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════ PACKING ═══════ -->
-<section class="section" id="packing">
-  <div class="section-header">
-    <div class="kicker">Checklist</div>
-    <h2>Packing & prep</h2>
-    <p>Tap to check off. Everything you need for 11 days across Vietnam.</p>
-  </div>
-
-  <div class="card">
-    <h3 style="font-size: 1.4rem; margin-bottom: 1rem;">📋 Checklist</h3>
-    <div class="packing-grid" id="packing-list">
-      <label class="packing-item"><input type="checkbox"> Passports (valid 6+ months)</label>
-      <label class="packing-item"><input type="checkbox" checked> E-visa approved</label>
-      <label class="packing-item"><input type="checkbox"> Travel insurance purchased</label>
-      <label class="packing-item"><input type="checkbox" checked> Flights booked — Qatar QR 8MXDM6</label>
-      <label class="packing-item"><input type="checkbox" checked> Accommodation — all 5 stays booked</label>
-      <label class="packing-item"><input type="checkbox" checked> Mon Cheri Cruises booked</label>
-      <label class="packing-item"><input type="checkbox"> Copies of docs (digital + printed)</label>
-      <label class="packing-item"><input type="checkbox"> Notify bank of travel</label>
-      <label class="packing-item"><input type="checkbox"> Cash (VND) + card with no FX fees</label>
-      <label class="packing-item"><input type="checkbox"> Light clothing — tropical weight</label>
-      <label class="packing-item"><input type="checkbox"> Rain jacket / umbrella</label>
-      <label class="packing-item"><input type="checkbox"> Swimwear</label>
-      <label class="packing-item"><input type="checkbox"> Good walking shoes</label>
-      <label class="packing-item"><input type="checkbox"> Insect repellent</label>
-      <label class="packing-item"><input type="checkbox"> Sunscreen</label>
-      <label class="packing-item"><input type="checkbox"> Power adapter (2-pin round)</label>
-      <label class="packing-item"><input type="checkbox"> Portable charger</label>
-      <label class="packing-item"><input type="checkbox"> Reusable water bottle</label>
-      <label class="packing-item"><input type="checkbox"> Basic medicine kit</label>
-      <label class="packing-item"><input type="checkbox"> Earplugs + eye mask</label>
-      <label class="packing-item"><input type="checkbox"> Daypack for excursions</label>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════ FOOTER ═══════ -->
-<footer class="site-footer">
-  <p>Vietnam · June 2026</p>
-  <p class="small">Don & Katelyn · 21 Jun – 2 Jul · 🇻🇳</p>
-  <p class="small" style="margin-top: 0.5rem;">Last updated: Jun 7, 2026</p>
-</footer>
-
-<script>
-  // Save packing checklist state
-  const packingItems = document.querySelectorAll('#packing-list .packing-item input');
-  packingItems.forEach((cb, i) => {
-    const saved = localStorage.getItem('vietnam-packing-' + i);
-    if (saved !== null) cb.checked = saved === 'true';
-    cb.addEventListener('change', () => {
-      localStorage.setItem('vietnam-packing-' + i, cb.checked);
-    });
-  });
-
-  // Active section highlight in jump nav
-  const sections = document.querySelectorAll('section.section, section.cover');
-  const navLinks = document.querySelectorAll('.jump-nav a');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.getAttribute('id') || 'cover';
-        navLinks.forEach(link => {
-          const href = link.getAttribute('href').replace('#', '');
-          link.style.borderColor = href === id ? 'var(--pink)' : 'var(--rule)';
-          link.style.color = href === id ? 'var(--ink)' : '';
-        });
-      }
-    });
-  }, { threshold: 0.3 });
-  sections.forEach(s => observer.observe(s));
-</script>
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

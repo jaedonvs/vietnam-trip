@@ -1,0 +1,458 @@
+/* ─────────────────────────────────────────────────────────────
+   VIETNAM TRIP — single source of truth.
+   Everything (day cards, places grid, map pins, stays) renders
+   from this object. Add a place once and it appears everywhere.
+
+   Coordinates: landmarks are accurate; small shops/cafes are
+   approximate (approx:true) — nudge them if a pin is off.
+   ───────────────────────────────────────────────────────────── */
+const TRIP = {
+  meta: {
+    title: "Vietnam",
+    travelers: "Don & Katelyn",
+    start: "2026-06-21",
+    end:   "2026-07-02",
+    updated: "Jun 7, 2026",
+  },
+
+  // city id -> palette colour
+  cities: [
+    { id: "hanoi",  name: "Hanoi",       emoji: "🇻🇳", color: "pink",  nights: "2 nights", lat: 21.0285, lng: 105.8542 },
+    { id: "halong", name: "Ha Long Bay", emoji: "🚢", color: "blush", nights: "1 night",  lat: 20.9101, lng: 107.1839 },
+    { id: "hoian",  name: "Hoi An",      emoji: "🏮", color: "sage",  nights: "3 nights", lat: 15.8801, lng: 108.3380 },
+    { id: "danang", name: "Da Nang",     emoji: "🏖️", color: "lemon", nights: "2 nights", lat: 16.0544, lng: 108.2022 },
+    { id: "hcmc",   name: "HCMC",        emoji: "🏙️", color: "lilac", nights: "3 nights", lat: 10.7769, lng: 106.7009 },
+  ],
+
+  stats: [
+    { num: "11",    label: "Days",    color: "pink"  },
+    { num: "5",     label: "Cities",  color: "lemon" },
+    { num: "5",     label: "Stays",   color: "blush" },
+    { num: "Qatar", label: "Airline", color: "pink"  },
+  ],
+
+  flights: {
+    ref: "8MXDM6", airline: "Qatar Airways",
+    outbound: { label: "Outbound", airline: "20 Jun · JNB 12:40 → DOH", route: "Doha → Hanoi", time: "Arrive HAN 13:25 (21 Jun)" },
+    inbound:  { label: "Return",   airline: "2 Jul · SGN 20:00 → DOH",  route: "Doha → Johannesburg", time: "Arrive JNB 09:35 (3 Jul)" },
+    note: "~R16,462 pp · Single booking, protected connections",
+  },
+
+  // ── STAYS ──
+  stays: [
+    { name: "La Passion Premium Cau Go", city: "hanoi",  loc: "Hanoi — Old Quarter",
+      dates: "Sun 21 Jun – Tue 23 Jun · 2 nights", confirm: "5963820548", phone: "+84886087576",
+      lat: 21.0322, lng: 105.8541, est: "R3,300", nights: "2", approx: false },
+    { name: "Mon Cheri Cruises", city: "halong", loc: "Ha Long Bay",
+      dates: "Tue 23 Jun – Wed 24 Jun · 1 night", confirm: "6223585718", phone: "+84946982299",
+      lat: 20.9101, lng: 107.0700, est: "~R5,500", nights: "1 (cruise)", approx: true },
+    { name: "Hotel Royal Hoi An, Danang", city: "hoian", loc: "Hoi An",
+      dates: "Wed 24 Jun – Sat 27 Jun · 3 nights", confirm: "5760294192", phone: "+842353950777",
+      lat: 15.8835, lng: 108.3290, est: "~R6,000", nights: "3", approx: true },
+    { name: "Chicland Boutique Danang Beach Hotel", city: "danang", loc: "Da Nang — My Khe Beach",
+      dates: "Sat 27 Jun – Mon 29 Jun · 2 nights", confirm: "6288175813", phone: "+842362232222",
+      lat: 16.0556, lng: 108.2455, est: "~R3,600", nights: "2", approx: false },
+    { name: "ANIMA Boutique Hotel", city: "hcmc", loc: "HCMC — District 1",
+      dates: "Mon 29 Jun – Thu 2 Jul · 3 nights", confirm: "6083452364", phone: "+84833881010",
+      lat: 10.7690, lng: 106.6940, est: "~R6,900", nights: "3", approx: true },
+  ],
+  budgetTotal: "~R25,300",
+  budgetNote: "All 5 stays confirmed on Booking.com. Estimates based on typical rates.",
+
+  // ── DAYS ──
+  days: [
+    { n: 1, title: "Arrival in Hanoi", date: "Sun 21 Jun", iso: "2026-06-21", city: "hanoi",
+      tags: [["Half day","pink"],["Food","blush"],["Shopping","lemon"]],
+      cols: [
+        { h: "Afternoon", items: [
+          "Check in — La Passion Premium Cau Go (conf: 5963820548)",
+          "Hoan Kiem Lake + Ngoc Son Temple",
+          "Cafe Giang — egg coffee, the original since 1946",
+          "Note Cafe or Nagocha Matcha",
+        ]},
+        { h: "Food & Evening", items: [
+          "⭐ Street food crawl — Ta Hien & Nguyen Trung Truc",
+          "Bia Hoi Corner — 25c draught beer on plastic stools",
+          "🌟 Old Quarter Night Market — not running tonight (Fri & Sat only)",
+        ]},
+      ],
+      stay: "La Passion Premium Cau Go",
+      foot: ["🌧️ Backup: Cafe Giang → foot massage → covered market"] },
+
+    { n: 2, title: "Hanoi — Temples & Train Street", date: "Mon 22 Jun", iso: "2026-06-22", city: "hanoi",
+      tags: [["History","pink"],["Shopping","lemon"],["Food","blush"]],
+      cols: [
+        { h: "Morning", items: [
+          "✅ Ho Chi Minh Museum + One Pillar Pagoda — Mausoleum closed Mon",
+          "✅ Temple of Literature — Vietnam's oldest university",
+        ]},
+        { h: "Afternoon & Evening", items: [
+          "Train Street (check latest access rules)",
+          "The Raw Compound + Loading T'estation — concept spaces",
+          "Hang Gai Street — silk, lacquerware, art galleries",
+          "⭐ ★ Foot massage — 150k VND, 1 hour, book for 16:00",
+          "✅ Water puppet show — Thang Long Theatre, book ahead, 1 hr",
+          "Bun Cha for dinner + rooftop drinks (Nola or Skylight)",
+        ]},
+      ],
+      stay: "La Passion Premium Cau Go", foot: [] },
+
+    { n: 3, title: "Ha Long Bay — Mon Cheri Cruises", date: "Tue 23 Jun", iso: "2026-06-23", city: "halong",
+      tags: [["Adventure","blush"],["Cruise","sage"]],
+      cols: [
+        { h: "Morning Transfer", items: [
+          "Hotel pickup 07:30 — 3.5 hr shuttle",
+          "Board cruise ~11:30 — welcome drink, cabin check-in (Mon Cheri, conf: 6223585718)",
+        ]},
+        { h: "Afternoon on the Bay", items: [
+          "✅ Kayaking through limestone karsts",
+          "✅ Sung Sot Cave — cathedral-sized chambers",
+        ]},
+        { h: "Evening", items: [
+          "Cooking demonstration onboard",
+          "Squid fishing from the deck",
+        ]},
+      ],
+      stay: "Mon Cheri Cruises",
+      foot: ["🌧️ Bay runs in all weather — covered decks"] },
+
+    { n: 4, title: "Ha Long → Hoi An (Travel Day)", date: "Wed 24 Jun", iso: "2026-06-24", city: "hoian",
+      tags: [["Travel","pink"]],
+      cols: [
+        { h: "Morning", items: [
+          "Tai Chi at sunrise on deck",
+          "Brunch buffet onboard",
+          "Disembark ~11:00",
+          "Transfer to Hanoi (3.5 hrs)",
+        ]},
+        { h: "Afternoon & Evening", items: [
+          "Fly Hanoi → Da Nang (VietJet/Bamboo, ~R600–900 pp)",
+          "Grab Da Nang → Hoi An (30 min)",
+          "✅ Check in — Hotel Royal Hoi An (conf: 5760294192)",
+          "First wander through Ancient Town at night — lanterns ✨",
+        ]},
+      ],
+      stay: "Hotel Royal Hoi An, Danang", foot: [] },
+
+    { n: 5, title: "Hoi An — Temples, Tailoring & Food", date: "Thu 25 Jun", iso: "2026-06-25", city: "hoian",
+      tags: [["Culture","blush"],["Shopping","lemon"],["Food","sage"]],
+      cols: [
+        { h: "Morning & Afternoon", items: [
+          "✅ Banh Mi Phuong — best banh mi in Vietnam breakfast",
+          "🌟 Phuc Kien Assembly Hall — incense spirals",
+          "Japanese Covered Bridge",
+          "Izi Tailor & I Love Fashion — measurements today",
+          "✅ Hoan Leather Store — tabi shoes & bag making",
+          "✅ Cam Thanh Coconut Village — basket boat ride 🛶",
+          "✅ Quan Cao Iau Ba Le — white rose dumplings",
+        ]},
+        { h: "Evening", items: [
+          "Hoi An Night Market — lanterns, street food, souvenirs",
+          "✅ Morning Glory Restaurant — Cao Lau noodles",
+          "Boat ride on the Thu Bon River",
+        ]},
+      ],
+      stay: "Hotel Royal Hoi An, Danang", foot: [] },
+
+    { n: 6, title: "Hue Day Trip", date: "Fri 26 Jun", iso: "2026-06-26", city: "hoian",
+      tags: [["Day trip","pink"],["History","lilac"]],
+      cols: [
+        { h: "Full Day", items: [
+          "Depart Hoi An 07:00 — private car/driver (~R600–900)",
+          "✅ Hai Van Pass — panoramic summit stop",
+          "✅ Hue Imperial Citadel — 2–3 hours",
+          "✅ Thien Mu Pagoda — 7-storey pagoda on the Perfume River",
+          "✅ Khai Dinh Tomb or Tu Duc Tomb",
+          "Bun Bo Hue for lunch",
+        ]},
+        { h: "Evening", items: [
+          "Return to Hoi An",
+          "Last evening lantern walk",
+          "🌧️ Backup: skip tombs if rain, replace with Hue Royal Antiquities Museum",
+        ]},
+      ],
+      stay: "Hotel Royal Hoi An, Danang", foot: [] },
+
+    { n: 7, title: "Hoi An → Da Nang + Dragon Bridge", date: "Sat 27 Jun", iso: "2026-06-27", city: "danang",
+      tags: [["Shopping","lemon"],["Travel","blush"],["Nightlife","lilac"]],
+      cols: [
+        { h: "Morning — Collect Tailoring", items: [
+          "✅ Collect all tailored clothing — final fittings",
+          "Old Town last souvenir sweep",
+          "Grab to Da Nang (~30 min)",
+          "Check in — Chicland Boutique Danang Beach (conf: 6288175813)",
+        ]},
+        { h: "Afternoon & Evening 🐉", items: [
+          "Ba Na Hills + Golden Bridge — book online (~500k VND pp)",
+          "My Khe beachfront seafood",
+          "🐉 Dragon Bridge fire & water show — 21:00 (SATURDAY!)",
+        ]},
+      ],
+      stay: "Chicland Boutique Danang Beach Hotel", foot: [] },
+
+    { n: 8, title: "Da Nang — Beaches & Bridges", date: "Sun 28 Jun", iso: "2026-06-28", city: "danang",
+      tags: [["Beach","sage"],["Food","blush"]],
+      cols: [
+        { h: "Morning & Afternoon", items: [
+          "My Khe Beach — sunrise swim 🏖️",
+          "Son Tra Peninsula — Lady Buddha statue, monkey sightings",
+          "✅ Marble Mountains — Buddhist cave temples, before 10am to beat heat",
+          "Lunch at a beachfront seafood spot",
+        ]},
+        { h: "Shopping — Vintage & Thrift", items: [
+          "✅ An Thuong Street — full vintage strip, browse the whole street",
+          "✅ Mango Archive — vintage clothing, your bold pick",
+          "Rust Rack, Hana 34, ORI jewellery — all nearby",
+        ]},
+        { h: "Evening", items: [
+          "🐉 Dragon Bridge fire & water show — 21:00 (SUNDAY!)",
+          "Night market near the bridge",
+          "Rooftop cocktails at Chicland",
+        ]},
+      ],
+      stay: "Chicland Boutique Danang Beach Hotel", foot: [] },
+
+    { n: 9, title: "Da Nang → Ho Chi Minh City", date: "Mon 29 Jun", iso: "2026-06-29", city: "hcmc",
+      tags: [["Travel","pink"],["History","lilac"]],
+      cols: [
+        { h: "Morning", items: [
+          "Last swim at My Khe before checkout",
+          "Fly to Ho Chi Minh City — land early afternoon",
+        ]},
+        { h: "Afternoon & Evening", items: [
+          "✅ Check in — ANIMA Boutique Hotel (conf: 6083452364)",
+          "✅ War Remnants Museum — closes 17:00, go straight away",
+          "Bui Vien Walking Street — food, drinks, energy",
+        ]},
+      ],
+      stay: "ANIMA Boutique Hotel", foot: [] },
+
+    { n: 10, title: "HCMC — Cu Chi Tunnels & Streetwear", date: "Tue 30 Jun", iso: "2026-06-30", city: "hcmc",
+      tags: [["History","lilac"],["Shopping","lemon"]],
+      cols: [
+        { h: "Morning — Cu Chi Tunnels", items: [
+          "✅ Cu Chi Tunnels half-day tour — depart 07:30, back by 13:00, book through hotel",
+          "Crawl through the tunnel network — claustrophobia warning",
+          "Shooting range (optional, ~60k VND for 10 rounds)",
+        ]},
+        { h: "Afternoon & Evening", items: [
+          "Streetwear walk — The New Playground, 11 Garmentory, Compound Garment",
+          "111 Concept Store — clothing, art, souvenirs",
+          "L'Usine or Mockingbird Cafe — coffee between shopping",
+          "Rooftop cocktails — EON Heli Bar or Chill Sky Bar",
+        ]},
+      ],
+      stay: "ANIMA Boutique Hotel",
+      foot: ["🌧️ Cu Chi is morning-only, streetwear is all indoor — fully rain-proof day"] },
+
+    { n: 11, title: "HCMC — Food Crawl & Final Beer 🍺", date: "Wed 1 Jul", iso: "2026-07-01", city: "hcmc",
+      tags: [["Food","blush"],["Shopping","lemon"]],
+      cols: [
+        { h: "Morning", items: [
+          "🌟 Bo Ne Ba Nui — $4 Vietnamese steak breakfast, go first thing",
+          "Notre-Dame Cathedral + Central Post Office — exterior only, under renovation until 2027, no indoor access",
+          "Dong Khoi Street + Nguyen Hue Boulevard — main promenade, cafés, browsing",
+        ]},
+        { h: "Afternoon & Evening", items: [
+          "Last shopping — Lotte Mart for Vietnamese coffee, cashews, souvenirs",
+          "Ben Thanh Market — final souvenir sweep",
+          "🍺 ★ Pasteur Street Brewing Company — final beer, HCMC's best craft brewery",
+          "Pack for early departure",
+        ]},
+      ],
+      stay: "ANIMA Boutique Hotel", foot: [] },
+
+    { n: 12, title: "Departure", date: "Thu 2 Jul", iso: "2026-07-02", city: "hcmc",
+      tags: [["Travel","pink"]],
+      cols: [
+        { h: "Last Morning", items: [
+          "Check out of ANIMA",
+          "One last Vietnamese coffee",
+        ]},
+        { h: "Afternoon", items: [
+          "Head to Tan Son Nhat Airport",
+          "SGN 20:00 → DOH → JNB 09:35+1 (3 Jul)",
+        ]},
+      ],
+      stay: null,
+      foot: ["✈️ Qatar Airways QR 3 · SGN 20:00 → JNB 09:35+1"] },
+  ],
+
+  // ── PLACES (feeds Places grid + map) ──
+  // group: shown grouping in Places tab. wishlist:false => map-only.
+  // cat: map filter category (coffee|food|shopping|sights|nightlife)
+  places: [
+    // Cafes & Matcha
+    { name: "Cafe Giang", group: "☕ Cafes & Matcha", cat: "coffee", city: "hanoi",
+      catLabel: "Hanoi — Old Quarter", desc: "The original egg coffee since 1946. Must-visit.",
+      lat: 21.0334, lng: 105.8550, approx: false },
+    { name: "Note Cafe & Nagocha Matcha", group: "☕ Cafes & Matcha", cat: "coffee", city: "hanoi",
+      catLabel: "Hanoi — Old Quarter", desc: "Two spots for matcha and creative drinks near the lake.",
+      lat: 21.0308, lng: 105.8523, approx: true },
+    { name: "Magicha Zenbar", group: "☕ Cafes & Matcha", cat: "coffee", city: "hoian",
+      catLabel: "Hoi An — Ancient Town", desc: "Matcha spot — a calm last coffee in Hoi An.",
+      lat: 15.8801, lng: 108.3300, approx: true },
+
+    // Food & Drink
+    { name: "Ta Hien & Nguyen Trung Truc Streets", group: "🍜 Food & Drink", cat: "food", city: "hanoi",
+      catLabel: "Hanoi — Old Quarter", desc: "Bun cha, banh cuon, grilled corn — eat everything you see on these food streets.",
+      lat: 21.0345, lng: 105.8525, approx: false },
+    { name: "Bia Hoi Corner", group: "🍜 Food & Drink", cat: "nightlife", city: "hanoi",
+      catLabel: "Hanoi — Old Quarter", desc: "25c draught beer on plastic stools. Local institution at Luong Ngoc Quyen.",
+      lat: 21.0344, lng: 105.8516, approx: false },
+    { name: "Quan Cao Iau Ba Le", group: "🍜 Food & Drink", cat: "food", city: "hoian",
+      catLabel: "Hoi An — Ancient Town", desc: "White rose dumplings — can only be made authentically in Hoi An's water.",
+      lat: 15.8806, lng: 108.3275, approx: true },
+    { name: "Morning Glory Restaurant", group: "🍜 Food & Drink", cat: "food", city: "hoian",
+      catLabel: "Hoi An — Ancient Town", desc: "Cao Lau noodles — the signature Hoi An noodle, only properly made here.",
+      lat: 15.8769, lng: 108.3270, approx: false },
+
+    // Shopping
+    { name: "Old Quarter Night Market", group: "🛍️ Shopping", cat: "shopping", city: "hanoi",
+      catLabel: "Hanoi — Old Quarter", desc: "Friday & Saturday nights. Shoes, clothes, streetwear, souvenirs, food stalls.",
+      lat: 21.0355, lng: 105.8497, approx: false },
+    { name: "Hoi An Night Market", group: "🛍️ Shopping", cat: "shopping", city: "hoian",
+      catLabel: "Hoi An — Ancient Town", desc: "Every night. Lanterns, street food, souvenirs, best atmosphere in town.",
+      lat: 15.8760, lng: 108.3290, approx: false },
+    { name: "Izi Tailor & I Love Fashion", group: "🛍️ Shopping", cat: "shopping", city: "hoian",
+      catLabel: "Hoi An — Ancient Town", desc: "Get measured on day 1, collect on day 3. Custom suits, dresses, leather goods.",
+      lat: 15.8790, lng: 108.3285, approx: true },
+    { name: "Ben Thanh Market", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "Knock-offs, souvenirs, produce, local snacks. The classic HCMC market.",
+      lat: 10.7723, lng: 106.6980, approx: false },
+    { name: "The New Playground", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "Underground streetwear hub at 26 Lý Tự Trọng — 20+ local brands under one roof. Open 10:00–21:30.",
+      lat: 10.7770, lng: 106.6968, approx: false },
+    { name: "Rue Miche", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "Multi-brand fashion boutique in a restored 1952 French colonial villa. 25+ curated local brands. 9B Phùng Khắc Khoan.",
+      lat: 10.7869, lng: 106.6928, approx: true },
+    { name: "Das Studios", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "Leading Vietnamese menswear brand — clean contemporary cuts with a sharp eye on tailoring.",
+      lat: 10.7800, lng: 106.6990, approx: true },
+    { name: "Lider", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "Trendy unisex fashion at 7 Tôn Thất Thiệp. Clean cuts, flare jeans, streetwear. Also at The New Playground B2.",
+      lat: 10.7732, lng: 106.7035, approx: true },
+    { name: "AASTU (AA Flagship Store)", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
+      catLabel: "HCMC — District 3", desc: "American-style Vietnamese menswear at 118/12 Trần Quang Diệu. Clean lines, contemporary cuts, friendly staff.",
+      lat: 10.7880, lng: 106.6860, approx: true },
+    { name: "Wardrobe Arc", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
+      catLabel: "HCMC — District 3", desc: "Retail complex with 20+ local streetwear brands at 351/44 Lê Văn Sỹ. Dark palettes, bold young streetwear. Open 9:30–21:30.",
+      lat: 10.7920, lng: 106.6760, approx: true },
+    { name: "Aesir Studios", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
+      catLabel: "HCMC — Thảo Điền", desc: "German-Vietnamese designer streetwear. AE Space at 20 Duong 46, Thao Dien + flagship at 128G Nguyễn Đình Chính.",
+      lat: 10.8030, lng: 106.7340, approx: true },
+    { name: "Lumla Glasses", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "Vietnam's most viral sunglasses store — huge selection of trendy frames at great prices. 51 Lê Thị Riêng, D1.",
+      lat: 10.7720, lng: 106.6910, approx: true },
+    { name: "Seeson", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "Contemporary Vietnamese eyewear — handcrafted acetate frames with an optometry clinic and cafe in-store. Flagship on Nam Kỳ Khởi Nghĩa, D1.",
+      lat: 10.7850, lng: 106.6950, approx: true },
+
+    // Things to Do
+    { name: "Ba Na Hills + Golden Bridge", group: "🎯 Things to Do", cat: "sights", city: "danang",
+      catLabel: "Da Nang — Ba Na Hills", desc: "World's longest cable car, giant stone hands, French Village. Book online (~500k VND pp).",
+      lat: 15.9950, lng: 107.9960, approx: false },
+    { name: "My Khe Beach", group: "🎯 Things to Do", cat: "sights", city: "danang",
+      catLabel: "Da Nang — My Khe", desc: "Steps from Chicland. Sunrise swim, seafood on the sand.",
+      lat: 16.0544, lng: 108.2470, approx: false },
+    { name: "Dragon Bridge 🐉", group: "🎯 Things to Do", cat: "sights", city: "danang",
+      catLabel: "Da Nang — Riverfront", desc: "Fire & water show Friday, Saturday & Sunday at 21:00. You're there for both weekend nights!",
+      lat: 16.0614, lng: 108.2275, approx: false },
+    { name: "An Thuong Street + Mango Archive", group: "🎯 Things to Do", cat: "shopping", city: "danang",
+      catLabel: "Da Nang — An Thuong", desc: "Full vintage strip with Mango Archive (your pick), Rust Rack, Hana 34, ORI jewellery. Afternoon stroll near the beachfront.",
+      lat: 16.0440, lng: 108.2440, approx: true },
+    { name: "War Remnants Museum", group: "🎯 Things to Do", cat: "sights", city: "hcmc",
+      catLabel: "HCMC — District 3", desc: "Essential and powerful. Go straight from hotel — closes 17:00.",
+      lat: 10.7795, lng: 106.6917, approx: false },
+    { name: "Chu Chi Tunnels", group: "🎯 Things to Do", cat: "sights", city: "hcmc",
+      catLabel: "HCMC — Day Trip", desc: "Half-day tour. Crawl the tunnel network, shooting range optional (~60k VND).",
+      lat: 11.1417, lng: 106.4640, approx: false },
+    { name: "Bui Vien Walking Street", group: "🎯 Things to Do", cat: "nightlife", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "Food, drinks, backpacker energy. Nightlife central.",
+      lat: 10.7670, lng: 106.6920, approx: false },
+    { name: "Saigon River Rooftop Bars", group: "🎯 Things to Do", cat: "nightlife", city: "hcmc",
+      catLabel: "HCMC — Riverfront", desc: "Skyline views over the river. Perfect for the last night.",
+      lat: 10.7720, lng: 106.7050, approx: true },
+
+    // ── map-only landmarks (wishlist:false) ──
+    { name: "Hoan Kiem Lake & Ngoc Son Temple", group: "_map", wishlist: false, cat: "sights", city: "hanoi",
+      catLabel: "Hanoi — Old Quarter", desc: "The heart of the Old Quarter — lake, red bridge, island temple.",
+      lat: 21.0287, lng: 105.8524, approx: false },
+    { name: "Temple of Literature", group: "_map", wishlist: false, cat: "sights", city: "hanoi",
+      catLabel: "Hanoi", desc: "Vietnam's oldest university (1070).",
+      lat: 21.0273, lng: 105.8355, approx: false },
+    { name: "Ho Chi Minh Mausoleum & Museum", group: "_map", wishlist: false, cat: "sights", city: "hanoi",
+      catLabel: "Hanoi — Ba Dinh", desc: "Mausoleum, museum, One Pillar Pagoda. Mausoleum closed Mondays.",
+      lat: 21.0368, lng: 105.8350, approx: false },
+    { name: "Train Street", group: "_map", wishlist: false, cat: "sights", city: "hanoi",
+      catLabel: "Hanoi", desc: "Trains pass inches from the cafes. Check current access rules.",
+      lat: 21.0245, lng: 105.8412, approx: false },
+    { name: "Thang Long Water Puppet Theatre", group: "_map", wishlist: false, cat: "sights", city: "hanoi",
+      catLabel: "Hanoi — Old Quarter", desc: "Traditional water puppetry, ~1 hr. Book ahead.",
+      lat: 21.0294, lng: 105.8538, approx: false },
+    { name: "Sung Sot Cave", group: "_map", wishlist: false, cat: "sights", city: "halong",
+      catLabel: "Ha Long Bay", desc: "Cathedral-sized cave chambers — the cruise's headline stop.",
+      lat: 20.8425, lng: 107.1056, approx: true },
+    { name: "Banh Mi Phuong", group: "_map", wishlist: false, cat: "food", city: "hoian",
+      catLabel: "Hoi An — Ancient Town", desc: "Famous banh mi — Anthony Bourdain's pick. Breakfast go-to.",
+      lat: 15.8783, lng: 108.3300, approx: false },
+    { name: "Phuc Kien Assembly Hall", group: "_map", wishlist: false, cat: "sights", city: "hoian",
+      catLabel: "Hoi An — Ancient Town", desc: "Ornate Fujian temple with hanging incense spirals.",
+      lat: 15.8773, lng: 108.3283, approx: false },
+    { name: "Japanese Covered Bridge", group: "_map", wishlist: false, cat: "sights", city: "hoian",
+      catLabel: "Hoi An — Ancient Town", desc: "The 18th-century icon of Hoi An.",
+      lat: 15.8770, lng: 108.3258, approx: false },
+    { name: "Cam Thanh Coconut Village", group: "_map", wishlist: false, cat: "sights", city: "hoian",
+      catLabel: "Hoi An", desc: "Basket boat rides through the water-coconut palms.",
+      lat: 15.8920, lng: 108.3640, approx: true },
+    { name: "Hai Van Pass", group: "_map", wishlist: false, cat: "sights", city: "danang",
+      catLabel: "Da Nang / Hue road", desc: "Panoramic mountain pass between Da Nang and Hue.",
+      lat: 16.1980, lng: 108.1300, approx: false },
+    { name: "Hue Imperial Citadel", group: "_map", wishlist: false, cat: "sights", city: "hoian",
+      catLabel: "Hue — day trip", desc: "Vast walled palace complex of the Nguyen dynasty.",
+      lat: 16.4698, lng: 107.5770, approx: false },
+    { name: "Thien Mu Pagoda", group: "_map", wishlist: false, cat: "sights", city: "hoian",
+      catLabel: "Hue — day trip", desc: "Seven-storey pagoda on the Perfume River.",
+      lat: 16.4537, lng: 107.5450, approx: false },
+    { name: "Marble Mountains", group: "_map", wishlist: false, cat: "sights", city: "danang",
+      catLabel: "Da Nang", desc: "Five limestone hills with Buddhist cave temples. Go before 10am.",
+      lat: 16.0036, lng: 108.2630, approx: false },
+    { name: "Lady Buddha (Linh Ung Pagoda)", group: "_map", wishlist: false, cat: "sights", city: "danang",
+      catLabel: "Da Nang — Son Tra", desc: "67m white statue on the Son Tra Peninsula. Monkeys about.",
+      lat: 16.1003, lng: 108.2780, approx: false },
+    { name: "Notre-Dame Cathedral & Post Office", group: "_map", wishlist: false, cat: "sights", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "Exterior only — under renovation until 2027.",
+      lat: 10.7797, lng: 106.6990, approx: false },
+    { name: "Nguyen Hue Boulevard", group: "_map", wishlist: false, cat: "sights", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "Pedestrian promenade, cafes, the walking street's heart.",
+      lat: 10.7740, lng: 106.7040, approx: false },
+    { name: "Pasteur Street Brewing Co.", group: "_map", wishlist: false, cat: "nightlife", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "HCMC's best craft brewery — the final beer. 144 Pasteur.",
+      lat: 10.7780, lng: 106.7030, approx: true },
+  ],
+
+  // ── PACKING ──
+  packing: [
+    { label: "Passports (valid 6+ months)" },
+    { label: "E-visa approved", checked: true },
+    { label: "Travel insurance purchased" },
+    { label: "Flights booked — Qatar QR 8MXDM6", checked: true },
+    { label: "Accommodation — all 5 stays booked", checked: true },
+    { label: "Mon Cheri Cruises booked", checked: true },
+    { label: "Copies of docs (digital + printed)" },
+    { label: "Notify bank of travel" },
+    { label: "Cash (VND) + card with no FX fees" },
+    { label: "Light clothing — tropical weight" },
+    { label: "Rain jacket / umbrella" },
+    { label: "Swimwear" },
+    { label: "Good walking shoes" },
+    { label: "Insect repellent" },
+    { label: "Sunscreen" },
+    { label: "Power adapter (2-pin round)" },
+    { label: "Portable charger" },
+    { label: "Reusable water bottle" },
+    { label: "Basic medicine kit" },
+    { label: "Earplugs + eye mask" },
+    { label: "Daypack for excursions" },
+  ],
+};
