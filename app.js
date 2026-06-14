@@ -233,10 +233,9 @@
   function renderWeatherStrip() {
     $("#weatherStrip").innerHTML = TRIP.cities.map(c => {
       const s = citySummary(c.id);
-      if (!s) return `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-range">${esc(shortDate(cityDays(c.id)[0].date))}</div><div class="wx-ico">🗓️</div><div class="wx-temp" style="font-size:0.74rem;">forecast soon</div></div>`;
+      if (!s) return `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico">🗓️</div><div class="wx-temp" style="font-size:0.8rem;">soon</div></div>`;
       const [ico, label] = WMO(s.code);
-      const range = s.from === s.to ? s.from : `${s.from}–${s.to}`;
-      return `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-range">${esc(range)}${s.partial ? "*" : ""}</div><div class="wx-ico" title="${esc(label)}">${ico}</div><div class="wx-temp">${s.hi}° / ${s.lo}°</div>${s.rain >= 30 ? `<div class="wx-rain">☔ ${s.rain}%</div>` : `<div class="wx-rain">&nbsp;</div>`}</div>`;
+      return `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico" title="${esc(label)}">${ico}</div><div class="wx-temp">${s.hi}°</div></div>`;
     }).join("");
   }
 
