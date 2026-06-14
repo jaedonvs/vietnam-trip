@@ -197,7 +197,7 @@
       const ts = new Date(TRIP.meta.start + "T00:00:00"), te = new Date(TRIP.meta.end + "T00:00:00");
       const reqStart = new Date(Math.max(t0.getTime(), ts.getTime()));
       const reqEnd = new Date(Math.min(te.getTime(), horizon.getTime()));
-      if (reqStart > reqEnd) { renderWeatherStrip(); decorateDayWeather(); return; } // trip still beyond forecast horizon
+      if (reqStart > reqEnd) { renderWeatherStrip(); return; } // trip still beyond forecast horizon
       const fmt = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
       const lats = TRIP.cities.map(c => c.lat).join(","), lngs = TRIP.cities.map(c => c.lng).join(",");
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lngs}` +
@@ -212,7 +212,6 @@
         forecastByCityDate[c.id] = m;
       });
       renderWeatherStrip();
-      decorateDayWeather();
       renderHero();
     } catch (_) {
       strip.innerHTML = TRIP.cities.map(c => `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico">📡</div><div class="wx-temp" style="font-size:0.78rem;">offline</div></div>`).join("");
@@ -239,21 +238,6 @@
       const range = s.from === s.to ? s.from : `${s.from}–${s.to}`;
       return `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-range">${esc(range)}${s.partial ? "*" : ""}</div><div class="wx-ico" title="${esc(label)}">${ico}</div><div class="wx-temp">${s.hi}° / ${s.lo}°</div>${s.rain >= 30 ? `<div class="wx-rain">☔ ${s.rain}%</div>` : `<div class="wx-rain">&nbsp;</div>`}</div>`;
     }).join("");
-  }
-
-  // small forecast badge on each day card hero
-  function decorateDayWeather() {
-    TRIP.days.forEach(d => {
-      const fc = (forecastByCityDate[d.city] || {})[d.iso];
-      const hero = $("#day-" + d.n + " .day-hero");
-      if (!hero) return;
-      hero.querySelector(".dh-wx")?.remove();
-      if (!fc || fc.max == null) return;
-      const el = document.createElement("span");
-      el.className = "dh-wx";
-      el.innerHTML = `${WMO(fc.code)[0]} ${Math.round(fc.max)}°/${Math.round(fc.min)}°${fc.rain >= 30 ? ` · ☔${fc.rain}%` : ""}`;
-      hero.appendChild(el);
-    });
   }
 
   /* ─────────── DAYS ─────────── */
