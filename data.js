@@ -25,10 +25,10 @@ const TRIP = {
   ],
 
   stats: [
-    { num: "11",    label: "Days",    color: "pink"  },
-    { num: "5",     label: "Cities",  color: "lemon" },
-    { num: "5",     label: "Stays",   color: "blush" },
-    { num: "Qatar", label: "Airline", color: "pink"  },
+    { num: "11",    label: "Days",   color: "pink"  },
+    { num: "5",     label: "Cities", color: "lemon" },
+    { num: "5",     label: "Stays",  color: "sage"  },
+    { num: "1,700", label: "km",     color: "lilac" },
   ],
 
   flights: {

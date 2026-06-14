@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    Vietnam trip — app shell, renderers, map, sheet, guide, PWA.
-   Renders entirely from TRIP (data.js).
+   Renders entirely from TRIP (data.js). Icons from ICON_PATHS (icons.js).
    ───────────────────────────────────────────────────────────── */
 (function () {
   "use strict";
@@ -10,6 +10,8 @@
   const colorOf  = id => (cityById(id).color || "ink");
   const cityImg  = id => `img/${id}.jpg`;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const icon = name => `<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em">${(typeof ICON_PATHS !== "undefined" && ICON_PATHS[name]) || ""}</svg>`;
+  const catIcon = { coffee: "coffee", food: "food", shopping: "shopping", sights: "sights", nightlife: "nightlife", stay: "stay" };
 
   const gmapsDir    = (lat, lng) => `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
   const gmapsSearch = (name, lat, lng) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}%20${lat},${lng}`;
@@ -28,12 +30,12 @@
 
   /* ─────────── THEME ─────────── */
   let tileLayer = null;
-  function currentTheme() { return document.documentElement.getAttribute("data-theme") || "light"; }
+  const theme = () => document.documentElement.getAttribute("data-theme") || "light";
   function applyTheme(t) {
     document.documentElement.setAttribute("data-theme", t);
-    $("#themeToggle").textContent = t === "dark" ? "☀️" : "🌙";
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", t === "dark" ? "#1E1A14" : "#F2EEDF");
+    $("#themeToggle").innerHTML = `<span class="ic">${icon(t === "dark" ? "sun" : "moon")}</span>`;
+    const m = document.querySelector('meta[name="theme-color"]:not([media*="dark"])');
+    if (m) m.setAttribute("content", t === "dark" ? "#15110C" : "#F2EEDF");
     if (tileLayer) tileLayer.setUrl(tileUrl());
   }
   function initTheme() {
@@ -41,43 +43,96 @@
     const sysDark = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
     applyTheme(saved || (sysDark ? "dark" : "light"));
     $("#themeToggle").addEventListener("click", () => {
-      const next = currentTheme() === "dark" ? "light" : "dark";
-      localStorage.setItem("vn-theme", next);
-      applyTheme(next);
+      const next = theme() === "dark" ? "light" : "dark";
+      localStorage.setItem("vn-theme", next); applyTheme(next);
     });
   }
 
-  /* ─────────── IMAGES (progressive, optional) ─────────── */
-  function preload(src) {
-    return new Promise(res => { const i = new Image(); i.onload = () => res(true); i.onerror = () => res(false); i.src = src; });
+  /* ─────────── STATIC ICONS in chrome ─────────── */
+  function paintChromeIcons() {
+    $$(".tab").forEach(t => { t.querySelector(".tab-ico").innerHTML = icon(t.dataset.ico); });
+    const set = (id, name) => { const el = $("#" + id); if (el) el.innerHTML = icon(name); };
+    set("locateBtn", "locate"); set("wxLabelIco", "sun"); set("routeLabelIco", "plane");
+    set("stayLabelIco", "stay"); set("mapLabelIco", "map"); set("daysLabelIco", "days");
+    set("placesLabelIco", "places"); set("packLabelIco", "pack"); set("guideLabelIco", "guide");
+    set("curIco", "wallet"); set("phrIco", "languages"); set("emIco", "alert"); set("scrollCue", "chevron");
+    // scrollCue keeps its text; prepend chevron below
+    const sc = $("#scrollCue"); if (sc) sc.innerHTML = `<span>Scroll to explore</span><span class="ic">${icon("chevron")}</span>`;
   }
+
+  /* ─────────── IMAGES ─────────── */
+  function preload(src) { return new Promise(r => { const i = new Image(); i.onload = () => r(true); i.onerror = () => r(false); i.src = src; }); }
   async function loadCover() {
-    const ok = await preload("img/hero.jpg");
-    if (!ok) return;
-    $("#coverBg").style.backgroundImage = "url(img/hero.jpg)";
-    $("#coverBg").classList.add("loaded");
-    $("#coverGrad").style.display = "block";
-    $("#cover").classList.add("has-photo");
+    if (await preload("img/hero.jpg")) { $("#coverBg").style.backgroundImage = "url(img/hero.jpg)"; $("#coverBg").classList.add("loaded"); }
   }
-  async function loadDayHeroes() {
-    const loaded = {};
-    await Promise.all(TRIP.cities.map(async c => { loaded[c.id] = await preload(cityImg(c.id)); }));
-    TRIP.days.forEach(d => {
-      if (!loaded[d.city]) return;
-      const card = $("#day-" + d.n); if (!card) return;
-      const hero = document.createElement("div");
-      hero.className = "day-hero";
-      hero.style.backgroundImage = `url(${cityImg(d.city)})`;
-      hero.innerHTML = `<span class="day-hero-city">${esc(cityById(d.city).emoji)} ${esc(cityById(d.city).name)}</span>`;
-      card.insertBefore(hero, card.firstChild);
-    });
+
+  /* ─────────── VISITED (reward) ─────────── */
+  const visitedKey = "vn-visited";
+  function getVisited() { try { return new Set(JSON.parse(localStorage.getItem(visitedKey) || "[]")); } catch (_) { return new Set(); } }
+  function setVisited(set) { localStorage.setItem(visitedKey, JSON.stringify([...set])); }
+
+  /* ─────────── HERO "UP NEXT" CARD ─────────── */
+  let forecastByCityDate = {}; // {cityId: {iso: {code,max,min,rain}}}
+  const shortDate = d => { const p = d.split(" "); return p[1] + " " + p[2]; };
+  function renderHero() {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const start = new Date(TRIP.meta.start + "T00:00:00");
+    const end = new Date(TRIP.meta.end + "T00:00:00");
+    const c = $("#heroCard");
+    let accent, top, headline, sub, rows = [], ctaLabel, ctaView, ctaDay;
+
+    if (today < start) {
+      const days = Math.round((start - today) / 86400000);
+      const d1 = TRIP.days[0], stay1 = TRIP.stays[0], f = TRIP.flights;
+      accent = colorOf(d1.city);
+      top = `${icon("sparkle")} Counting down`;
+      headline = `<span class="count">${days}</span> day${days === 1 ? "" : "s"} to go`;
+      sub = `Wheels up ${esc(f.outbound.airline.split("·")[0].trim())}`;
+      rows = [
+        ["plane", `<strong>${esc(f.outbound.route)}</strong> · ${esc(f.outbound.time)}`],
+        ["stay", `First nights at <strong>${esc(stay1.name.split(",")[0])}</strong>`],
+        ["calendar", `Day 1 — ${esc(d1.title)}, ${esc(d1.date)}`],
+      ];
+      ctaLabel = "Open Day 1"; ctaView = "daysView"; ctaDay = 1;
+    } else if (today > end) {
+      accent = "lilac";
+      top = `${icon("sparkle")} The trip`;
+      headline = `Welcome home`;
+      sub = `Eleven days, five cities, countless bowls of pho.`;
+      rows = [["map", `Relive the route any time`]];
+      ctaLabel = "Revisit the days"; ctaView = "daysView"; ctaDay = 1;
+    } else {
+      const dN = TRIP.days.find(d => new Date(d.iso + "T00:00:00").getTime() === today.getTime()) || TRIP.days[0];
+      accent = colorOf(dN.city);
+      const stay = TRIP.stays.find(s => s.name === dN.stay);
+      top = `${icon("clock")} Today · Day ${dN.n} of 11`;
+      headline = esc(dN.title);
+      sub = esc(dN.date);
+      rows = [];
+      const fc = (forecastByCityDate[dN.city] || {})[dN.iso];
+      if (fc && fc.max != null) rows.push(["sun", `${esc(cityById(dN.city).name)} · ${WMO(fc.code)[0]} ${Math.round(fc.max)}° / ${Math.round(fc.min)}°${fc.rain > 30 ? ` · ☔ ${fc.rain}%` : ""}`]);
+      if (stay) rows.push(["stay", `Tonight: <strong>${esc(stay.name.split(",")[0])}</strong>`]);
+      rows.push(["days", `${dN.cols.length} parts planned`]);
+      ctaLabel = "Open today"; ctaView = "daysView"; ctaDay = dN.n;
+    }
+
+    c.innerHTML =
+      `<div class="hero-accent ${accent}" style="background:var(--${accent})"></div>
+       <div class="hero-pad">
+         <div class="hero-top">${top}</div>
+         <div class="hero-headline">${headline}</div>
+         <div class="hero-sub">${sub}</div>
+         <div class="hero-rows">${rows.map(([ic, html]) => `<div class="hero-row"><span class="ic">${icon(ic)}</span><span>${html}</span></div>`).join("")}</div>
+         <button class="hero-cta" id="heroCta"><span class="ic">${icon("arrowright")}</span>${esc(ctaLabel)}</button>
+       </div>`;
+    $("#heroCta").addEventListener("click", () => { switchView(ctaView); setTimeout(() => scrollToDay(ctaDay), 260); });
   }
 
   /* ─────────── OVERVIEW ─────────── */
   function renderOverview() {
     $("#routeDots").innerHTML = TRIP.cities.map((c, i) =>
-      `<span class="dot ${c.color}">${c.emoji} ${esc(c.name)}</span>` +
-      (i < TRIP.cities.length - 1 ? `<span class="dot-arrow">→</span>` : "")
+      `<span class="dot ${c.color}">${esc(c.name)}</span>` + (i < TRIP.cities.length - 1 ? `<span class="dot-arrow">→</span>` : "")
     ).join("");
 
     $("#statsGrid").innerHTML = TRIP.stats.map(s =>
@@ -87,7 +142,7 @@
     const f = TRIP.flights;
     const leg = l => `<div class="flight-leg"><h4>${esc(l.label)}</h4><div class="airline">${esc(l.airline)}</div><div class="route">${esc(l.route)}</div><div class="time">${esc(l.time)}</div></div>`;
     $("#flightsWrap").innerHTML =
-      `<div class="card"><h3 style="font-size:1.35rem;">✈️ Flights</h3>
+      `<div class="card"><h3><span class="ic">${icon("plane")}</span> Flights</h3>
         <div class="label-group"><span class="pink">${esc(f.airline)}</span><span class="blush">Ref: ${esc(f.ref)}</span></div>
         <div class="flight-details">${leg(f.outbound)}${leg(f.inbound)}</div>
         <p style="font-size:0.82rem;color:var(--ink-soft);margin-top:0.75rem;">${esc(f.note)}</p></div>`;
@@ -97,14 +152,14 @@
     ).join("");
 
     $("#staysList").innerHTML = TRIP.stays.map((s, i) =>
-      `<div class="booking-card" data-stay="${i}" tabindex="0" role="button">
-        <div>
-          <div class="booking-name">${esc(s.name)}</div>
-          <div class="booking-loc">📍 ${esc(s.loc)}</div>
-          <div class="booking-dates">📅 ${esc(s.dates)}</div>
-          <div class="booking-confirm">Confirmation: <strong>${esc(s.confirm)}</strong></div>
+      `<div class="booking-card ${colorOf(s.city)}" data-stay="${i}" tabindex="0" role="button">
+        <div class="booking-thumb" style="background-image:url(${cityImg(s.city)})"></div>
+        <div class="booking-main">
+          <div class="booking-name">${esc(s.name.split(",")[0])}</div>
+          <div class="booking-loc">${esc(s.loc)}</div>
+          <div class="booking-dates">${esc(s.dates)}</div>
         </div>
-        <div class="booking-status">✅ BOOKED</div>
+        <span class="booking-check ic" title="Booked">${icon("circlecheck")}</span>
       </div>`
     ).join("");
     $$("#staysList .booking-card").forEach(el => {
@@ -113,165 +168,221 @@
       el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
     });
 
-    const rows = TRIP.stays.map(s =>
-      `<tr><td>📍 ${esc(s.loc)}</td><td>${esc(s.nights)}</td><td>${esc(s.name)} ✅</td><td>${esc(s.est)}</td></tr>`
-    ).join("");
+    const rows = TRIP.stays.map(s => `<tr><td>${esc(s.loc)}</td><td>${esc(s.nights)}</td><td>${esc(s.est)}</td></tr>`).join("");
     $("#budgetWrap").innerHTML =
-      `<div class="card" style="margin-top:1.25rem;">
-        <h3 style="font-size:1.3rem;margin-bottom:0.6rem;">💰 Accommodation Cost Summary</h3>
+      `<div class="card" style="margin-top:1rem;"><h3><span class="ic">${icon("wallet")}</span> Accommodation</h3>
         <p style="font-size:0.84rem;color:var(--ink-soft);margin-bottom:0.6rem;">${esc(TRIP.budgetNote)}</p>
         <div class="table-wrap"><table class="compare-table">
-          <thead><tr><th>Location</th><th>Nights</th><th>Booked</th><th>Est. Total</th></tr></thead>
-          <tbody>${rows}<tr class="total"><td><strong>Total</strong></td><td>11</td><td></td><td><strong>${esc(TRIP.budgetTotal)}</strong></td></tr></tbody>
+          <thead><tr><th>Location</th><th>Nights</th><th>Est.</th></tr></thead>
+          <tbody>${rows}<tr class="total"><td><strong>Total</strong></td><td>11</td><td><strong>${esc(TRIP.budgetTotal)}</strong></td></tr></tbody>
         </table></div></div>`;
   }
 
   /* ─────────── WEATHER ─────────── */
   const WMO = c => {
-    if (c === 0) return ["☀️", "Clear"];
-    if (c <= 2) return ["🌤️", "Sunny"];
-    if (c === 3) return ["☁️", "Cloudy"];
-    if (c <= 48) return ["🌫️", "Fog"];
-    if (c <= 57) return ["🌦️", "Drizzle"];
-    if (c <= 67) return ["🌧️", "Rain"];
-    if (c <= 77) return ["🌨️", "Snow"];
-    if (c <= 82) return ["🌧️", "Showers"];
-    if (c <= 86) return ["🌨️", "Snow"];
-    return ["⛈️", "Storm"];
+    if (c === 0) return ["☀️", "Clear"]; if (c <= 2) return ["🌤️", "Sunny"]; if (c === 3) return ["☁️", "Cloudy"];
+    if (c <= 48) return ["🌫️", "Fog"]; if (c <= 57) return ["🌦️", "Drizzle"]; if (c <= 67) return ["🌧️", "Rain"];
+    if (c <= 77) return ["🌨️", "Snow"]; if (c <= 82) return ["🌧️", "Showers"]; if (c <= 86) return ["🌨️", "Snow"]; return ["⛈️", "Storm"];
   };
+  // days the trip spends in each city, in order
+  function cityDays(cityId) { return TRIP.days.filter(d => d.city === cityId); }
+
   async function renderWeather() {
     const strip = $("#weatherStrip");
-    strip.innerHTML = TRIP.cities.map(c =>
-      `<div class="wx-card skeleton"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico">·</div><div class="wx-temp">··</div></div>`
-    ).join("");
+    strip.innerHTML = TRIP.cities.map(c => `<div class="wx-card skeleton"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico">·</div><div class="wx-temp">··</div></div>`).join("");
     try {
-      const lats = TRIP.cities.map(c => c.lat).join(",");
-      const lngs = TRIP.cities.map(c => c.lng).join(",");
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lngs}&current=temperature_2m,weather_code&timezone=Asia%2FBangkok`;
-      const res = await fetch(url);
-      const data = await res.json();
+      // Open-Meteo only forecasts ~16 days ahead — clamp the request to that window.
+      const now = new Date(); const t0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const horizon = new Date(t0); horizon.setDate(horizon.getDate() + 15);
+      const ts = new Date(TRIP.meta.start + "T00:00:00"), te = new Date(TRIP.meta.end + "T00:00:00");
+      const reqStart = new Date(Math.max(t0.getTime(), ts.getTime()));
+      const reqEnd = new Date(Math.min(te.getTime(), horizon.getTime()));
+      if (reqStart > reqEnd) { renderWeatherStrip(); return; } // trip still beyond forecast horizon
+      const fmt = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      const lats = TRIP.cities.map(c => c.lat).join(","), lngs = TRIP.cities.map(c => c.lng).join(",");
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lngs}` +
+        `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max` +
+        `&timezone=Asia%2FBangkok&start_date=${fmt(reqStart)}&end_date=${fmt(reqEnd)}`;
+      const data = await fetch(url).then(r => r.json());
       const arr = Array.isArray(data) ? data : [data];
-      strip.innerHTML = TRIP.cities.map((c, i) => {
-        const cur = (arr[i] && arr[i].current) || {};
-        const [ico, label] = WMO(cur.weather_code ?? -1);
-        const t = cur.temperature_2m != null ? Math.round(cur.temperature_2m) + "°" : "—";
-        return `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico" title="${esc(label)}">${ico}</div><div class="wx-temp">${t}</div></div>`;
-      }).join("");
+      forecastByCityDate = {};
+      TRIP.cities.forEach((c, i) => {
+        const d = (arr[i] && arr[i].daily) || {}, times = d.time || [], m = {};
+        times.forEach((t, j) => { m[t] = { code: d.weather_code?.[j], max: d.temperature_2m_max?.[j], min: d.temperature_2m_min?.[j], rain: d.precipitation_probability_max?.[j] }; });
+        forecastByCityDate[c.id] = m;
+      });
+      renderWeatherStrip();
+      renderHero();
     } catch (_) {
-      strip.innerHTML = TRIP.cities.map(c =>
-        `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico">📡</div><div class="wx-temp" style="font-size:0.8rem;">offline</div></div>`
-      ).join("");
+      strip.innerHTML = TRIP.cities.map(c => `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico">📡</div><div class="wx-temp" style="font-size:0.78rem;">offline</div></div>`).join("");
     }
   }
 
-  /* ─────────── DAYS ─────────── */
-  function dayCardHTML(d, isToday) {
-    const tags = d.tags.map(([t, c]) => `<span class="day-tag ${c}">${esc(t)}</span>`).join("");
-    const cols = d.cols.map(col =>
-      `<div class="day-col"><h4>${esc(col.h)}</h4><ul>${col.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`
-    ).join("");
-    const footBits = [];
-    if (d.stay) footBits.push(`<span class="stay-link" data-staylink="${esc(d.stay)}" tabindex="0" role="button">🛏️ ${esc(d.stay)}</span>`);
-    d.foot.forEach(x => footBits.push(`<span>${esc(x)}</span>`));
-    const foot = footBits.length ? `<div class="day-foot">${footBits.join("")}</div>` : "";
-    const badge = isToday ? `<span class="today-badge">Today</span> ` : "";
-    return `<div class="day-card ${isToday ? "is-today" : ""}" id="day-${d.n}">
-      <div class="day-pad">
-        <div class="day-head"><h3>Day ${d.n} · ${esc(d.title)}</h3><span class="day-date">${badge}${esc(d.date)}</span></div>
-        <div class="day-tags">${tags}</div>
-        <div class="day-body">${cols}</div>${foot}
-      </div></div>`;
+  // per-city summary across the days the trip is actually there
+  function citySummary(cityId) {
+    const map = forecastByCityDate[cityId] || {};
+    const days = cityDays(cityId).map(d => ({ d, fc: map[d.iso] })).filter(x => x.fc && x.fc.max != null);
+    if (!days.length) return null;
+    const hi = Math.round(Math.max(...days.map(x => x.fc.max)));
+    const lo = Math.round(Math.min(...days.map(x => x.fc.min)));
+    const rain = Math.max(...days.map(x => x.fc.rain ?? 0));
+    const worst = days.reduce((a, b) => (b.fc.rain ?? 0) > (a.fc.rain ?? 0) ? b : a);
+    return { hi, lo, rain, code: worst.fc.code, from: shortDate(days[0].d.date), to: shortDate(days[days.length - 1].d.date), partial: days.length < cityDays(cityId).length };
   }
 
+  function renderWeatherStrip() {
+    $("#weatherStrip").innerHTML = TRIP.cities.map(c => {
+      const s = citySummary(c.id);
+      if (!s) return `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico">🗓️</div><div class="wx-temp" style="font-size:0.8rem;">soon</div></div>`;
+      const [ico, label] = WMO(s.code);
+      return `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico" title="${esc(label)}">${ico}</div><div class="wx-temp">${s.hi}°</div></div>`;
+    }).join("");
+  }
+
+  /* ─────────── DAYS ─────────── */
+  // ── itinerary item helpers (checkable + parsed) ──
+  const doneKey = "vn-done";
+  function getDone() { try { return new Set(JSON.parse(localStorage.getItem(doneKey) || "[]")); } catch (_) { return new Set(); } }
+  function setDoneSet(s) { localStorage.setItem(doneKey, JSON.stringify([...s])); }
+  function parseItem(raw) {
+    const highlight = /[⭐🌟★]/.test(raw);
+    const text = raw.replace(/[⭐🌟★✅]/g, "").replace(/\(conf:[^)]*\)/gi, "").replace(/\s{2,}/g, " ").trim();
+    return { text, highlight };
+  }
+  const dayTotals = d => { let t = 0; d.cols.forEach(c => c.items.forEach(it => { if (parseItem(it).text) t++; })); return t; };
+  const dayDoneCount = (d, set) => { let n = 0; d.cols.forEach((c, ci) => c.items.forEach((it, ii) => { if (parseItem(it).text && set.has(`${d.n}:${ci}:${ii}`)) n++; })); return n; };
+  function progressHTML(d, set) {
+    const total = dayTotals(d), done = dayDoneCount(d, set);
+    const label = (done === total && total) ? `All ${total} done 🎉` : `${done} of ${total} done`;
+    return `<div class="day-progress" id="prog-${d.n}"><span class="bar"><div style="width:${total ? done / total * 100 : 0}%"></div></span><span class="ptxt">${label}</span></div>`;
+  }
+  function toggleDone(key, btn) {
+    const s = getDone();
+    if (s.has(key)) s.delete(key); else { s.add(key); btn.classList.add("pop"); setTimeout(() => btn.classList.remove("pop"), 400); }
+    setDoneSet(s);
+    btn.classList.toggle("on", s.has(key));
+    btn.closest(".tl-item").classList.toggle("done", s.has(key));
+    updateDayProgress(+key.split(":")[0]);
+  }
+  function updateDayProgress(n) {
+    const d = TRIP.days.find(x => x.n === n); if (!d) return;
+    const set = getDone(), total = dayTotals(d), done = dayDoneCount(d, set);
+    const el = $("#prog-" + n); if (!el) return;
+    el.querySelector(".ptxt").textContent = (done === total && total) ? `All ${total} done 🎉` : `${done} of ${total} done`;
+    el.querySelector(".bar>div").style.width = (total ? done / total * 100 : 0) + "%";
+  }
+
+  function dayCardHTML(d, isToday) {
+    const set = getDone();
+    const tags = d.tags.map(([t, c]) => `<span class="day-tag ${c}">${esc(t)}</span>`).join("");
+    const col = colorOf(d.city);
+    const sections = d.cols.map((c, ci) => {
+      const items = c.items.map((raw, ii) => {
+        const { text, highlight } = parseItem(raw); if (!text) return "";
+        const key = `${d.n}:${ci}:${ii}`, on = set.has(key);
+        return `<li class="tl-item ${on ? "done" : ""}">
+          <button class="item-tick ${on ? "on" : ""}" data-done="${key}" aria-label="Mark done"><span class="ic">${icon("check")}</span></button>
+          <span class="item-text ${highlight ? "hl" : ""}">${highlight ? `<span class="item-star ic">${icon("sparkle")}</span>` : ""}${esc(text)}</span>
+        </li>`;
+      }).join("");
+      return `<div class="tl-section"><div class="tl-rail"><span class="tl-dot" style="background:var(--${col})"></span></div><div class="tl-content"><h4>${esc(c.h)}</h4><ul class="tl-items">${items}</ul></div></div>`;
+    }).join("");
+
+    let foot = "";
+    if (d.stay) foot += `<div class="day-foot"><span class="stay-link" data-staylink="${esc(d.stay)}" tabindex="0" role="button"><span class="ic">${icon("stay")}</span>${esc(d.stay.split(",")[0])}</span></div>`;
+    d.foot.forEach(x => {
+      if (/^\s*🌧️/.test(x) || /backup/i.test(x)) foot += `<div class="rain-note"><span>🌧️</span><span>${esc(x.replace(/^\s*🌧️\s*/, ""))}</span></div>`;
+      else foot += `<div class="day-note">${esc(x)}</div>`;
+    });
+
+    const city = cityById(d.city);
+    return `<div class="day-card ${isToday ? "is-today" : ""}" id="day-${d.n}">
+      <div class="day-hero" style="background-image:url(${cityImg(d.city)})">
+        ${isToday ? '<span class="dh-today">Today</span>' : ""}
+        <span class="dh-num">Day ${d.n}</span>
+        <span class="dh-city">${esc(city.name)}</span>
+      </div>
+      <div class="day-pad">
+        <div class="day-head"><h3>${esc(d.title)} · <span style="color:var(--ink-soft);font-size:0.85em;">${esc(d.date)}</span></h3></div>
+        <div class="day-tags">${tags}</div>
+        ${progressHTML(d, set)}
+        <div class="day-timeline">${sections}</div>
+        ${foot}
+      </div></div>`;
+  }
   function renderDays() {
     const todayN = currentDayNumber();
     $("#dayDeck").innerHTML = TRIP.days.map(d => dayCardHTML(d, d.n === todayN)).join("");
     $("#dateStrip").innerHTML = TRIP.days.map(d => {
-      const parts = d.date.split(" ");
-      const dnum = parts[1], mon = parts[2];
-      return `<div class="date-chip ${d.n === todayN ? "today-chip" : ""}" data-day="${d.n}" tabindex="0" role="button">
-        <span class="d-day">D${d.n}</span><span class="d-date">${esc(dnum)} ${esc(mon)}</span></div>`;
+      const p = d.date.split(" ");
+      return `<div class="date-chip ${d.n === todayN ? "today-chip" : ""}" data-day="${d.n}" tabindex="0" role="button"><span class="d-day">D${d.n}</span><span class="d-date">${esc(p[1])} ${esc(p[2])}</span></div>`;
     }).join("");
-
     $$("#dayDeck .stay-link").forEach(el => {
       const open = () => { const s = TRIP.stays.find(x => x.name === el.dataset.staylink); if (s) openStaySheet(s); };
       el.addEventListener("click", open);
       el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
     });
     $$("#dateStrip .date-chip").forEach(chip => chip.addEventListener("click", () => scrollToDay(+chip.dataset.day)));
-
-    const deck = $("#dayDeck");
-    let raf;
+    $$("#dayDeck .item-tick").forEach(btn => btn.addEventListener("click", e => { e.stopPropagation(); toggleDone(btn.dataset.done, btn); }));
+    const deck = $("#dayDeck"); let raf;
     deck.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(updateActiveChip); });
   }
-
   function updateActiveChip() {
-    const deck = $("#dayDeck");
-    const center = deck.scrollLeft + deck.clientWidth / 2;
-    let best = 1, bestDist = Infinity;
-    TRIP.days.forEach(d => {
-      const el = $("#day-" + d.n); if (!el) return;
-      const c = el.offsetLeft + el.offsetWidth / 2;
-      const dist = Math.abs(c - center);
-      if (dist < bestDist) { bestDist = dist; best = d.n; }
-    });
+    const deck = $("#dayDeck"); const center = deck.scrollLeft + deck.clientWidth / 2;
+    let best = 1, bd = Infinity;
+    TRIP.days.forEach(d => { const el = $("#day-" + d.n); if (!el) return; const c = el.offsetLeft + el.offsetWidth / 2; const dist = Math.abs(c - center); if (dist < bd) { bd = dist; best = d.n; } });
     $$("#dateStrip .date-chip").forEach(chip => chip.classList.toggle("active", +chip.dataset.day === best));
   }
-  function scrollToDay(n) {
-    const el = $("#day-" + n); if (!el) return;
-    const deck = $("#dayDeck");
-    deck.scrollTo({ left: el.offsetLeft - (deck.clientWidth - el.offsetWidth) / 2, behavior: "smooth" });
-  }
+  function scrollToDay(n) { const el = $("#day-" + n); if (!el) return; const deck = $("#dayDeck"); deck.scrollTo({ left: el.offsetLeft - (deck.clientWidth - el.offsetWidth) / 2, behavior: "smooth" }); }
   function currentDayNumber() {
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const m = TRIP.days.find(d => new Date(d.iso + "T00:00:00").getTime() === today.getTime());
-    return m ? m.n : null;
-  }
-  function tripStatus() {
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const start = new Date(TRIP.meta.start + "T00:00:00");
-    const end = new Date(TRIP.meta.end + "T00:00:00");
-    if (today < start) {
-      const days = Math.round((start - today) / 86400000);
-      return `<div class="trip-status"><span class="big">${days}</span><span>day${days === 1 ? "" : "s"} to go ✈️</span></div>`;
-    }
-    if (today > end) return `<div class="trip-status"><span>Welcome home 🇿🇦 — what a trip</span></div>`;
-    const n = currentDayNumber();
-    return `<div class="trip-status"><span>📍 You're here — Day ${n || "·"} of 11</span></div>`;
+    const now = new Date(); const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const m = TRIP.days.find(d => new Date(d.iso + "T00:00:00").getTime() === today.getTime()); return m ? m.n : null;
   }
 
-  /* ─────────── PLACES ─────────── */
+  /* ─────────── PLACES (by city + reward ticks) ─────────── */
   function renderPlaces() {
-    const groups = [];
-    TRIP.places.filter(p => p.wishlist !== false).forEach(p => {
-      let g = groups.find(x => x.name === p.group);
-      if (!g) { g = { name: p.group, items: [] }; groups.push(g); }
-      g.items.push(p);
+    const visited = getVisited();
+    const wishlist = TRIP.places.filter(p => p.wishlist !== false);
+    let html = "";
+    TRIP.cities.forEach(city => {
+      const items = wishlist.filter(p => p.city === city.id);
+      if (!items.length) return;
+      html += `<div class="city-band" style="background-image:url(${cityImg(city.id)})"><span class="cb-name">${esc(city.name)}</span><span class="cb-count">${items.length} spot${items.length === 1 ? "" : "s"}</span></div>`;
+      html += `<div class="places-grid">` + items.map(p => {
+        const on = visited.has(p.name);
+        return `<div class="place-card ${on ? "visited" : ""}" data-place="${esc(p.name)}" tabindex="0" role="button">
+          <span class="cat-pill"><span class="ic">${icon(catIcon[p.cat] || "places")}</span>${esc(p.cat)}</span>
+          <h4>${esc(p.name)}</h4><p>${esc(p.desc)}</p>
+          <button class="tick-btn ${on ? "on" : ""}" data-tick="${esc(p.name)}" aria-label="Mark as visited"><span class="ic">${icon("check")}</span></button>
+        </div>`;
+      }).join("") + `</div>`;
     });
-    $("#placesWrap").innerHTML = groups.map(g =>
-      `<div class="places-subhead">${esc(g.name)}</div>
-       <div class="places-grid">${g.items.map(p => {
-         const col = colorOf(p.city);
-         return `<div class="place-card" data-place="${esc(p.name)}" tabindex="0" role="button">
-           <div class="place-cat">${esc(p.catLabel)}</div>
-           <h4>${esc(p.name)}</h4><p>${esc(p.desc)}</p>
-           <span class="place-city ${col}">${esc(cityById(p.city).name)}</span></div>`;
-       }).join("")}</div>`
-    ).join("");
+    $("#placesWrap").innerHTML = html;
     $$("#placesWrap .place-card").forEach(el => {
-      const open = () => { const p = TRIP.places.find(x => x.name === el.dataset.place); if (p) openPlaceSheet(p); };
+      const open = e => { if (e.target.closest(".tick-btn")) return; const p = TRIP.places.find(x => x.name === el.dataset.place); if (p) openPlaceSheet(p); };
       el.addEventListener("click", open);
-      el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+      el.addEventListener("keydown", e => { if (e.key === "Enter") { const p = TRIP.places.find(x => x.name === el.dataset.place); if (p) openPlaceSheet(p); } });
     });
+    $$("#placesWrap .tick-btn").forEach(btn => btn.addEventListener("click", e => { e.stopPropagation(); toggleVisited(btn.dataset.tick, btn); }));
+    updatePlacesProgress();
+  }
+  function toggleVisited(name, btn) {
+    const v = getVisited();
+    if (v.has(name)) v.delete(name); else { v.add(name); btn.classList.add("pop"); setTimeout(() => btn.classList.remove("pop"), 400); }
+    setVisited(v);
+    btn.classList.toggle("on", v.has(name));
+    btn.closest(".place-card").classList.toggle("visited", v.has(name));
+    updatePlacesProgress();
+  }
+  function updatePlacesProgress() {
+    const total = TRIP.places.filter(p => p.wishlist !== false).length;
+    const done = getVisited().size;
+    $("#placesProgress").innerHTML = `<div class="progress-pill"><span class="ic">${icon("circlecheck")}</span> ${done} of ${total} visited <span class="bar"><div style="width:${total ? done / total * 100 : 0}%"></div></span></div>`;
   }
 
   /* ─────────── PACKING ─────────── */
   function renderPacking() {
-    $("#packingList").innerHTML = TRIP.packing.map((it, i) =>
-      `<label class="packing-item"><input type="checkbox" data-pack="${i}"> ${esc(it.label)}</label>`
-    ).join("");
+    $("#packingList").innerHTML = TRIP.packing.map((it, i) => `<label class="packing-item"><input type="checkbox" data-pack="${i}"> ${esc(it.label)}</label>`).join("");
     $$("#packingList input").forEach((cb, i) => {
       const saved = localStorage.getItem("vietnam-packing-" + i);
       cb.checked = saved !== null ? saved === "true" : !!TRIP.packing[i].checked;
@@ -280,32 +391,24 @@
     updatePackProgress();
   }
   function updatePackProgress() {
-    const boxes = $$("#packingList input");
-    const done = boxes.filter(b => b.checked).length;
-    $("#packProgress").textContent = `${done} of ${boxes.length} packed`;
-    $("#packBar").style.width = (boxes.length ? (done / boxes.length * 100) : 0) + "%";
+    const b = $$("#packingList input"), done = b.filter(x => x.checked).length;
+    $("#packProgress").textContent = `${done} of ${b.length} packed`;
+    $("#packBar").style.width = (b.length ? done / b.length * 100 : 0) + "%";
   }
 
-  /* ─────────── GUIDE: currency / phrases / emergency ─────────── */
+  /* ─────────── GUIDE ─────────── */
   function renderCurrency() {
-    const cur = TRIP.currency;
-    let rate = cur.fallbackRate, live = false;
-    const cached = localStorage.getItem("vn-rate");
-    if (cached) { try { const o = JSON.parse(cached); if (o.rate) { rate = o.rate; live = true; } } catch (_) {} }
-
+    const cur = TRIP.currency; let rate = cur.fallbackRate, live = false;
+    try { const o = JSON.parse(localStorage.getItem("vn-rate") || "null"); if (o && o.rate) { rate = o.rate; live = true; } } catch (_) {}
     const zar = $("#zarInput"), vnd = $("#vndInput"), note = $("#rateNote"), cg = $("#cheatGrid");
     const fmt = n => Math.round(n).toLocaleString("en-US");
-    function fromZar() { vnd.value = Math.round((parseFloat(zar.value) || 0) * rate); }
-    function fromVnd() { zar.value = ((parseFloat(vnd.value) || 0) / rate).toFixed(2); }
-    function cheats() {
-      cg.innerHTML = cur.cheats.map(v => `<div class="cheat"><div class="vnd">${fmt(v)} ₫</div><div class="zar">≈ R${(v / rate).toFixed(2)}</div></div>`).join("");
-    }
-    function noteText() { note.textContent = live ? `Live rate · R1 ≈ ${fmt(rate)} ₫` : `Offline · approx R1 ≈ ${fmt(rate)} ₫`; }
+    const fromZar = () => vnd.value = Math.round((parseFloat(zar.value) || 0) * rate);
+    const fromVnd = () => zar.value = ((parseFloat(vnd.value) || 0) / rate).toFixed(2);
+    const cheats = () => cg.innerHTML = cur.cheats.map(v => `<div class="cheat"><div class="vnd">${fmt(v)} ₫</div><div class="zar">≈ R${(v / rate).toFixed(2)}</div></div>`).join("");
+    const noteText = () => note.textContent = live ? `Live rate · R1 ≈ ${fmt(rate)} ₫` : `Offline · approx R1 ≈ ${fmt(rate)} ₫`;
     zar.addEventListener("input", () => { fromZar(); cheats(); });
     vnd.addEventListener("input", fromVnd);
     fromZar(); cheats(); noteText();
-
-    // refresh live rate
     fetch("https://open.er-api.com/v6/latest/ZAR").then(r => r.json()).then(d => {
       const v = d && d.rates && d.rates.VND;
       if (v) { rate = v; live = true; localStorage.setItem("vn-rate", JSON.stringify({ rate: v, t: Date.now() })); fromZar(); cheats(); noteText(); }
@@ -313,71 +416,54 @@
   }
   function renderPhrases() {
     $("#phrasesWrap").innerHTML = TRIP.phrases.map(g =>
-      `<div class="places-subhead" style="font-size:1.1rem;margin:1rem 0 0.4rem;">${esc(g.g)}</div>` +
-      g.items.map(([en, vi, ph]) =>
-        `<div class="phrase-row"><div class="phrase-en">${esc(en)}</div><div><div class="phrase-vi">${esc(vi)}</div><div class="phrase-ph">${esc(ph)}</div></div></div>`
-      ).join("")
+      `<div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin:1rem 0 0.3rem;">${esc(g.g)}</div>` +
+      g.items.map(([en, vi, ph]) => `<div class="phrase-row"><div class="phrase-en">${esc(en)}</div><div><div class="phrase-vi">${esc(vi)}</div><div class="phrase-ph">${esc(ph)}</div></div></div>`).join("")
     ).join("");
   }
   function renderEmergency() {
     const e = TRIP.emergency;
-    $("#emergGrid").innerHTML = e.numbers.map(n =>
-      `<a class="emerg-num" href="tel:${esc(n.num)}"><span class="e-ico">${n.icon}</span><span class="e-num">${esc(n.num)}</span><span class="e-lbl">${esc(n.label)}</span></a>`
-    ).join("");
-    $("#emergNotes").innerHTML = e.notes.map(n =>
-      `<div class="phrase-row"><div><div style="font-weight:500;">${esc(n.label)}${n.verify ? ' <span style="font-size:0.7rem;color:var(--ink-soft);font-style:italic;">(verify)</span>' : ''}</div><div style="font-size:0.82rem;color:var(--ink-soft);">${esc(n.detail)}</div></div><div style="align-self:center;text-align:right;"><a class="s-btn" style="min-width:auto;padding:0.4rem 0.8rem;" href="tel:${esc(n.tel)}">📞 Call</a></div></div>`
-    ).join("");
+    $("#emergGrid").innerHTML = e.numbers.map(n => `<a class="emerg-num" href="tel:${esc(n.num)}"><span class="ic" style="font-size:1.3rem;color:var(--pink);">${icon("phone")}</span><span class="e-num">${esc(n.num)}</span><span class="e-lbl">${esc(n.label)}</span></a>`).join("");
+    $("#emergNotes").innerHTML = e.notes.map(n => `<div class="phrase-row"><div><div style="font-weight:600;">${esc(n.label)}${n.verify ? ' <span style="font-size:0.7rem;color:var(--ink-soft);font-style:italic;">(verify)</span>' : ""}</div><div style="font-size:0.82rem;color:var(--ink-soft);">${esc(n.detail)}</div></div><div style="align-self:center;text-align:right;"><a class="s-btn" style="min-width:auto;padding:0.4rem 0.8rem;" href="tel:${esc(n.tel)}"><span class="ic">${icon("phone")}</span> Call</a></div></div>`).join("");
     $("#emergTip").textContent = e.tip;
   }
 
-  /* ─────────── DETAIL SHEET ─────────── */
+  /* ─────────── SHEET ─────────── */
   const sheet = $("#sheet"), scrim = $("#sheetScrim");
   function openSheet(html) { $("#sheetBody").innerHTML = html; sheet.classList.add("open"); scrim.classList.add("open"); wireSheetButtons(); }
   function closeSheet() { sheet.classList.remove("open"); scrim.classList.remove("open"); }
   scrim.addEventListener("click", closeSheet);
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
-
   function actionsHTML(name, lat, lng, phone) {
-    let b = `<a class="s-btn primary" target="_blank" rel="noopener" href="${gmapsDir(lat, lng)}">🧭 Directions</a>`;
-    b += `<a class="s-btn" target="_blank" rel="noopener" href="${gmapsSearch(name, lat, lng)}">🔍 View on Google Maps</a>`;
-    b += `<button class="s-btn" data-showmap="${lat},${lng}">🗺️ Show on our map</button>`;
-    if (phone) b += `<a class="s-btn" href="tel:${esc(phone)}">📞 Call</a>`;
+    let b = `<a class="s-btn primary" target="_blank" rel="noopener" href="${gmapsDir(lat, lng)}"><span class="ic">${icon("directions")}</span> Directions</a>`;
+    b += `<a class="s-btn" target="_blank" rel="noopener" href="${gmapsSearch(name, lat, lng)}"><span class="ic">${icon("search")}</span> Google Maps</a>`;
+    b += `<button class="s-btn" data-showmap="${lat},${lng}"><span class="ic">${icon("showmap")}</span> Our map</button>`;
+    if (phone) b += `<a class="s-btn" href="tel:${esc(phone)}"><span class="ic">${icon("phone")}</span> Call</a>`;
     return `<div class="sheet-actions">${b}</div>`;
   }
   function openPlaceSheet(p) {
-    openSheet(`<div class="s-cat">${esc(p.catLabel)}</div><h3>${esc(p.name)}</h3>
+    openSheet(`<div class="s-cat"><span class="ic">${icon(catIcon[p.cat] || "places")}</span> ${esc(p.catLabel)}</div><h3>${esc(p.name)}</h3>
       <p class="s-desc">${esc(p.desc)}</p>${actionsHTML(p.name, p.lat, p.lng, null)}
-      ${p.approx ? `<p class="s-approx">📌 Pin is approximate — verify the exact spot before relying on it.</p>` : ""}`);
+      ${p.approx ? `<p class="s-approx">Pin is approximate — verify the exact spot before relying on it.</p>` : ""}`);
   }
   function openStaySheet(s) {
-    openSheet(`<div class="s-cat">${esc(s.loc)}</div><h3>${esc(s.name)}</h3>
-      <p class="s-meta">📅 <strong>${esc(s.dates)}</strong></p>
-      <p class="s-meta">Confirmation: <strong>${esc(s.confirm)}</strong> <button class="s-btn" style="flex:0;min-width:auto;padding:0.2rem 0.6rem;font-size:0.72rem;margin-left:0.4rem;" data-copy="${esc(s.confirm)}">Copy</button></p>
+    openSheet(`<div class="s-cat"><span class="ic">${icon("stay")}</span> ${esc(s.loc)}</div><h3>${esc(s.name)}</h3>
+      <p class="s-meta"><span class="ic">${icon("calendar")}</span> <strong>${esc(s.dates)}</strong></p>
+      <p class="s-meta">Confirmation: <strong>${esc(s.confirm)}</strong> <button class="s-btn" style="flex:0;min-width:auto;padding:0.2rem 0.6rem;font-size:0.72rem;margin-left:0.4rem;" data-copy="${esc(s.confirm)}"><span class="ic">${icon("copy")}</span> Copy</button></p>
       ${actionsHTML(s.name, s.lat, s.lng, s.phone)}
-      ${s.approx ? `<p class="s-approx">📌 Map pin is approximate — verify exact location.</p>` : ""}`);
+      ${s.approx ? `<p class="s-approx">Map pin is approximate — verify exact location.</p>` : ""}`);
   }
   function wireSheetButtons() {
-    $$("#sheetBody [data-copy]").forEach(b => b.addEventListener("click", () => {
-      navigator.clipboard?.writeText(b.dataset.copy).then(() => { b.textContent = "Copied ✓"; b.classList.add("copied"); });
-    }));
-    $$("#sheetBody [data-showmap]").forEach(b => b.addEventListener("click", () => {
-      const [lat, lng] = b.dataset.showmap.split(",").map(Number);
-      closeSheet(); switchView("mapView");
-      setTimeout(() => { ensureMap(); map.setView([lat, lng], 15); flashAt(lat, lng); }, 280);
-    }));
+    $$("#sheetBody [data-copy]").forEach(b => b.addEventListener("click", () => { navigator.clipboard?.writeText(b.dataset.copy).then(() => { b.innerHTML = `<span class="ic">${icon("check")}</span> Copied`; b.classList.add("copied"); }); }));
+    $$("#sheetBody [data-showmap]").forEach(b => b.addEventListener("click", () => { const [lat, lng] = b.dataset.showmap.split(",").map(Number); closeSheet(); switchView("mapView"); setTimeout(() => { ensureMap(); map.setView([lat, lng], 15); flashAt(lat, lng); }, 300); }));
   }
 
   /* ─────────── MAP ─────────── */
-  let map = null, mapInited = false, markerLayer = null, userMarker = null;
-  let allMarkers = [];
-  function tileUrl() {
-    return currentTheme() === "dark"
-      ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-      : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
-  }
-  const catEmoji = { coffee: "☕", food: "🍜", shopping: "🛍️", sights: "📷", nightlife: "🍺", stay: "🛏️" };
-  function makeIcon(color, emoji) {
-    return L.divIcon({ className: "", html: `<div class="pin ${color}"><span>${emoji}</span></div>`, iconSize: [26, 26], iconAnchor: [13, 26], popupAnchor: [0, -24] });
+  let map = null, mapInited = false, markerLayer = null, userMarker = null, allMarkers = [];
+  const tileUrl = () => theme() === "dark"
+    ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+    : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
+  function makeIcon(color, cat, visited) {
+    return L.divIcon({ className: "", html: `<div class="pin ${color} ${visited ? "visited" : ""}"><span class="ic">${icon(catIcon[cat] || "places")}</span></div>`, iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -28] });
   }
   function ensureMap() {
     if (mapInited) { map.invalidateSize(); return; }
@@ -386,26 +472,20 @@
     tileLayer = L.tileLayer(tileUrl(), { attribution: "&copy; OpenStreetMap &copy; CARTO", subdomains: "abcd", maxZoom: 19 }).addTo(map);
     tileLayer.on("load", () => { const sk = $("#mapSkeleton"); if (sk) sk.style.display = "none"; });
     setTimeout(() => { const sk = $("#mapSkeleton"); if (sk) sk.style.display = "none"; }, 4000);
-
     markerLayer = L.layerGroup().addTo(map);
     L.polyline(TRIP.cities.map(c => [c.lat, c.lng]), { color: "#8a7d63", weight: 2, opacity: 0.55, dashArray: "6 8" }).addTo(map);
-
-    TRIP.stays.forEach(s => addMarker(s.name, s.lat, s.lng, "stay", colorOf(s.city), `<strong>🛏️ ${esc(s.name)}</strong><br>${esc(s.loc)}`, () => openStaySheet(s)));
-    TRIP.places.forEach(p => addMarker(p.name, p.lat, p.lng, p.cat, colorOf(p.city), `<strong>${esc(p.name)}</strong><br>${esc(p.catLabel)}`, () => openPlaceSheet(p)));
-
+    const visited = getVisited();
+    TRIP.stays.forEach(s => addMarker(s.name, s.lat, s.lng, "stay", colorOf(s.city), false, `<strong>${esc(s.name)}</strong><br>${esc(s.loc)}`, () => openStaySheet(s)));
+    TRIP.places.forEach(p => addMarker(p.name, p.lat, p.lng, p.cat, colorOf(p.city), visited.has(p.name), `<strong>${esc(p.name)}</strong><br>${esc(p.catLabel)}`, () => openPlaceSheet(p)));
     map.fitBounds(L.latLngBounds(allMarkers.map(m => m.marker.getLatLng())), { padding: [30, 30] });
   }
-  function addMarker(name, lat, lng, cat, color, popup, onClick) {
-    const m = L.marker([lat, lng], { icon: makeIcon(color, catEmoji[cat] || "📍") });
-    m.bindPopup(popup);
-    m.on("click", () => setTimeout(onClick, 60));
-    m.addTo(markerLayer);
+  function addMarker(name, lat, lng, cat, color, visited, popup, onClick) {
+    const m = L.marker([lat, lng], { icon: makeIcon(color, cat, visited) });
+    m.bindPopup(popup); m.on("click", () => setTimeout(onClick, 60)); m.addTo(markerLayer);
     allMarkers.push({ marker: m, cat });
   }
   function applyFilter(cat) {
-    allMarkers.forEach(({ marker, cat: c }) => {
-      if (cat === "all" || c === cat) marker.addTo(markerLayer); else markerLayer.removeLayer(marker);
-    });
+    allMarkers.forEach(({ marker, cat: c }) => { if (cat === "all" || c === cat) marker.addTo(markerLayer); else markerLayer.removeLayer(marker); });
     $$("#mapFilters .filter-chip").forEach(ch => ch.classList.toggle("active", ch.dataset.cat === cat));
   }
   function flashAt(lat, lng) {
@@ -413,52 +493,64 @@
     let r = 18; const iv = setInterval(() => { r += 4; c.setRadius(r); c.setStyle({ opacity: Math.max(0, 1 - (r - 18) / 40) }); if (r > 58) { clearInterval(iv); map.removeLayer(c); } }, 40);
   }
   function renderMapFilters() {
-    const cats = [["all", "All", "ink"], ["sights", "Sights", "lilac"], ["food", "Food", "blush"], ["coffee", "Coffee", "sage"], ["shopping", "Shopping", "lemon"], ["nightlife", "Nightlife", "pink"], ["stay", "Stays", "ink"]];
-    $("#mapFilters").innerHTML = cats.map(([c, label, col]) =>
-      `<div class="filter-chip ${c === "all" ? "active" : ""}" data-cat="${c}" tabindex="0" role="button"><span class="swatch" style="background:var(--${col})"></span>${esc(label)}</div>`
-    ).join("");
+    const cats = [["all", "All", "sparkle"], ["sights", "Sights", "sights"], ["food", "Food", "food"], ["coffee", "Coffee", "coffee"], ["shopping", "Shopping", "shopping"], ["nightlife", "Nightlife", "nightlife"], ["stay", "Stays", "stay"]];
+    $("#mapFilters").innerHTML = cats.map(([c, label, ic]) => `<div class="filter-chip ${c === "all" ? "active" : ""}" data-cat="${c}" tabindex="0" role="button"><span class="ic">${icon(ic)}</span>${esc(label)}</div>`).join("");
     $$("#mapFilters .filter-chip").forEach(ch => ch.addEventListener("click", () => applyFilter(ch.dataset.cat)));
   }
   function locateMe() {
     if (!navigator.geolocation) { toast("Location isn't available on this device."); return; }
     toast("Finding you…");
     navigator.geolocation.getCurrentPosition(pos => {
-      hideToast();
-      const { latitude, longitude } = pos.coords;
+      hideToast(); const { latitude, longitude } = pos.coords;
       if (userMarker) map.removeLayer(userMarker);
       userMarker = L.circleMarker([latitude, longitude], { radius: 8, color: "#fff", weight: 2, fillColor: "#D4655F", fillOpacity: 1 }).addTo(map);
       map.setView([latitude, longitude], 14);
     }, () => toast("Couldn't get your location — check permissions."), { enableHighAccuracy: true, timeout: 8000 });
   }
 
-  /* ─────────── ROUTER / TABS ─────────── */
+  /* ─────────── ANIMATION STORYBOARD ───────────
+     0ms   view becomes active (whole view fades via CSS)
+    60ms   first [data-reveal] block rises + fades in
+   +90ms   each following block staggers in
+     pin   drops on map render (CSS .pin keyframe)
+     tick  pops on "been there" toggle (CSS .pop)
+  ───────────────────────────────────────────── */
+  const REVEAL_START = 60, REVEAL_STAGGER = 90;
+  function revealView(view) {
+    const items = $$("[data-reveal]", view);
+    items.forEach(el => el.classList.remove("in"));
+    requestAnimationFrame(() => items.forEach((el, i) => setTimeout(() => el.classList.add("in"), REVEAL_START + i * REVEAL_STAGGER)));
+  }
+
+  /* ─────────── ROUTER ─────────── */
   function switchView(id) {
+    const view = $("#" + id);
     const go = () => {
       $$(".view").forEach(v => v.classList.toggle("active", v.id === id));
       $$(".tab").forEach(t => { const on = t.dataset.view === id; t.classList.toggle("active", on); t.setAttribute("aria-selected", on ? "true" : "false"); });
-      if (id === "mapView") setTimeout(ensureMap, 60);
       window.scrollTo({ top: 0 });
+      updateCoverMode();
+      revealView(view);
+      if (id === "mapView") setTimeout(ensureMap, 80);
       if (location.hash !== "#" + id) history.replaceState(null, "", "#" + id);
     };
-    if (document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.startViewTransition(go);
-    else go();
+    if (document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.startViewTransition(go); else go();
   }
-  $$(".tab").forEach(t => t.addEventListener("click", () => switchView(t.dataset.view)));
+  function updateCoverMode() {
+    const onOverview = $("#overviewView").classList.contains("active");
+    const high = window.scrollY < window.innerHeight * 0.7;
+    document.body.classList.toggle("cover-mode", onOverview && high);
+  }
 
-  /* ─────────── SERVICE WORKER + UPDATE FLOW ─────────── */
+  /* ─────────── SERVICE WORKER ─────────── */
   function initSW() {
     if (!("serviceWorker" in navigator)) return;
     let refreshing = false;
     navigator.serviceWorker.addEventListener("controllerchange", () => { if (refreshing) return; refreshing = true; location.reload(); });
     navigator.serviceWorker.register("sw.js").then(reg => {
       reg.addEventListener("updatefound", () => {
-        const nw = reg.installing;
-        if (!nw) return;
-        nw.addEventListener("statechange", () => {
-          if (nw.state === "installed" && navigator.serviceWorker.controller) {
-            toast("New version available", "Update", () => nw.postMessage({ type: "SKIP_WAITING" }), true);
-          }
-        });
+        const nw = reg.installing; if (!nw) return;
+        nw.addEventListener("statechange", () => { if (nw.state === "installed" && navigator.serviceWorker.controller) toast("New version available", "Update", () => nw.postMessage({ type: "SKIP_WAITING" }), true); });
       });
     }).catch(() => {});
   }
@@ -466,8 +558,9 @@
   /* ─────────── INIT ─────────── */
   function init() {
     initTheme();
+    paintChromeIcons();
+    renderHero();
     renderOverview();
-    $("#tripStatusWrap").innerHTML = tripStatus();
     renderWeather();
     renderDays();
     renderPlaces();
@@ -477,18 +570,17 @@
     renderPhrases();
     renderEmergency();
     $("#locateBtn").addEventListener("click", locateMe);
-
+    $$(".tab").forEach(t => t.addEventListener("click", () => switchView(t.dataset.view)));
+    window.addEventListener("scroll", updateCoverMode, { passive: true });
     loadCover();
-    loadDayHeroes();
 
     const startView = (location.hash || "").replace("#", "");
     if (startView && $("#" + startView)) switchView(startView);
+    else { updateCoverMode(); revealView($("#overviewView")); }
 
     const n = currentDayNumber();
-    setTimeout(() => { if (n) scrollToDay(n); updateActiveChip(); }, 250);
-
+    setTimeout(() => { if (n) scrollToDay(n); updateActiveChip(); }, 300);
     initSW();
   }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
-  else init();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
