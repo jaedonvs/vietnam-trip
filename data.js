@@ -455,4 +455,65 @@ const TRIP = {
     { label: "Earplugs + eye mask" },
     { label: "Daypack for excursions" },
   ],
+
+  // ── CURRENCY (live rate fetched at runtime; this is the offline fallback) ──
+  currency: {
+    base: "ZAR", quote: "VND",
+    fallbackRate: 1450,            // ~1 ZAR in VND (approx, offline fallback)
+    // quick amounts shown on the cheat-sheet (in VND)
+    cheats: [20000, 50000, 100000, 200000, 500000, 1000000],
+  },
+
+  // ── VIETNAMESE PHRASES (offline) ──
+  phrases: [
+    { g: "Essentials", items: [
+      ["Hello", "Xin chào", "sin chow"],
+      ["Thank you", "Cảm ơn", "gam un"],
+      ["Yes / No", "Vâng / Không", "vung / khom"],
+      ["Sorry / Excuse me", "Xin lỗi", "sin loy"],
+      ["I don't understand", "Tôi không hiểu", "toy khom hyoo"],
+      ["Do you speak English?", "Bạn nói tiếng Anh không?", "ban noy tyeng anh khom"],
+    ]},
+    { g: "Eating & drinking", items: [
+      ["The bill, please", "Tính tiền", "ting tyen"],
+      ["Delicious!", "Ngon quá", "ngon kwa"],
+      ["No ice", "Không đá", "khom da"],
+      ["Not spicy", "Không cay", "khom kai"],
+      ["Vegetarian", "Ăn chay", "an chai"],
+      ["Cheers!", "Một, hai, ba, dô!", "mot hai ba yo"],
+    ]},
+    { g: "Shopping & getting around", items: [
+      ["How much?", "Bao nhiêu tiền?", "bow nyew tyen"],
+      ["Too expensive", "Đắt quá", "dat kwa"],
+      ["Where is…?", "…ở đâu?", "uh dow"],
+      ["Stop here", "Dừng ở đây", "zung uh day"],
+      ["Toilet", "Nhà vệ sinh", "nya ve sing"],
+    ]},
+    { g: "Numbers", items: [
+      ["1 / 2 / 3", "một / hai / ba", "mot / hai / ba"],
+      ["4 / 5 / 6", "bốn / năm / sáu", "bon / nam / sow"],
+      ["7 / 8 / 9", "bảy / tám / chín", "bai / tam / chin"],
+      ["10 / 100 / 1000", "mười / trăm / nghìn", "muoi / cham / ngin"],
+    ]},
+    { g: "Emergency words", items: [
+      ["Help!", "Cứu tôi!", "gew toy"],
+      ["Hospital", "Bệnh viện", "ben vyen"],
+      ["Doctor", "Bác sĩ", "bak see"],
+      ["Police", "Công an", "kom an"],
+    ]},
+  ],
+
+  // ── EMERGENCY (offline) ──
+  emergency: {
+    numbers: [
+      { label: "Police", num: "113", icon: "🚓" },
+      { label: "Ambulance", num: "115", icon: "🚑" },
+      { label: "Fire", num: "114", icon: "🚒" },
+    ],
+    notes: [
+      { label: "SA Embassy, Hanoi", detail: "31 Hai Bà Trưng, Hoàn Kiếm, Hanoi", tel: "+842439362000", verify: true },
+      { label: "SA Consulate, HCMC", detail: "Saigon Tower, 29 Lê Duẩn, District 1", tel: "+842838235945", verify: true },
+    ],
+    tip: "Save these offline. For a taxi, show the driver your hotel from the Stays list — tap any stay for its pin and Vietnamese area name.",
+  },
 };

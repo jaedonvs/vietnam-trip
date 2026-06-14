@@ -81,6 +81,51 @@ def draw(size):
                         px(int(cx)+ox, int(cy)+oy, color, a if a < 1 else 1.0)
     return bytes(buf)
 
+def draw_banner(w, h):
+    """Wide OG share image: horizontal route of 5 city dots on paper."""
+    buf = bytearray(w * h * 4)
+    for i in range(w * h):
+        buf[i*4:i*4+4] = bytes((*PAPER, 255))
+
+    def px(x, y, color, a=1.0):
+        if 0 <= x < w and 0 <= y < h:
+            o = (y * w + x) * 4
+            cur = (buf[o], buf[o+1], buf[o+2])
+            r, g, b = blend(cur, color, a)
+            buf[o], buf[o+1], buf[o+2], buf[o+3] = r, g, b, 255
+
+    cols = [PINK, BLUSH, SAGE, LEMON, LILAC]
+    n = len(cols)
+    cy = int(h * 0.60)
+    xs = [int(w * (0.16 + 0.68 * k / (n - 1))) for k in range(n)]
+    line_w = h * 0.012
+    # dashed line
+    for k in range(n - 1):
+        x0, x1 = xs[k], xs[k+1]
+        for s in range(x1 - x0):
+            if int(s / max(8, w*0.012)) % 2 == 1:
+                continue
+            cx = x0 + s
+            r = int(line_w) + 1
+            for oy in range(-r, r + 1):
+                a = max(0.0, min(1.0, (line_w - abs(oy)) / 1.5))
+                if a > 0:
+                    px(cx, cy + oy, INK_SOFT, a * 0.5)
+    # dots
+    rad = h * 0.05
+    for (cx, color) in zip(xs, cols):
+        R = int(rad + 2)
+        for oy in range(-R, R + 1):
+            for ox in range(-R, R + 1):
+                d = math.hypot(ox, oy)
+                if d <= rad + 1.5:
+                    if d > rad - 1:
+                        px(cx+ox, cy+oy, (255, 252, 244), max(0.0, min(1.0, rad + 1.5 - d)))
+                    else:
+                        a = max(0.0, min(1.0, (rad - d) / 1.5))
+                        px(cx+ox, cy+oy, color, a if a < 1 else 1.0)
+    return bytes(buf)
+
 def encode_png(width, height, rgba):
     raw = bytearray()
     stride = width * 4
@@ -102,3 +147,9 @@ for size, name in [(512, "icon-512.png"), (192, "icon-192.png"),
     with open(os.path.join(OUT, name), "wb") as f:
         f.write(data)
     print("wrote", name, size, "x", size, len(data), "bytes")
+
+# wide OG share image
+og = encode_png(1200, 630, draw_banner(1200, 630))
+with open(os.path.join(OUT, "og-image.png"), "wb") as f:
+    f.write(og)
+print("wrote og-image.png 1200 x 630", len(og), "bytes")
