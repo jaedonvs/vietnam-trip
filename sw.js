@@ -1,6 +1,6 @@
 /* Service worker — offline app shell + runtime map-tile caching.
    Bump CACHE when you change app files to force an update. */
-const CACHE = "vietnam-v2";
+const CACHE = "vietnam-v3";
 const TILES = "vietnam-tiles-v1";
 
 const SHELL = [
@@ -14,6 +14,12 @@ const SHELL = [
   "./apple-touch-icon.png",
   "./favicon-32.png",
   "./og-image.png",
+  "./img/hero.jpg",
+  "./img/hanoi.jpg",
+  "./img/halong.jpg",
+  "./img/hoian.jpg",
+  "./img/danang.jpg",
+  "./img/hcmc.jpg",
   "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
   "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
   "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
