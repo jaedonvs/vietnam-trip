@@ -146,9 +146,7 @@
 
   /* ─── STAYS ─── */
   .booking-cards { display:flex; flex-direction:column; gap:0.7rem; }
-  .booking-card { position:relative; display:flex; align-items:center; gap:1rem; background:var(--card-fill); border:1px solid var(--rule); border-radius:var(--radius-sm); padding:0.9rem 1rem 0.9rem 1.15rem; backdrop-filter:blur(3px); cursor:pointer; overflow:hidden; transition:transform .12s, box-shadow .2s; }
-  .booking-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; }
-  .booking-card.pink::before{background:var(--pink);} .booking-card.blush::before{background:var(--blush);} .booking-card.sage::before{background:var(--sage);} .booking-card.lemon::before{background:var(--lemon);} .booking-card.lilac::before{background:var(--lilac);}
+  .booking-card { position:relative; display:flex; align-items:center; gap:1rem; background:var(--card-fill); border:1px solid var(--rule); border-radius:var(--radius-sm); padding:0.9rem 1rem; backdrop-filter:blur(3px); cursor:pointer; overflow:hidden; transition:transform .12s, box-shadow .2s; }
   .booking-card:active { transform:scale(0.99); }
   @media(hover:hover){ .booking-card:hover{ box-shadow:var(--shadow-sm);} }
   .booking-thumb { width:58px; height:58px; border-radius:14px; background:var(--paper-2) center/cover; flex-shrink:0; }
