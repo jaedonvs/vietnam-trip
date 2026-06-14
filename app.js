@@ -257,13 +257,61 @@
   }
 
   /* ─────────── DAYS ─────────── */
+  // ── itinerary item helpers (checkable + parsed) ──
+  const doneKey = "vn-done";
+  function getDone() { try { return new Set(JSON.parse(localStorage.getItem(doneKey) || "[]")); } catch (_) { return new Set(); } }
+  function setDoneSet(s) { localStorage.setItem(doneKey, JSON.stringify([...s])); }
+  function parseItem(raw) {
+    const highlight = /[⭐🌟★]/.test(raw);
+    const text = raw.replace(/[⭐🌟★✅]/g, "").replace(/\(conf:[^)]*\)/gi, "").replace(/\s{2,}/g, " ").trim();
+    return { text, highlight };
+  }
+  const dayTotals = d => { let t = 0; d.cols.forEach(c => c.items.forEach(it => { if (parseItem(it).text) t++; })); return t; };
+  const dayDoneCount = (d, set) => { let n = 0; d.cols.forEach((c, ci) => c.items.forEach((it, ii) => { if (parseItem(it).text && set.has(`${d.n}:${ci}:${ii}`)) n++; })); return n; };
+  function progressHTML(d, set) {
+    const total = dayTotals(d), done = dayDoneCount(d, set);
+    const label = (done === total && total) ? `All ${total} done 🎉` : `${done} of ${total} done`;
+    return `<div class="day-progress" id="prog-${d.n}"><span class="bar"><div style="width:${total ? done / total * 100 : 0}%"></div></span><span class="ptxt">${label}</span></div>`;
+  }
+  function toggleDone(key, btn) {
+    const s = getDone();
+    if (s.has(key)) s.delete(key); else { s.add(key); btn.classList.add("pop"); setTimeout(() => btn.classList.remove("pop"), 400); }
+    setDoneSet(s);
+    btn.classList.toggle("on", s.has(key));
+    btn.closest(".tl-item").classList.toggle("done", s.has(key));
+    updateDayProgress(+key.split(":")[0]);
+  }
+  function updateDayProgress(n) {
+    const d = TRIP.days.find(x => x.n === n); if (!d) return;
+    const set = getDone(), total = dayTotals(d), done = dayDoneCount(d, set);
+    const el = $("#prog-" + n); if (!el) return;
+    el.querySelector(".ptxt").textContent = (done === total && total) ? `All ${total} done 🎉` : `${done} of ${total} done`;
+    el.querySelector(".bar>div").style.width = (total ? done / total * 100 : 0) + "%";
+  }
+
   function dayCardHTML(d, isToday) {
+    const set = getDone();
     const tags = d.tags.map(([t, c]) => `<span class="day-tag ${c}">${esc(t)}</span>`).join("");
-    const cols = d.cols.map(col => `<div class="day-col"><h4>${esc(col.h)}</h4><ul>${col.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`).join("");
-    const footBits = [];
-    if (d.stay) footBits.push(`<span class="stay-link" data-staylink="${esc(d.stay)}" tabindex="0" role="button"><span class="ic">${icon("stay")}</span>${esc(d.stay.split(",")[0])}</span>`);
-    d.foot.forEach(x => footBits.push(`<span>${esc(x)}</span>`));
-    const foot = footBits.length ? `<div class="day-foot">${footBits.join("")}</div>` : "";
+    const col = colorOf(d.city);
+    const sections = d.cols.map((c, ci) => {
+      const items = c.items.map((raw, ii) => {
+        const { text, highlight } = parseItem(raw); if (!text) return "";
+        const key = `${d.n}:${ci}:${ii}`, on = set.has(key);
+        return `<li class="tl-item ${on ? "done" : ""}">
+          <button class="item-tick ${on ? "on" : ""}" data-done="${key}" aria-label="Mark done"><span class="ic">${icon("check")}</span></button>
+          <span class="item-text ${highlight ? "hl" : ""}">${highlight ? `<span class="item-star ic">${icon("sparkle")}</span>` : ""}${esc(text)}</span>
+        </li>`;
+      }).join("");
+      return `<div class="tl-section"><div class="tl-rail"><span class="tl-dot" style="background:var(--${col})"></span></div><div class="tl-content"><h4>${esc(c.h)}</h4><ul class="tl-items">${items}</ul></div></div>`;
+    }).join("");
+
+    let foot = "";
+    if (d.stay) foot += `<div class="day-foot"><span class="stay-link" data-staylink="${esc(d.stay)}" tabindex="0" role="button"><span class="ic">${icon("stay")}</span>${esc(d.stay.split(",")[0])}</span></div>`;
+    d.foot.forEach(x => {
+      if (/^\s*🌧️/.test(x) || /backup/i.test(x)) foot += `<div class="rain-note"><span>🌧️</span><span>${esc(x.replace(/^\s*🌧️\s*/, ""))}</span></div>`;
+      else foot += `<div class="day-note">${esc(x)}</div>`;
+    });
+
     const city = cityById(d.city);
     return `<div class="day-card ${isToday ? "is-today" : ""}" id="day-${d.n}">
       <div class="day-hero" style="background-image:url(${cityImg(d.city)})">
@@ -274,7 +322,9 @@
       <div class="day-pad">
         <div class="day-head"><h3>${esc(d.title)} · <span style="color:var(--ink-soft);font-size:0.85em;">${esc(d.date)}</span></h3></div>
         <div class="day-tags">${tags}</div>
-        <div class="day-body">${cols}</div>${foot}
+        ${progressHTML(d, set)}
+        <div class="day-timeline">${sections}</div>
+        ${foot}
       </div></div>`;
   }
   function renderDays() {
@@ -290,6 +340,7 @@
       el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
     });
     $$("#dateStrip .date-chip").forEach(chip => chip.addEventListener("click", () => scrollToDay(+chip.dataset.day)));
+    $$("#dayDeck .item-tick").forEach(btn => btn.addEventListener("click", e => { e.stopPropagation(); toggleDone(btn.dataset.done, btn); }));
     const deck = $("#dayDeck"); let raf;
     deck.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(updateActiveChip); });
   }

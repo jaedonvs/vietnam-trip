@@ -1,6 +1,6 @@
 /* Service worker — offline app shell + runtime map-tile caching.
    Bump CACHE when you change app files to force an update. */
-const CACHE = "vietnam-v4";
+const CACHE = "vietnam-v5";
 const TILES = "vietnam-tiles-v1";
 
 const SHELL = [
