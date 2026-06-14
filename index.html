@@ -103,10 +103,12 @@
   /* ─── WEATHER ─── */
   .weather-strip { display:flex; gap:0.55rem; overflow-x:auto; padding:0.1rem 0 0.3rem; scrollbar-width:none; }
   .weather-strip::-webkit-scrollbar { display:none; }
-  .wx-card { flex-shrink:0; min-width:92px; background:var(--card-fill); border:1px solid var(--rule); border-radius:var(--radius-sm); padding:0.7rem 0.8rem; text-align:center; backdrop-filter:blur(3px); }
-  .wx-card .wx-city { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); }
-  .wx-card .wx-ico { font-size:1.5rem; line-height:1.3; }
-  .wx-card .wx-temp { font-family:"Cormorant Garamond",serif; font-size:1.3rem; font-weight:600; }
+  .wx-card { flex-shrink:0; min-width:116px; background:var(--card-fill); border:1px solid var(--rule); border-radius:var(--radius-sm); padding:0.7rem 0.75rem; text-align:center; backdrop-filter:blur(3px); }
+  .wx-card .wx-city { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink); font-weight:600; }
+  .wx-card .wx-range { font-size:0.66rem; color:var(--ink-soft); margin-bottom:0.15rem; }
+  .wx-card .wx-ico { font-size:1.6rem; line-height:1.25; }
+  .wx-card .wx-temp { font-family:"Cormorant Garamond",serif; font-size:1.25rem; font-weight:600; }
+  .wx-card .wx-rain { font-size:0.66rem; color:var(--ink-soft); }
   .wx-card.skeleton .wx-ico, .wx-card.skeleton .wx-temp { color:transparent; background:var(--rule); border-radius:6px; }
 
   /* ─── STATS ─── */
@@ -181,6 +183,7 @@
   .day-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(10,8,5,0.72), rgba(10,8,5,0.05)); }
   .day-hero .dh-city { position:absolute; left:1.1rem; bottom:0.9rem; z-index:1; color:#FBF7EC; font-family:"Cormorant Garamond",serif; font-size:1.15rem; font-weight:600; text-shadow:0 1px 10px rgba(0,0,0,0.6); display:flex; align-items:center; gap:0.4rem; }
   .day-hero .dh-num { position:absolute; right:1rem; top:0.9rem; z-index:1; background:rgba(251,247,236,0.92); color:#2A241B; font-weight:700; font-size:0.72rem; letter-spacing:0.06em; padding:0.25rem 0.7rem; border-radius:999px; }
+  .day-hero .dh-wx { position:absolute; right:1rem; bottom:0.9rem; z-index:1; background:rgba(10,8,5,0.55); color:#FBF7EC; font-size:0.72rem; font-weight:500; padding:0.22rem 0.6rem; border-radius:999px; backdrop-filter:blur(3px); }
   .day-hero .dh-today { position:absolute; left:1.1rem; top:0.9rem; z-index:1; background:var(--pink); color:#fff; font-weight:700; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; padding:0.2rem 0.55rem; border-radius:999px; }
   .day-pad { padding:1.25rem 1.4rem 1.4rem; }
   .day-head h3 { font-size:1.35rem; margin-bottom:0.5rem; }
@@ -334,7 +337,7 @@
     <div class="section" style="padding-top:0;">
       <div data-reveal id="heroCard"></div>
 
-      <div class="sec-label" data-reveal><span id="wxLabelIco" class="ic"></span> Weather right now</div>
+      <div class="sec-label" data-reveal><span id="wxLabelIco" class="ic"></span> Weather on your dates</div>
       <div class="weather-strip" data-reveal id="weatherStrip"></div>
 
       <div class="stats-grid" data-reveal id="statsGrid" style="margin-top:1.4rem;"></div>

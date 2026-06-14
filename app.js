@@ -72,7 +72,8 @@
   function setVisited(set) { localStorage.setItem(visitedKey, JSON.stringify([...set])); }
 
   /* ─────────── HERO "UP NEXT" CARD ─────────── */
-  let wxByCity = {};
+  let forecastByCityDate = {}; // {cityId: {iso: {code,max,min,rain}}}
+  const shortDate = d => { const p = d.split(" "); return p[1] + " " + p[2]; };
   function renderHero() {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -109,8 +110,8 @@
       headline = esc(dN.title);
       sub = esc(dN.date);
       rows = [];
-      const wx = wxByCity[dN.city];
-      if (wx) rows.push(["sun", `${esc(cityById(dN.city).name)} · ${wx.ico} ${wx.temp}`]);
+      const fc = (forecastByCityDate[dN.city] || {})[dN.iso];
+      if (fc && fc.max != null) rows.push(["sun", `${esc(cityById(dN.city).name)} · ${WMO(fc.code)[0]} ${Math.round(fc.max)}° / ${Math.round(fc.min)}°${fc.rain > 30 ? ` · ☔ ${fc.rain}%` : ""}`]);
       if (stay) rows.push(["stay", `Tonight: <strong>${esc(stay.name.split(",")[0])}</strong>`]);
       rows.push(["days", `${dN.cols.length} parts planned`]);
       ctaLabel = "Open today"; ctaView = "daysView"; ctaDay = dN.n;
@@ -183,23 +184,76 @@
     if (c <= 48) return ["🌫️", "Fog"]; if (c <= 57) return ["🌦️", "Drizzle"]; if (c <= 67) return ["🌧️", "Rain"];
     if (c <= 77) return ["🌨️", "Snow"]; if (c <= 82) return ["🌧️", "Showers"]; if (c <= 86) return ["🌨️", "Snow"]; return ["⛈️", "Storm"];
   };
+  // days the trip spends in each city, in order
+  function cityDays(cityId) { return TRIP.days.filter(d => d.city === cityId); }
+
   async function renderWeather() {
     const strip = $("#weatherStrip");
     strip.innerHTML = TRIP.cities.map(c => `<div class="wx-card skeleton"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico">·</div><div class="wx-temp">··</div></div>`).join("");
     try {
+      // Open-Meteo only forecasts ~16 days ahead — clamp the request to that window.
+      const now = new Date(); const t0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const horizon = new Date(t0); horizon.setDate(horizon.getDate() + 15);
+      const ts = new Date(TRIP.meta.start + "T00:00:00"), te = new Date(TRIP.meta.end + "T00:00:00");
+      const reqStart = new Date(Math.max(t0.getTime(), ts.getTime()));
+      const reqEnd = new Date(Math.min(te.getTime(), horizon.getTime()));
+      if (reqStart > reqEnd) { renderWeatherStrip(); decorateDayWeather(); return; } // trip still beyond forecast horizon
+      const fmt = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
       const lats = TRIP.cities.map(c => c.lat).join(","), lngs = TRIP.cities.map(c => c.lng).join(",");
-      const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lngs}&current=temperature_2m,weather_code&timezone=Asia%2FBangkok`);
-      const data = await res.json(); const arr = Array.isArray(data) ? data : [data];
-      strip.innerHTML = TRIP.cities.map((c, i) => {
-        const cur = (arr[i] && arr[i].current) || {}; const [ico, label] = WMO(cur.weather_code ?? -1);
-        const t = cur.temperature_2m != null ? Math.round(cur.temperature_2m) + "°" : "—";
-        wxByCity[c.id] = { ico, temp: t };
-        return `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico" title="${esc(label)}">${ico}</div><div class="wx-temp">${t}</div></div>`;
-      }).join("");
-      renderHero(); // refresh today-weather row if on-trip
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lngs}` +
+        `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max` +
+        `&timezone=Asia%2FBangkok&start_date=${fmt(reqStart)}&end_date=${fmt(reqEnd)}`;
+      const data = await fetch(url).then(r => r.json());
+      const arr = Array.isArray(data) ? data : [data];
+      forecastByCityDate = {};
+      TRIP.cities.forEach((c, i) => {
+        const d = (arr[i] && arr[i].daily) || {}, times = d.time || [], m = {};
+        times.forEach((t, j) => { m[t] = { code: d.weather_code?.[j], max: d.temperature_2m_max?.[j], min: d.temperature_2m_min?.[j], rain: d.precipitation_probability_max?.[j] }; });
+        forecastByCityDate[c.id] = m;
+      });
+      renderWeatherStrip();
+      decorateDayWeather();
+      renderHero();
     } catch (_) {
       strip.innerHTML = TRIP.cities.map(c => `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-ico">📡</div><div class="wx-temp" style="font-size:0.78rem;">offline</div></div>`).join("");
     }
+  }
+
+  // per-city summary across the days the trip is actually there
+  function citySummary(cityId) {
+    const map = forecastByCityDate[cityId] || {};
+    const days = cityDays(cityId).map(d => ({ d, fc: map[d.iso] })).filter(x => x.fc && x.fc.max != null);
+    if (!days.length) return null;
+    const hi = Math.round(Math.max(...days.map(x => x.fc.max)));
+    const lo = Math.round(Math.min(...days.map(x => x.fc.min)));
+    const rain = Math.max(...days.map(x => x.fc.rain ?? 0));
+    const worst = days.reduce((a, b) => (b.fc.rain ?? 0) > (a.fc.rain ?? 0) ? b : a);
+    return { hi, lo, rain, code: worst.fc.code, from: shortDate(days[0].d.date), to: shortDate(days[days.length - 1].d.date), partial: days.length < cityDays(cityId).length };
+  }
+
+  function renderWeatherStrip() {
+    $("#weatherStrip").innerHTML = TRIP.cities.map(c => {
+      const s = citySummary(c.id);
+      if (!s) return `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-range">${esc(shortDate(cityDays(c.id)[0].date))}</div><div class="wx-ico">🗓️</div><div class="wx-temp" style="font-size:0.74rem;">forecast soon</div></div>`;
+      const [ico, label] = WMO(s.code);
+      const range = s.from === s.to ? s.from : `${s.from}–${s.to}`;
+      return `<div class="wx-card"><div class="wx-city">${esc(c.name)}</div><div class="wx-range">${esc(range)}${s.partial ? "*" : ""}</div><div class="wx-ico" title="${esc(label)}">${ico}</div><div class="wx-temp">${s.hi}° / ${s.lo}°</div>${s.rain >= 30 ? `<div class="wx-rain">☔ ${s.rain}%</div>` : `<div class="wx-rain">&nbsp;</div>`}</div>`;
+    }).join("");
+  }
+
+  // small forecast badge on each day card hero
+  function decorateDayWeather() {
+    TRIP.days.forEach(d => {
+      const fc = (forecastByCityDate[d.city] || {})[d.iso];
+      const hero = $("#day-" + d.n + " .day-hero");
+      if (!hero) return;
+      hero.querySelector(".dh-wx")?.remove();
+      if (!fc || fc.max == null) return;
+      const el = document.createElement("span");
+      el.className = "dh-wx";
+      el.innerHTML = `${WMO(fc.code)[0]} ${Math.round(fc.max)}°/${Math.round(fc.min)}°${fc.rain >= 30 ? ` · ☔${fc.rain}%` : ""}`;
+      hero.appendChild(el);
+    });
   }
 
   /* ─────────── DAYS ─────────── */
