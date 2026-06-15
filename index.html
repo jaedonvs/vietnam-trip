@@ -100,17 +100,6 @@
   .hero-cta { display:inline-flex; align-items:center; gap:0.4rem; background:var(--ink); color:var(--paper); border:none; border-radius:999px; padding:0.7rem 1.2rem; font-size:0.88rem; font-weight:600; font-family:inherit; cursor:pointer; }
   .hero-cta .ic { font-size:1rem; }
 
-  /* ─── WEATHER ─── */
-  .weather-strip { display:flex; gap:0.55rem; overflow-x:auto; padding:0.1rem 0 0.3rem; scrollbar-width:none; }
-  .weather-strip::-webkit-scrollbar { display:none; }
-  .wx-card { flex-shrink:0; min-width:94px; background:var(--card-fill); border:1px solid var(--rule); border-radius:var(--radius-sm); padding:0.7rem 0.75rem; text-align:center; backdrop-filter:blur(3px); }
-  .wx-card .wx-city { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink); font-weight:600; }
-  .wx-card .wx-range { font-size:0.66rem; color:var(--ink-soft); margin-bottom:0.15rem; }
-  .wx-card .wx-ico { font-size:1.6rem; line-height:1.25; }
-  .wx-card .wx-temp { font-family:"Cormorant Garamond",serif; font-size:1.25rem; font-weight:600; }
-  .wx-card .wx-rain { font-size:0.66rem; color:var(--ink-soft); }
-  .wx-card.skeleton .wx-ico, .wx-card.skeleton .wx-temp { color:transparent; background:var(--rule); border-radius:6px; }
-
   /* ─── STATS ─── */
   .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0.6rem; }
   @media(max-width:460px){ .stats-grid{ grid-template-columns:repeat(2,1fr);} }
@@ -351,9 +340,6 @@
     <div class="section" style="padding-top:0;">
       <div data-reveal id="heroCard"></div>
 
-      <div class="sec-label" data-reveal><span id="wxLabelIco" class="ic"></span> Weather on your dates</div>
-      <div class="weather-strip" data-reveal id="weatherStrip"></div>
-
       <div class="stats-grid" data-reveal id="statsGrid" style="margin-top:1.4rem;"></div>
 
       <div data-reveal id="flightsWrap" style="margin-top:1.4rem;"></div>
@@ -451,7 +437,7 @@
       <footer class="site-footer">
         <p>Vietnam · June 2026</p>
         <p class="small">Don &amp; Katelyn · 21 Jun – 2 Jul</p>
-        <p class="small" style="margin-top:0.5rem;">City photos via Wikimedia Commons · Weather by Open-Meteo · Map © OpenStreetMap, CARTO · Icons by Lucide</p>
+        <p class="small" style="margin-top:0.5rem;">City photos via Wikimedia Commons · Map © OpenStreetMap, CARTO · Icons by Lucide</p>
       </footer>
     </div>
   </section>
