@@ -34,8 +34,9 @@ const TRIP = {
   flights: {
     ref: "8MXDM6", airline: "Qatar Airways",
     outbound: { label: "Outbound", airline: "20 Jun · JNB 12:40 → DOH", route: "Doha → Hanoi", time: "Arrive HAN 13:25 (21 Jun)" },
+    domestic: { label: "Domestic", airline: "24 Jun · HAN 17:25 → DAD 18:50", route: "Hanoi → Da Nang", time: "VN 187 · Vietnam Airlines · 1h25m" },
     inbound:  { label: "Return",   airline: "2 Jul · SGN 20:00 → DOH",  route: "Doha → Johannesburg", time: "Arrive JNB 09:35 (3 Jul)" },
-    note: "~R16,462 pp · Single booking, protected connections",
+    note: "~R16,462 pp · Qatar booking ref 8MXDM6",
   },
 
   // ── STAYS ──
