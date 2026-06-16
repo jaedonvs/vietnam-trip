@@ -1,6 +1,6 @@
 /* Service worker — offline app shell + runtime map-tile caching.
    Bump CACHE when you change app files to force an update. */
-const CACHE = "vietnam-v5";
+const CACHE = "vietnam-v11";
 const TILES = "vietnam-tiles-v1";
 
 const SHELL = [
@@ -69,10 +69,28 @@ self.addEventListener("fetch", e => {
     return;
   }
 
-  // App shell + fonts: cache-first, fall back to network and cache it
+  const cacheable = url.origin === location.origin || url.hostname.includes("unpkg.com") || url.hostname.includes("gstatic.com") || url.hostname.includes("googleapis.com");
+
+  // Same-origin app code (HTML/JS) + navigations: network-first so content edits
+  // show up immediately when online; fall back to cache when offline.
+  const isAppCode = url.origin === location.origin &&
+    (req.mode === "navigate" || /\.(html|js)$/.test(url.pathname) || url.pathname === "/" || url.pathname.endsWith("/"));
+  if (isAppCode) {
+    // cache:"reload" bypasses the browser HTTP cache so genuine edits always win.
+    const fresh = fetch(new Request(req.url, { cache: "reload", credentials: "same-origin" }));
+    e.respondWith(
+      fresh.then(res => {
+        if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); }
+        return res;
+      }).catch(() => caches.match(req).then(hit => hit || caches.match("./index.html")))
+    );
+    return;
+  }
+
+  // Everything else (images, fonts, CSS): cache-first, fall back to network and cache it
   e.respondWith(
     caches.match(req).then(hit => hit || fetch(req).then(res => {
-      if (res && res.ok && (url.origin === location.origin || url.hostname.includes("unpkg.com") || url.hostname.includes("gstatic.com") || url.hostname.includes("googleapis.com"))) {
+      if (res && res.ok && cacheable) {
         const copy = res.clone();
         caches.open(CACHE).then(c => c.put(req, copy));
       }

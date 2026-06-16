@@ -157,6 +157,7 @@
   .date-strip::-webkit-scrollbar { display:none; }
   .date-chip { flex-shrink:0; border:1px solid var(--rule); background:var(--card-fill); border-radius:14px; padding:0.4rem 0.75rem; font-size:0.72rem; cursor:pointer; text-align:center; line-height:1.2; transition:all .2s; }
   .date-chip .d-day { font-weight:700; display:block; }
+  .date-chip .d-wday { display:block; font-size:0.66rem; font-weight:600; }
   .date-chip .d-date { font-size:0.6rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.04em; }
   .date-chip.active { background:var(--ink); color:var(--paper); border-color:var(--ink); transform:translateY(-1px); }
   .date-chip.active .d-date { color:var(--paper); opacity:0.7; }
@@ -194,10 +195,20 @@
   .item-tick .ic { font-size:0.82rem; }
   .item-tick.on { background:var(--sage); border-color:var(--sage); color:#2A241B; }
   .item-tick.pop { animation:pop .4s cubic-bezier(.2,.8,.3,1.2); }
+  .item-cat { flex-shrink:0; font-size:0.95rem; margin-top:0.16rem; opacity:0.9; }
   .item-text { flex:1; }
   .item-text.hl { font-weight:600; }
   .item-star { color:var(--lemon); margin-right:0.2rem; font-size:0.85em; }
   .tl-item.done .item-text { text-decoration:line-through; color:var(--ink-soft); opacity:0.65; }
+  .tl-item.done .item-cat { opacity:0.35; }
+  .opt-tag { display:inline-block; margin-left:0.4rem; padding:0.03rem 0.42rem; font-size:0.58rem; text-transform:uppercase; letter-spacing:0.07em; font-weight:600; border:1px solid var(--rule); border-radius:999px; color:var(--ink-soft); vertical-align:1px; white-space:nowrap; }
+  .tl-item.is-optional .item-text { color:var(--ink-soft); }
+  .tl-item.is-optional .item-cat { opacity:0.6; }
+
+  /* category legend on Days tab */
+  .cat-legend { display:flex; flex-wrap:wrap; gap:0.4rem 0.9rem; margin:0 0 1.2rem; padding:0.7rem 0.85rem; background:var(--card-fill); border:1px solid var(--rule); border-radius:var(--radius-sm); }
+  .cat-legend .legend-item { display:inline-flex; align-items:center; gap:0.32rem; font-size:0.72rem; color:var(--ink-soft); white-space:nowrap; }
+  .cat-legend .legend-item .ic { font-size:0.92rem; }
   .day-foot { margin-top:1rem; padding-top:0.85rem; border-top:1px solid var(--rule); }
   .day-foot .stay-link { font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:0.4rem; font-size:0.85rem; }
   .rain-note { display:flex; gap:0.5rem; align-items:flex-start; background:color-mix(in srgb, var(--sage) 16%, transparent); border:1px solid var(--rule); border-radius:14px; padding:0.6rem 0.8rem; font-size:0.82rem; color:var(--ink-soft); margin-top:0.7rem; }
@@ -376,6 +387,7 @@
       <div class="sec-label first"><span class="ic" id="daysLabelIco"></span> Day by day</div>
       <h2 style="font-size:2.4rem;margin-bottom:1rem;">The itinerary</h2>
       <div class="date-strip" id="dateStrip"></div>
+      <div class="cat-legend" id="catLegend"></div>
       <div class="day-deck" id="dayDeck"></div>
       <p class="deck-hint">Swipe sideways to move between days</p>
     </div>

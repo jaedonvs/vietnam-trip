@@ -183,10 +183,39 @@
   const doneKey = "vn-done";
   function getDone() { try { return new Set(JSON.parse(localStorage.getItem(doneKey) || "[]")); } catch (_) { return new Set(); } }
   function setDoneSet(s) { localStorage.setItem(doneKey, JSON.stringify([...s])); }
+  // item sub-categories — colour + icon shown per itinerary line so each
+  // Morning/Afternoon/Evening block is scannable by type.
+  const CATS = {
+    coffee:   { ic: "coffee",   col: "lemon", label: "Cafe" },
+    food:     { ic: "food",     col: "blush", label: "Food" },
+    shopping: { ic: "shopping", col: "pink",  label: "Shopping" },
+    sights:   { ic: "sights",   col: "sage",  label: "Sights" },
+    activity: { ic: "sparkle",  col: "lilac", label: "Activity" },
+    travel:   { ic: "plane",    col: "soft",  label: "Travel" },
+  };
+  const catVar = cat => (CATS[cat] || CATS.activity).col === "soft" ? "var(--ink-soft)" : `var(--${(CATS[cat] || CATS.activity).col})`;
+  function inferCat(text) {
+    const s = text.toLowerCase();
+    if (/check[\s-]?in|check[\s-]?out|\bfly\b|flight|\bgrab\b|transfer|depart|disembark|pick ?up|shuttle|driver|board cruise|return to|hotel pickup|airport|\b(sgn|han|dad|doh|jnb)\b|land early/.test(s)) return "travel";
+    if (/market|tailor|shopping|souvenir|silk|fashion|boutique|leather|clothing|lacquer|sweep|\bstore\b|vintage|jewell?ery|streetwear|concept store/.test(s)) return "shopping";
+    if (/coffee|caf[eé]|matcha/.test(s)) return "coffee";
+    if (/banh mi|\bbun |\bpho\b|noodle|dumpling|dinner|lunch|brunch|breakfast|beer|\bbia\b|drink|cocktail|restaurant|cao lau|seafood|street food|cooking|\bfood\b|buffet|bbq|brew/.test(s)) return "food";
+    if (/lake|temple|pagoda|bridge|museum|citadel|cave|tomb|mausoleum|\bpass\b|assembly hall|train street|old town|ancient town|imperial|prison|square|cathedral|statue|buddha|peninsula|post office/.test(s)) return "sights";
+    if (/kayak|show|\bride\b|crawl|massage|tai chi|boat|walk|wander|fishing|puppet|lantern|demonstration|class/.test(s)) return "activity";
+    return "activity";
+  }
   function parseItem(raw) {
-    const highlight = /[⭐🌟★]/.test(raw);
-    const text = raw.replace(/[⭐🌟★✅]/g, "").replace(/\(conf:[^)]*\)/gi, "").replace(/\s{2,}/g, " ").trim();
-    return { text, highlight };
+    let s = String(raw);
+    let optional = false;
+    const opt = s.match(/^\s*\?\s+/);
+    if (opt) { optional = true; s = s.slice(opt[0].length); }
+    let cat = null;
+    const m = s.match(/^\s*(food|coffee|shop|shopping|see|sights|do|activity|go|travel)\s*\|\s*/i);
+    if (m) { cat = ({ shop: "shopping", see: "sights", do: "activity", go: "travel" })[m[1].toLowerCase()] || m[1].toLowerCase(); s = s.slice(m[0].length); }
+    const highlight = /[⭐🌟★]/.test(s);
+    const text = s.replace(/[⭐🌟★✅]/g, "").replace(/\(conf:[^)]*\)/gi, "").replace(/\s{2,}/g, " ").trim();
+    if (!cat && text) cat = inferCat(text);
+    return { text, highlight, cat, optional };
   }
   const dayTotals = d => { let t = 0; d.cols.forEach(c => c.items.forEach(it => { if (parseItem(it).text) t++; })); return t; };
   const dayDoneCount = (d, set) => { let n = 0; d.cols.forEach((c, ci) => c.items.forEach((it, ii) => { if (parseItem(it).text && set.has(`${d.n}:${ci}:${ii}`)) n++; })); return n; };
@@ -217,11 +246,13 @@
     const col = colorOf(d.city);
     const sections = d.cols.map((c, ci) => {
       const items = c.items.map((raw, ii) => {
-        const { text, highlight } = parseItem(raw); if (!text) return "";
+        const { text, highlight, cat, optional } = parseItem(raw); if (!text) return "";
         const key = `${d.n}:${ci}:${ii}`, on = set.has(key);
-        return `<li class="tl-item ${on ? "done" : ""}">
+        const c0 = CATS[cat] || CATS.activity;
+        return `<li class="tl-item ${on ? "done" : ""} ${optional ? "is-optional" : ""}" data-cat="${cat}">
           <button class="item-tick ${on ? "on" : ""}" data-done="${key}" aria-label="Mark done"><span class="ic">${icon("check")}</span></button>
-          <span class="item-text ${highlight ? "hl" : ""}">${highlight ? `<span class="item-star ic">${icon("sparkle")}</span>` : ""}${esc(text)}</span>
+          <span class="item-cat ic" title="${esc(c0.label)}" style="color:${catVar(cat)}">${icon(c0.ic)}</span>
+          <span class="item-text ${highlight ? "hl" : ""}">${highlight ? `<span class="item-star ic">${icon("sparkle")}</span>` : ""}${esc(text)}${optional ? `<span class="opt-tag">optional</span>` : ""}</span>
         </li>`;
       }).join("");
       return `<div class="tl-section"><div class="tl-rail"><span class="tl-dot" style="background:var(--${col})"></span></div><div class="tl-content"><h4>${esc(c.h)}</h4><ul class="tl-items">${items}</ul></div></div>`;
@@ -251,10 +282,15 @@
   }
   function renderDays() {
     const todayN = currentDayNumber();
+    const legend = $("#catLegend");
+    if (legend) legend.innerHTML = ["coffee", "food", "shopping", "sights", "activity", "travel"].map(k => {
+      const c = CATS[k];
+      return `<span class="legend-item"><span class="ic" style="color:${catVar(k)}">${icon(c.ic)}</span>${esc(c.label)}</span>`;
+    }).join("");
     $("#dayDeck").innerHTML = TRIP.days.map(d => dayCardHTML(d, d.n === todayN)).join("");
     $("#dateStrip").innerHTML = TRIP.days.map(d => {
       const p = d.date.split(" ");
-      return `<div class="date-chip ${d.n === todayN ? "today-chip" : ""}" data-day="${d.n}" tabindex="0" role="button"><span class="d-day">D${d.n}</span><span class="d-date">${esc(p[1])} ${esc(p[2])}</span></div>`;
+      return `<div class="date-chip ${d.n === todayN ? "today-chip" : ""}" data-day="${d.n}" tabindex="0" role="button"><span class="d-day">D${d.n}</span><span class="d-wday">${esc(p[0])}</span><span class="d-date">${esc(p[1])} ${esc(p[2])}</span></div>`;
     }).join("");
     $$("#dayDeck .stay-link").forEach(el => {
       const open = () => { const s = TRIP.stays.find(x => x.name === el.dataset.staylink); if (s) openStaySheet(s); };
