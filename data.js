@@ -293,6 +293,12 @@ const TRIP = {
     { name: "Magicha Zenbar", group: "☕ Cafes & Matcha", cat: "coffee", city: "hoian",
       catLabel: "Hoi An — Ancient Town", desc: "Matcha spot — a calm last coffee in Hoi An.",
       lat: 15.8801, lng: 108.3300, approx: true },
+    { name: "Reaching Out Teahouse", group: "☕ Cafes & Matcha", cat: "coffee", city: "hoian",
+      catLabel: "Hoi An — Ancient Town", desc: "Peaceful teahouse in a traditional heritage house in Hoi An Ancient Town, staffed entirely by speech- and hearing-impaired individuals. Premium Vietnamese teas and handmade cookies in a serene garden setting.",
+      lat: 15.8800, lng: 108.3280, approx: true },
+    { name: "43 Factory Coffee Roaster", group: "☕ Cafes & Matcha", cat: "coffee", city: "danang",
+      catLabel: "Da Nang — Ngũ Hành Sơn", desc: "Sprudge-featured specialty roastery with a transparent roasting area and elegant design. One of Vietnam's most serious coffee destinations — in-house roasting, pour-overs, and espresso.",
+      lat: 16.0470, lng: 108.2470, approx: true },
 
     // Food & Drink
     { name: "Ta Hien & Nguyen Trung Truc Streets", group: "🍜 Food & Drink", cat: "food", city: "hanoi",
@@ -348,6 +354,12 @@ const TRIP = {
     { name: "Seeson", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
       catLabel: "HCMC — District 1", desc: "Contemporary Vietnamese eyewear — handcrafted acetate frames with an optometry clinic and cafe in-store. Flagship on Nam Kỳ Khởi Nghĩa, D1.",
       lat: 10.7850, lng: 106.6950, approx: true },
+    { name: "Metiseko", group: "🛍️ Shopping", cat: "shopping", city: "hoian",
+      catLabel: "Hoi An — Ancient Town", desc: "Eco-conscious fashion and homeware brand at 140 Trần Phú. Organic cotton and mulberry silk clothing, accessories, and homewares — all made sustainably in Vietnam. A world away from the mass-market silk stalls.",
+      lat: 15.8800, lng: 108.3280, approx: true },
+    { name: "Zó Project", group: "🛍️ Shopping", cat: "shopping", city: "hanoi",
+      catLabel: "Hanoi — Tây Hồ", desc: "Social enterprise preserving 800-year-old Vietnamese Dó paper. Handcrafted notebooks, postcards, and art supplies in a small shop near West Lake. Featured in the New York Times and BBC.",
+      lat: 21.0470, lng: 105.8380, approx: true },
 
     // Things to Do
     { name: "Ba Na Hills + Golden Bridge", group: "🎯 Things to Do", cat: "sights", city: "danang",
@@ -374,6 +386,12 @@ const TRIP = {
     { name: "Saigon River Rooftop Bars", group: "🎯 Things to Do", cat: "nightlife", city: "hcmc",
       catLabel: "HCMC — Riverfront", desc: "Skyline views over the river. Perfect for the last night.",
       lat: 10.7720, lng: 106.7050, approx: true },
+    { name: "Workshop14", group: "🎯 Things to Do", cat: "nightlife", city: "hanoi",
+      catLabel: "Hanoi — Tây Hồ", desc: "Hidden speakeasy cocktail bar in Tây Hồ district, set in a former architect's studio on the site of a 12th-century royal palace. Asia's 50 Best Bars 2025 (#83). Stripped-back concrete design with skylights, natural materials, and serene lighting.",
+      lat: 21.0500, lng: 105.8300, approx: true },
+    { name: "STIR — Modern Classic Cocktail", group: "🎯 Things to Do", cat: "nightlife", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "First-floor speakeasy in a colonial-era alleyway near Ben Thanh Market. Asia's 50 Best Bars mainstay (#61 in 2025). Vietnamese-ingredient cocktails like 'Xôi Mít' (jackfruit, jasmine, sticky rice, peated Scotch) alongside faithful classics.",
+      lat: 10.7730, lng: 106.6970, approx: true },
 
     // ── map-only landmarks (wishlist:false) ──
     { name: "Hoan Kiem Lake & Ngoc Son Temple", group: "_map", wishlist: false, cat: "sights", city: "hanoi",
