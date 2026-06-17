@@ -496,6 +496,12 @@ const TRIP = {
     { name: "Zaker Store", group: "🛍️ Shopping", cat: "shopping", city: "hanoi",
       catLabel: "Hanoi — Old Quarter", desc: "Branded fashion outlet on Hàng Bông — international labels (Nike, Adidas, The North Face, Puma and more) at export/overrun prices. A proper hunt-through-racks spot. 201 Hàng Bông, open 8:00–22:00.",
       lat: 21.0312, lng: 105.8478, approx: true },
+    { name: "The Raw Compound", group: "🛍️ Shopping", cat: "shopping", city: "hanoi",
+      catLabel: "Hanoi — Đống Đa", desc: "Concept space with 20+ local streetwear brands under one roof — Hanoi's best one-stop for homegrown labels. 180 La Thành.",
+      lat: 21.0190, lng: 105.8190, approx: true },
+    { name: "Hang Gai Street", group: "🛍️ Shopping", cat: "shopping", city: "hanoi",
+      catLabel: "Hanoi — Old Quarter", desc: "The silk street — tailors, silk, lacquerware and art galleries, a short walk NW of Hoan Kiem Lake.",
+      lat: 21.0323, lng: 105.8502, approx: true },
 
     // Things to Do
     { name: "Tran Quoc Pagoda", group: "🎯 Things to Do", cat: "sights", city: "hanoi",

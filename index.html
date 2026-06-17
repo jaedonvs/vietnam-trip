@@ -215,6 +215,21 @@
   .day-note { font-size:0.82rem; color:var(--ink-soft); margin-top:0.7rem; }
   .deck-hint { font-size:0.8rem; color:var(--ink-soft); text-align:center; font-family:"Cormorant Garamond",serif; font-style:italic; margin-top:0.6rem; }
 
+  /* ─── PER-DAY MAP ─── */
+  .day-hero .dh-map { position:absolute; right:1rem; bottom:0.85rem; z-index:1; width:36px; height:36px; display:flex; align-items:center; justify-content:center; padding:0; border:none; border-radius:999px; background:rgba(251,247,236,0.92); color:#2A241B; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.3); transition:transform .12s, background .15s; }
+  .day-hero .dh-map .ic { font-size:1.05rem; }
+  @media(hover:hover){ .day-hero .dh-map:hover { background:#fff; } }
+  .day-hero .dh-map:active { transform:scale(0.92); }
+  .day-map-banner { position:absolute; top:0.6rem; left:0.6rem; right:0.6rem; z-index:600; display:flex; align-items:center; gap:0.7rem; padding:0.6rem 0.75rem; border-radius:var(--radius-sm); background:var(--card-solid); border:1px solid var(--rule); box-shadow:var(--shadow-sm); }
+  .day-map-banner[hidden] { display:none; }
+  .day-map-banner .dmb-text { min-width:0; }
+  .day-map-banner .dmb-title { font-weight:700; font-size:0.86rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .day-map-banner .dmb-sub { color:var(--ink-soft); font-size:0.74rem; }
+  .day-map-banner .dmb-close { margin-left:auto; flex-shrink:0; border:1px solid var(--rule); background:var(--paper); border-radius:999px; padding:0.35rem 0.75rem; font:inherit; font-size:0.74rem; font-weight:600; cursor:pointer; color:var(--ink); white-space:nowrap; }
+  @media(hover:hover){ .day-map-banner .dmb-close:hover { border-color:var(--ink-soft); } }
+  .leaflet-tooltip.day-num { background:var(--pink); color:#fff; border:2px solid #fff; border-radius:999px; min-width:21px; height:21px; line-height:17px; padding:0 2px; text-align:center; font-weight:700; font-size:0.72rem; box-shadow:0 1px 5px rgba(0,0,0,.35); }
+  .leaflet-tooltip.day-num::before { display:none; }
+
   /* ─── MAP ─── */
   .map-wrap { position:relative; }
   #map { width:100%; height:calc(100svh - var(--tabbar-h) - var(--safe-b) - 150px); min-height:380px; border-radius:var(--radius); overflow:hidden; z-index:1; border:1px solid var(--rule); }
@@ -375,6 +390,13 @@
       <div class="map-wrap">
         <div id="map"></div>
         <div class="map-skeleton" id="mapSkeleton">Loading map…</div>
+        <div class="day-map-banner" id="dayMapBanner" hidden>
+          <div class="dmb-text">
+            <div class="dmb-title" id="dmbTitle"></div>
+            <div class="dmb-sub" id="dmbSub"></div>
+          </div>
+          <button class="dmb-close" id="dmbClose">Show all</button>
+        </div>
         <button class="locate-btn" id="locateBtn" aria-label="Find my location"></button>
       </div>
       <p class="deck-hint" style="margin-top:0.75rem;">Tap a pin for details, directions & phone.</p>

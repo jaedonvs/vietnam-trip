@@ -271,6 +271,7 @@
         ${isToday ? '<span class="dh-today">Today</span>' : ""}
         <span class="dh-num">Day ${d.n}</span>
         <span class="dh-city">${esc(city.name)}</span>
+        <button class="dh-map" data-daymap="${d.n}" aria-label="See this day on the map" title="See this day on the map"><span class="ic">${icon("map")}</span></button>
       </div>
       <div class="day-pad">
         <div class="day-head"><h3>${esc(d.title)} · <span style="color:var(--ink-soft);font-size:0.85em;">${esc(d.date)}</span></h3></div>
@@ -299,6 +300,7 @@
     });
     $$("#dateStrip .date-chip").forEach(chip => chip.addEventListener("click", () => scrollToDay(+chip.dataset.day)));
     $$("#dayDeck .item-tick").forEach(btn => btn.addEventListener("click", e => { e.stopPropagation(); toggleDone(btn.dataset.done, btn); }));
+    $$("#dayDeck .dh-map").forEach(btn => btn.addEventListener("click", () => { const n = +btn.dataset.daymap; switchView("mapView"); setTimeout(() => enterDayMap(n), 140); }));
     const deck = $("#dayDeck"); let raf;
     deck.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(updateActiveChip); });
   }
@@ -434,6 +436,7 @@
 
   /* ─────────── MAP ─────────── */
   let map = null, mapInited = false, markerLayer = null, userMarker = null, allMarkers = [];
+  let dayRouteLayer = null, dayMapActive = false, dayNumTips = [];
   const tileUrl = () => theme() === "dark"
     ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
     : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
@@ -457,11 +460,61 @@
   function addMarker(name, lat, lng, cat, color, visited, popup, onClick) {
     const m = L.marker([lat, lng], { icon: makeIcon(color, cat, visited) });
     m.bindPopup(popup); m.on("click", () => setTimeout(onClick, 60)); m.addTo(markerLayer);
-    allMarkers.push({ marker: m, cat });
+    allMarkers.push({ marker: m, cat, name });
   }
   function applyFilter(cat) {
+    clearDayMapVisuals();
     allMarkers.forEach(({ marker, cat: c }) => { if (cat === "all" || c === cat) marker.addTo(markerLayer); else markerLayer.removeLayer(marker); });
     $$("#mapFilters .filter-chip").forEach(ch => ch.classList.toggle("active", ch.dataset.cat === cat));
+  }
+
+  /* ── per-day map: which places does a day touch? (auto-derived from item text) ── */
+  const normName = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+  function dayPins(d) {
+    const cityPlaces = TRIP.places.filter(p => p.city === d.city);
+    const seen = new Set(), out = [];
+    d.cols.forEach(c => c.items.forEach(raw => {
+      const nt = normName(raw);
+      let hits = cityPlaces.filter(p => { const np = normName(p.name); return np.length > 3 && nt.includes(np); });
+      // within one line, drop a name that's only matching as part of a longer name (e.g. "Rue Miche" ⊂ "Rue Miche L'Édition")
+      hits = hits.filter(p => { const np = normName(p.name); return !hits.some(q => q !== p && normName(q.name) !== np && normName(q.name).includes(np)); });
+      hits.forEach(p => { if (!seen.has(p.name)) { seen.add(p.name); out.push(p); } });
+    }));
+    const stay = TRIP.stays.find(s => s.name === d.stay);
+    if (stay && !seen.has(stay.name)) out.push({ name: stay.name, lat: stay.lat, lng: stay.lng, cat: "stay", isStay: true });
+    return out;
+  }
+  function clearDayMapVisuals() {
+    if (dayRouteLayer) { map.removeLayer(dayRouteLayer); dayRouteLayer = null; }
+    dayNumTips.forEach(m => m.unbindTooltip && m.unbindTooltip());
+    dayNumTips = [];
+    dayMapActive = false;
+    const b = $("#dayMapBanner"); if (b) b.hidden = true;
+  }
+  function exitDayMap() { clearDayMapVisuals(); applyFilter("all"); }
+  function enterDayMap(n) {
+    ensureMap();
+    const d = TRIP.days.find(x => x.n === n); if (!d) return;
+    clearDayMapVisuals();
+    const pins = dayPins(d);
+    const names = new Set(pins.map(p => p.name));
+    allMarkers.forEach(({ marker, name }) => { if (names.has(name)) marker.addTo(markerLayer); else markerLayer.removeLayer(marker); });
+    $$("#mapFilters .filter-chip").forEach(ch => ch.classList.remove("active"));
+    let i = 0; const routeLL = [], allLL = [];
+    pins.forEach(p => {
+      const entry = allMarkers.find(m => m.name === p.name); if (!entry) return;
+      const ll = entry.marker.getLatLng(); allLL.push(ll);
+      if (!p.isStay) { i++; entry.marker.bindTooltip(String(i), { permanent: true, direction: "center", className: "day-num", offset: [0, -14] }); dayNumTips.push(entry.marker); routeLL.push(ll); }
+    });
+    if (routeLL.length > 1) dayRouteLayer = L.polyline(routeLL, { color: "#D4655F", weight: 2.5, opacity: 0.7, dashArray: "4 7" }).addTo(map);
+    if (allLL.length) map.fitBounds(L.latLngBounds(allLL), { padding: [55, 55], maxZoom: 16 });
+    else { const city = cityById(d.city); map.setView([city.lat, city.lng], 13); }
+    dayMapActive = true;
+    const city = cityById(d.city);
+    const hasStay = pins.some(p => p.isStay);
+    $("#dmbTitle").textContent = `Day ${d.n} · ${d.title}`;
+    $("#dmbSub").textContent = i ? `${i} mapped stop${i === 1 ? "" : "s"} in ${city.name}` : (hasStay ? `${city.name} — your stay is pinned` : `${city.name} — no mapped stops this day`);
+    $("#dayMapBanner").hidden = false;
   }
   function flashAt(lat, lng) {
     const c = L.circleMarker([lat, lng], { radius: 18, color: "#D4655F", weight: 3, fill: false }).addTo(map);
@@ -544,6 +597,7 @@
     renderPhrases();
     renderEmergency();
     $("#locateBtn").addEventListener("click", locateMe);
+    $("#dmbClose").addEventListener("click", exitDayMap);
     $$(".tab").forEach(t => t.addEventListener("click", () => switchView(t.dataset.view)));
     window.addEventListener("scroll", updateCoverMode, { passive: true });
     loadCover();
