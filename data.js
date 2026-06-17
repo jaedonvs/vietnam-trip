@@ -12,7 +12,7 @@ const TRIP = {
     travelers: "Don & Katelyn",
     start: "2026-06-21",
     end:   "2026-07-02",
-    updated: "Jun 7, 2026",
+    updated: "Jun 17, 2026",
   },
 
   // city id -> palette colour
@@ -96,6 +96,7 @@ const TRIP = {
         { h: "Afternoon — central + Old Quarter", items: [
           "🌟 Hoa Lo Prison (\"Hanoi Hilton\") — open daily, Hanoi's most gripping museum",
           "see| Train Street — café trackside for the ~15:15 train; Long Bien Bridge a free fallback",
+          "? Zaker Store — branded fashion outlet on Hàng Bông, export-label hunt (Nike, Adidas, TNF, Puma). Right in the Old Quarter shopping strip.",
           "? Hang Gai Street — silk, lacquerware, art galleries (if there's time)",
         ]},
         { h: "Sunset — West Lake (Grab out, ~20 min)", items: [
@@ -411,6 +412,9 @@ const TRIP = {
     { name: "Zó Project", group: "🛍️ Shopping", cat: "shopping", city: "hanoi",
       catLabel: "Hanoi — Tây Hồ", desc: "Social enterprise preserving 800-year-old Vietnamese Dó paper. Handcrafted notebooks, postcards, and art supplies in a small shop near West Lake. Featured in the New York Times and BBC.",
       lat: 21.0470, lng: 105.8380, approx: true },
+    { name: "Zaker Store", group: "🛍️ Shopping", cat: "shopping", city: "hanoi",
+      catLabel: "Hanoi — Old Quarter", desc: "Branded fashion outlet on Hàng Bông — international labels (Nike, Adidas, The North Face, Puma and more) at export/overrun prices. A proper hunt-through-racks spot. 201 Hàng Bông, open 8:00–22:00.",
+      lat: 21.0312, lng: 105.8478, approx: true },
 
     // Things to Do
     { name: "Tran Quoc Pagoda", group: "🎯 Things to Do", cat: "sights", city: "hanoi",
