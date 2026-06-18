@@ -35,6 +35,7 @@ const TRIP = {
     ref: "8MXDM6", airline: "Qatar Airways",
     outbound: { label: "Outbound", airline: "20 Jun · JNB 12:40 → DOH", route: "Doha → Hanoi", time: "Arrive HAN 13:25 (21 Jun)" },
     domestic: { label: "Domestic", airline: "24 Jun · HAN 17:25 → DAD 18:50", route: "Hanoi → Da Nang", time: "VN 187 · Vietnam Airlines · 1h25m" },
+    domestic2: { label: "Domestic", airline: "29 Jun · DAD 13:50 → SGN 15:15", route: "Da Nang → Ho Chi Minh City", time: "VN 6037 · Vietnam Airlines · ~1h25m" },
     inbound:  { label: "Return",   airline: "2 Jul · SGN 20:00 → DOH",  route: "Doha → Johannesburg", time: "Arrive JNB 09:35 (3 Jul)" },
     note: "~R16,462 pp · Qatar booking ref 8MXDM6",
   },
@@ -249,7 +250,7 @@ const TRIP = {
         { h: "Morning — Marble Mountains", items: [
           "⭐ Marble Mountains — go early (opens 07:30) to beat the heat: marble caves, pagodas & coastal viewpoints, ~10 min from the hotel (~1.5–2 hr)",
           "? Quick last swim at My Khe, then checkout",
-          "Grab to the airport → afternoon flight to Ho Chi Minh City (~1h20)",
+          "Grab to the airport → VN 6037, DAD 13:50 → SGN 15:15 (~1h25)",
         ]},
         { h: "Afternoon & Evening — HCMC", items: [
           "✅ Land late afternoon → check in ANIMA Boutique Hotel (conf: 6083452364)",
@@ -258,7 +259,7 @@ const TRIP = {
       ],
       stay: "ANIMA Boutique Hotel",
       foot: [
-        "Book an afternoon DAD→SGN flight so the early Marble Mountains visit fits comfortably before checkout.",
+        "Aim for a DAD→SGN flight departing ~13:00–14:00 — clears the early Marble Mountains visit + checkout, lands ~15:00, and still leaves a free first evening in Saigon.",
         "Landing late afternoon means War Remnants (closes 17:00) moves to Day 10 or 11 — no problem, HCMC has 3 nights of slack.",
       ] },
 

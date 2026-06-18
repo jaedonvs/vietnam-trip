@@ -140,6 +140,7 @@
     const leg = l => `<div class="flight-leg"><h4>${esc(l.label)}</h4><div class="airline">${esc(l.airline)}</div><div class="route">${esc(l.route)}</div><div class="time">${esc(l.time)}</div></div>`;
     const legs = [f.outbound];
     if (f.domestic) legs.push(f.domestic);
+    if (f.domestic2) legs.push(f.domestic2);
     legs.push(f.inbound);
     $("#flightsWrap").innerHTML =
       `<div class="card"><h3><span class="ic">${icon("plane")}</span> Flights</h3>
