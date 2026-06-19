@@ -151,32 +151,6 @@
     $("#routeTimeline").innerHTML = TRIP.cities.map((c, i) =>
       `<div class="route-stop"><div class="rdot ${c.color}"></div><div class="name">${esc(c.name)}</div><div class="sub">${esc(c.nights)}</div>${i < TRIP.cities.length - 1 ? '<div class="connector"></div>' : ""}</div>`
     ).join("");
-
-    $("#staysList").innerHTML = TRIP.stays.map((s, i) =>
-      `<div class="booking-card ${colorOf(s.city)}" data-stay="${i}" tabindex="0" role="button">
-        <div class="booking-thumb" style="background-image:url(${cityImg(s.city)})"></div>
-        <div class="booking-main">
-          <div class="booking-name">${esc(s.name.split(",")[0])}</div>
-          <div class="booking-loc">${esc(s.loc)}</div>
-          <div class="booking-dates">${esc(s.dates)}</div>
-        </div>
-        <span class="booking-check ic" title="Booked">${icon("circlecheck")}</span>
-      </div>`
-    ).join("");
-    $$("#staysList .booking-card").forEach(el => {
-      const open = () => openStaySheet(TRIP.stays[+el.dataset.stay]);
-      el.addEventListener("click", open);
-      el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
-    });
-
-    const rows = TRIP.stays.map(s => `<tr><td>${esc(s.loc)}</td><td>${esc(s.nights)}</td><td>${esc(s.est)}</td></tr>`).join("");
-    $("#budgetWrap").innerHTML =
-      `<div class="card" style="margin-top:1rem;"><h3><span class="ic">${icon("wallet")}</span> Accommodation</h3>
-        <p style="font-size:0.84rem;color:var(--ink-soft);margin-bottom:0.6rem;">${esc(TRIP.budgetNote)}</p>
-        <div class="table-wrap"><table class="compare-table">
-          <thead><tr><th>Location</th><th>Nights</th><th>Est.</th></tr></thead>
-          <tbody>${rows}<tr class="total"><td><strong>Total</strong></td><td>11</td><td><strong>${esc(TRIP.budgetTotal)}</strong></td></tr></tbody>
-        </table></div></div>`;
   }
 
   /* ─────────── DAYS ─────────── */
