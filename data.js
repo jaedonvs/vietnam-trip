@@ -292,7 +292,7 @@ const TRIP = {
         ]},
         { h: "Evening", items: [
           "? Golden Dragon Water Puppets — 50-min show by City Hall (~17:00 / 18:30), if you skipped Hanoi. Book ahead.",
-          "🌟 Ănăn Saigon — ⚠️ NOT CONFIRMED yet (requested 20:30 Saigon Tasting Menu + wine pairing — chase the email / deposit, or have a backup). Chef Peter Cuong Franklin's Michelin-starred street-food-turned-haute cuisine, above Chợ Cũ market (89 Tôn Thất Đạm). The trip's one big fine-dining night.",
+          "🌟 Ănăn Saigon — ✅ BOOKED, 20:30 (Saigon Tasting Menu + wine pairing). Chef Peter Cuong Franklin's Michelin-starred street-food-turned-haute cuisine, above Chợ Cũ market (89 Tôn Thất Đạm). The trip's one big fine-dining night.",
           "Cocktails after — STIR or The Enigma Mansion (both Asia's 50 Best Bars), near Ben Thanh",
         ]},
       ],
