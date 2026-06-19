@@ -293,7 +293,7 @@ const TRIP = {
         { h: "Evening", items: [
           "? Golden Dragon Water Puppets — 50-min show by City Hall (~17:00 / 18:30), if you skipped Hanoi. Book ahead.",
           "🌟 Ănăn Saigon — ✅ BOOKED, 20:30 (Saigon Tasting Menu + wine pairing). Chef Peter Cuong Franklin's Michelin-starred street-food-turned-haute cuisine, above Chợ Cũ market (89 Tôn Thất Đạm). The trip's one big fine-dining night.",
-          "Cocktails after — STIR or The Enigma Mansion (both Asia's 50 Best Bars), near Ben Thanh",
+          "Cocktails after — The Enigma Mansion (Asia's 50 Best Bars), near Ben Thanh (STIR's booked for tomorrow night)",
         ]},
       ],
       stay: "ANIMA Boutique Hotel",
@@ -320,8 +320,8 @@ const TRIP = {
         ]},
         { h: "Evening", items: [
           "Relaxed final-night dinner — keep it casual after Ănăn: a Saigon bánh mì / street food, or bar bites at the brewery",
-          "🍺 ★ Pasteur Street Brewing Company — final beer, HCMC's best craft brewery",
-          "? STIR — Vietnamese-ingredient cocktails in a colonial alley near Ben Thanh",
+          "🌟 STIR — BOOKED 8pm: Vietnamese-ingredient cocktails (Asia's 50 Best #61) in a colonial alley near Ben Thanh (136 Lê Thánh Tôn)",
+          "🍺 ★ Pasteur Street Brewing Company — the last beer of the trip, after STIR",
         ]},
       ],
       stay: "ANIMA Boutique Hotel",
