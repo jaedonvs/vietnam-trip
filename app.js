@@ -445,12 +445,25 @@
 
   /* ── per-day map: which places does a day touch? (auto-derived from item text) ── */
   const normName = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+  // candidate match keys for a place: full name, name minus "(parentheticals)", the
+  // segment before a — / & / + / , separator, and any explicit alias(es). This lets a
+  // day line referencing "Ba Na Hills" match the place "Ba Na Hills + Golden Bridge", etc.
+  function placeKeys(p) {
+    const keys = new Set();
+    const add = s => { const k = normName(s); if (k.length > 3) keys.add(k); };
+    add(p.name);
+    const noParen = String(p.name).replace(/\([^)]*\)/g, " ");
+    add(noParen);
+    add(noParen.split(/[—&+/,]/)[0]);
+    if (p.alias) (Array.isArray(p.alias) ? p.alias : [p.alias]).forEach(add);
+    return [...keys];
+  }
   function dayPins(d) {
     const cityPlaces = TRIP.places.filter(p => p.city === d.city);
     const seen = new Set(), out = [];
     d.cols.forEach(c => c.items.forEach(raw => {
       const nt = normName(raw);
-      let hits = cityPlaces.filter(p => { const np = normName(p.name); return np.length > 3 && nt.includes(np); });
+      let hits = cityPlaces.filter(p => placeKeys(p).some(k => nt.includes(k)));
       // within one line, drop a name that's only matching as part of a longer name (e.g. "Rue Miche" ⊂ "Rue Miche L'Édition")
       hits = hits.filter(p => { const np = normName(p.name); return !hits.some(q => q !== p && normName(q.name) !== np && normName(q.name).includes(np)); });
       hits.forEach(p => { if (!seen.has(p.name)) { seen.add(p.name); out.push(p); } });
