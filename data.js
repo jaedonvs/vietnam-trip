@@ -724,6 +724,15 @@ const TRIP = {
     { name: "Chill Sky Bar", group: "🎯 Things to Do", cat: "nightlife", city: "hcmc",
       catLabel: "HCMC — AB Tower", desc: "Open-air rooftop bar on the AB Tower — city panorama, cocktails. 76A Lê Lai, Bến Thành.",
       lat: 10.7707, lng: 106.6927, approx: true },
+    { name: "Lighthouse Coffee Roaster", group: "☕ Cafes & Matcha", cat: "coffee", city: "danang",
+      catLabel: "Da Nang — Sơn Trà", desc: "Warehouse-style specialty roaster in a striking brick building with open floors and industrial design. Serious coffee (in-house roasting, pour-overs, cold brew) in a space that feels like Da Nang's answer to a Berlin roastery. 12 Đình Nghệ, Sơn Trà.",
+      lat: 16.0600, lng: 108.2480, approx: true },
+    { name: "Mo Art Space", group: "🎯 Things to Do", cat: "sights", city: "hanoi",
+      catLabel: "Hanoi — Hoàn Kiếm", desc: "Contemporary art gallery in a heritage shophouse basement on Hàng Trống. Free admission, rotating exhibitions of Vietnamese and international artists. A quiet, curated culture stop in the Old Quarter — far from the lanyard crowd.",
+      lat: 21.0300, lng: 105.8520, approx: true },
+    { name: "Gom Saigon", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "Hidden ceramics studio and matcha cafe on the second floor of 42 Nguyễn Huệ (near the Café Apartments). Hand-build pottery amid greenery and shelves of finished pieces, then sip matcha downstairs. Book the workshop via DM — a slow, hands-on afternoon in the heart of the city.",
+      lat: 10.7740, lng: 106.7040, approx: true },
   ],
 
   // ── PACKING ──
