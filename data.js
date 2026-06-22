@@ -742,6 +742,15 @@ const TRIP = {
     { name: "Gom Saigon", group: "🛍️ Shopping", cat: "shopping", city: "hcmc",
       catLabel: "HCMC — District 1", desc: "Hidden ceramics studio and matcha cafe on the second floor of 42 Nguyễn Huệ (near the Café Apartments). Hand-build pottery amid greenery and shelves of finished pieces, then sip matcha downstairs. Book the workshop via DM — a slow, hands-on afternoon in the heart of the city.",
       lat: 10.7740, lng: 106.7040, approx: true },
+    { name: "Loading T Cafe", group: "☕ Cafes & Matcha", cat: "coffee", city: "hanoi",
+      catLabel: "Hanoi — Hoàn Kiếm", desc: "Hidden second-floor cafe in a 120-year-old French colonial shophouse on Chân Cầm, right in the Old Quarter. Vintage atmosphere, comfortable seating, and some of the best egg coffee in Hanoi. The kind of quiet, considered space that rewards the hunt.",
+      lat: 21.0315, lng: 105.8525, approx: true },
+    { name: "Black Wolf Bespoke Cocktail Bar", group: "🎯 Things to Do", cat: "nightlife", city: "danang",
+      catLabel: "Da Nang — Sơn Trà", desc: "Tiny, beautifully designed speakeasy-style bar in Sơn Trà where there is no menu — you describe your taste and the bartender builds a bespoke cocktail around it. Intimate, non-touristy, and the definition of singular excellence.",
+      lat: 16.0600, lng: 108.2480, approx: true },
+    { name: "L'Apothiquaire Spa", group: "🎯 Things to Do", cat: "sights", city: "hcmc",
+      catLabel: "HCMC — District 1", desc: "A French-Vietnamese day spa with genuine design pedigree — the original branch is a tranquil sanctuary in the heart of downtown, with bespoke treatments, natural ingredients, and a perfumery. The antithesis of a hotel-chain spa.",
+      lat: 10.7730, lng: 106.7000, approx: true },
   ],
 
   // ── PACKING ──
