@@ -277,7 +277,8 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 - ✅ **War Remnants Museum — go straight from hotel** — closes 17:00, 2–3 hrs, do this immediately on arrival, essential and powerful
 
 #### Food & Evening
-- ✅ **Dinner — Quan Bui Garden Restaurant** — traditional Vietnamese in a gorgeous colonial courtyard, one of the best meals of the trip
+- 🌟 **Dinner — Noriboi Omakase** — ✅ **BOOKED, 20:00**, 2 guests, 2 Taki sets (booking: Jaedon Van Schalkwyk). Your first night in Saigon is omakase.
+- ~~Dinner — Quan Bui Garden Restaurant~~ — *bumped by Noriboi; keep as a backup or move to another HCMC night (it's traditional Vietnamese in a colonial courtyard, worth keeping somewhere)*
 - ✅ **Bui Vien Walking Street** — HCMC's legendary backpacker strip, loud, chaotic, brilliant, go at least once
 - **Chill Sky Bar or Saigon Saigon rooftop** — usually clear by 20:00–21:00
 
@@ -485,6 +486,7 @@ If the Ha Long Bay cruise is cancelled due to severe weather, Ninh Binh is the i
 - **Reunification Palace** ⭐
 
 #### Food & Drink
+- **Noriboi Omakase** — Japanese omakase, BOOKED Day 9, 20:00 ⭐
 - **Bo Ne Ba Nui** — $4 Vietnamese steak breakfast ⭐
 - **Pho Viet Nam** ⭐
 - **Quan Bui Garden Restaurant** — traditional Vietnamese ⭐

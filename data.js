@@ -261,7 +261,8 @@ const TRIP = {
         ]},
         { h: "Afternoon & Evening — HCMC", items: [
           "✅ Land late afternoon → check in ANIMA Boutique Hotel (conf: 6083452364)",
-          "Arrival dinner — Quán Bụi: polished traditional Vietnamese in a leafy colonial setting (17A Ngô Văn Năm)",
+          "🌟 Dinner — Noriboi Omakase — ✅ BOOKED 20:00, 2 guests (2 Taki sets). Your first Saigon night is omakase.",
+          "Quán Bụi (backup) — polished traditional Vietnamese in a leafy colonial setting (17A Ngô Văn Năm); bumped by Noriboi, move to another HCMC night if you want it",
           "Bui Vien Walking Street — food, drinks, energy",
         ]},
       ],
@@ -452,6 +453,9 @@ const TRIP = {
       lat: 16.07731, lng: 108.22353, approx: true },
 
     // HCMC
+    { name: "Noriboi Omakase", group: "🍜 Food & Drink", cat: "food", city: "hcmc",
+      catLabel: "HCMC — District 1 · ✅ BOOKED Day 9, 20:00", desc: "Japanese omakase — your Saigon arrival-night dinner. ✅ BOOKED 29 Jun, 20:00 for 2 guests (2 Taki sets), booking name Jaedon Van Schalkwyk.",
+      lat: 10.7769, lng: 106.7009, approx: true },
     { name: "Ănăn Saigon", group: "🍜 Food & Drink", cat: "food", city: "hcmc",
       catLabel: "HCMC — District 1 · ⭐ 1 Michelin Star", desc: "Vietnam's most famous fine-dining table — Chef Peter Cuong Franklin reimagines street food as haute cuisine (the legendary $100 'Việt Nam pizza' bánh tráng, foie-gras phở). Above the Chợ Cũ market on Tôn Thất Đạm; cocktail bar Nhậu Nhậu and Pot Au Phở sit in the same building. Book ahead.",
       lat: 10.7708, lng: 106.7038, approx: true },
